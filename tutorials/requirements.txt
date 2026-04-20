@@ -1,0 +1,4 @@
+# ⚠️ GMS-203 will pin this to the exact knowlytix-harness release version.
+# During rehearsal, install from the GitHub Release bundle (see root README).
+knowlytix-harness==0.1.0-rc2
+jupyterlab>=4
