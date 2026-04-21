@@ -1,0 +1,93 @@
+# Scoped build configuration for the `knowlytix-bench` wheel
+# (GMS-052 scaffold; renamed from `finstructbench` in GMS-111).
+#
+# Ships `knowlytix/bench/` — including the graph-based generators/scorers,
+# the five bundled benchmark instances, and the store-based generators
+# moved into `knowlytix/bench/eval/` by GMS-055.
+# GMS-114 moved the source tree from `finstructbench/` to `knowlytix/bench/`
+# and retargeted force-include below.
+#
+# `GeneratedQuestion` at `knowlytix.bench.generators.base` is a public-API
+# contract consumed by `knowlytix.harness.doe.bridge` (see CLAUDE.md).
+# Don't rename.
+
+[build-system]
+requires = ["hatchling>=1.18"]
+build-backend = "hatchling.build"
+
+[project]
+name = "knowlytix-bench"
+version = "0.1.0"
+description = "Benchmark for structured information retrieval from financial documents using graph-verifiable questions"
+readme = "README.md"
+requires-python = ">=3.12"
+license = "Apache-2.0"
+# See packaging/knowlytix-doc/pyproject.toml for the rationale — LICENSE lives at
+# `../../LICENSE` (outside this pyproject's project dir), so PEP 639
+# `license-files` is omitted and `force-include` places it into the wheel.
+authors = [
+    {name = "Agus Sudjianto"},
+    {name = "Wingyan Lau"},
+]
+keywords = [
+    "benchmark",
+    "finance",
+    "llm",
+    "structured-retrieval",
+    "knowledge-graph",
+    "question-answering",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: Financial and Insurance Industry",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = [
+    "knowlytix-core~=0.1.0",
+    "numpy>=1.24",
+    "litellm>=1.40",
+    "pydantic-settings>=2.0",
+]
+
+[project.scripts]
+finstructbench = "knowlytix.bench.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/knowlytix/gmsh"
+Issues = "https://github.com/knowlytix/gmsh/issues"
+
+# --- Hatchling wheel layout ---------------------------------------------------
+# `force-include` maps repo-root `knowlytix/bench/` into the wheel. The
+# `instances/*.md` files plus the fixture `__init__.py` stubs are preserved
+# so `importlib.resources` lookups for bundled benchmarks and smoke fixtures
+# resolve post-install.
+
+[tool.hatch.build.targets.wheel]
+packages = []
+exclude = [
+    "**/__pycache__",
+    "**/*.pyc",
+    "**/.pytest_cache",
+    "**/tests",
+    # Legacy standalone-repo pyproject — the scoped one under
+    # packaging/knowlytix-bench/ is the source of truth for the wheel.
+    "knowlytix/bench/pyproject.toml",
+    # Per-run result artifacts — not part of the shipped package.
+    "knowlytix/bench/results",
+    # `generate_*` / `gen_*` scripts produced the committed instances;
+    # they are build-time tools, not runtime API.
+    "knowlytix/bench/instances/generate_*.py",
+    "knowlytix/bench/instances/gen_*.py",
+]
+
+[tool.hatch.build.targets.wheel.force-include]
+"../../knowlytix/bench" = "knowlytix/bench"
+"../../LICENSE" = "knowlytix/bench/LICENSE"
+# README content → METADATA via `project.readme`; see
+# packaging/knowlytix-core/pyproject.toml for the rationale.
+
+# No sdist target — see packaging/knowlytix-core/pyproject.toml for rationale.

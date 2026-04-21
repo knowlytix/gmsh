@@ -1,0 +1,10 @@
+# ⚠️ TEMPLATE NEEDED (GMS-154). Rehearsal placeholder — real ci.yml lands
+# before public flip. Will run ruff + pytest against the three
+# Apache-2.0 packages after `pip install knowlytix-core` from PyPI.
+name: ci-placeholder
+on: [pull_request]
+jobs:
+  noop:
+    runs-on: ubuntu-24.04
+    steps:
+      - run: echo "CI placeholder — see GMS-154"

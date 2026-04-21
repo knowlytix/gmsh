@@ -1,0 +1,2 @@
+knowlytix-harness==0.1.0-rc5
+jupyterlab>=4
