@@ -1,0 +1,92 @@
+# Scoped build configuration for the `knowlytix-doc` wheel
+# (GMS-051 scaffold; renamed from `docgms` in GMS-111).
+#
+# Ships the `knowlytix/doc/` tree as the `knowlytix.doc` namespace-package
+# slice — minus `mcp_server.py`, `web_agent.py`, and `cli.py` per
+# `gmsh_packaging_plan.md` (those entry points stay source-only; they pull
+# in `anthropic`, the MCP SDK, and `playwright`, none of which are hard
+# deps of this wheel).
+# GMS-113 moved the source tree from `docgms/` to `knowlytix/doc/` and
+# retargeted force-include below.
+
+[build-system]
+requires = ["hatchling>=1.18"]
+build-backend = "hatchling.build"
+
+[project]
+name = "knowlytix-doc"
+version = "0.1.0"
+description = "GMS-powered document ingestion, query, and learning — DocGMS"
+readme = "README.md"
+requires-python = ">=3.12"
+license = "Apache-2.0"
+# PEP 639 `license-files` is omitted because the Apache-2.0 LICENSE lives
+# at the repo root (`../../LICENSE`), outside this pyproject's project
+# directory. `force-include` below places a copy into the wheel at
+# `knowlytix/doc/LICENSE` so the license text still ships with the package;
+# wheel METADATA's `License` field is populated via the SPDX string above.
+authors = [
+    {name = "Agus Sudjianto"},
+    {name = "Wingyan Lau"},
+]
+keywords = [
+    "document-qa",
+    "rag",
+    "knowledge-graph",
+    "llm",
+    "expert-system",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = [
+    "knowlytix-core~=0.1.0",
+    # numpy is imported directly by knowlytix/doc/{ingest,learn,store}.py — listing
+    # it explicitly rather than relying on transitive resolution via
+    # knowlytix-core makes the wheel robust in constrained resolvers
+    # (pip-tools, uv, etc.).
+    "numpy>=1.24",
+    "pymupdf>=1.24",
+    "litellm>=1.40",
+    "pydantic-settings>=2.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/knowlytix/gmsh"
+Issues = "https://github.com/knowlytix/gmsh/issues"
+
+# --- Hatchling wheel layout ---------------------------------------------------
+# Re-map repo-root `knowlytix/doc/` into the wheel and drop the three
+# source-only module files. Fixtures and `__init__.py` stubs are kept so
+# `importlib.resources.files("knowlytix.doc.fixtures.smoke")` quickstart
+# in the README resolves post-install (GMS-037).
+
+[tool.hatch.build.targets.wheel]
+packages = []
+exclude = [
+    "**/__pycache__",
+    "**/*.pyc",
+    "**/.pytest_cache",
+    "**/tests",
+    # Source-only modules excluded from the knowlytix-doc wheel per
+    # `distribution/gmsh_packaging_plan.md`. They remain importable from
+    # the source repo for developers who want the MCP / browser / CLI
+    # entry points; shipping them would drag in heavy optional deps.
+    "knowlytix/doc/mcp_server.py",
+    "knowlytix/doc/web_agent.py",
+    "knowlytix/doc/cli.py",
+    "knowlytix/doc/__main__.py",
+]
+
+[tool.hatch.build.targets.wheel.force-include]
+"../../knowlytix/doc" = "knowlytix/doc"
+"../../LICENSE" = "knowlytix/doc/LICENSE"
+# README content → METADATA via `project.readme`; see
+# packaging/knowlytix-core/pyproject.toml for the rationale.
+
+# No sdist target — see packaging/knowlytix-core/pyproject.toml for rationale.

@@ -1,0 +1,231 @@
+# GMS-090: cross-platform Nuitka build matrix for internal-team RC bundles.
+#
+# Triggered on any tag matching v*.*.*-rc* (e.g. v0.1.0-rc1) pushed from
+# any branch.  Produces per-platform Nuitka-compiled `gms-core` wheels
+# plus the three Apache-2.0 framework wheels, then hands them off to
+# GMS-091 (`scripts/bundle_internal_release.py`) and GMS-092 (GitHub
+# Release publish) to reach internal teammates.
+#
+# Access model: the `knowlytix/GMS` repo is private, so release assets
+# attached by GMS-092 are gated behind GitHub auth — teammate access is
+# via repo collaborator status, not a public download URL.
+#
+# Python version policy: 3.12 — must match ci.yml (no single-source-of-
+# truth for `with: python-version:` across workflows; update both sides
+# together if 3.12 ever moves).
+name: build-internal-rc
+
+on:
+  push:
+    tags:
+      - "v*.*.*-rc*"
+
+# One build per tag; cancel any superseded run (re-pushed tag, etc.).
+concurrency:
+  # `github.ref` for a tag push resolves to `refs/tags/<tag>` — verbose
+  # but uniquely identifies the tag, which is all concurrency needs.
+  group: build-internal-rc-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+permissions:
+  # GMS-092 adds `contents: write` at the release-publish job.  Build
+  # legs stay read-only.
+  contents: read
+
+jobs:
+  build-matrix:
+    name: Build ${{ matrix.os }} (${{ matrix.arch }})
+    strategy:
+      # All three legs must run to completion even if one fails — we
+      # want to see per-platform failures in one run, not discover them
+      # one at a time across re-pushes.
+      fail-fast: false
+      matrix:
+        include:
+          # macOS arm64 — Apple Silicon.  `macos-14` runners are arm64.
+          - os: macos-14
+            arch: arm64
+          # Linux x86_64.
+          - os: ubuntu-24.04
+            arch: x86_64
+          # macOS x86_64 (macos-13) removed: no internal teammate on
+          # Intel Mac, and x86_64 is covered by the Ubuntu leg.
+          # Revisit if an Intel Mac user joins the cohort.
+          # Windows deferred: no current internal teammate is on Windows.
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Cache Nuitka compile artifacts
+        # Nuitka's C-intermediate cache lives under ~/.cache/Nuitka on
+        # Linux and ~/Library/Caches/Nuitka on macOS (Nuitka's
+        # getCacheDir() is platform-aware).  List both paths so the
+        # cache action writes whichever one Nuitka actually populates —
+        # actions/cache silently skips paths that don't exist, so the
+        # unused path per leg costs nothing.
+        #
+        # A cold cache recompiles every gms.* module from C (~3 min on
+        # macOS arm64 per GMS-073a); a warm cache with no source
+        # changes is effectively a no-op.  Keyed on OS/arch + source
+        # hash so an edit to any gms/ file invalidates the cache on
+        # that platform only.
+        uses: actions/cache@v5
+        with:
+          path: |
+            ~/.cache/Nuitka
+            ~/Library/Caches/Nuitka
+          key: nuitka-${{ matrix.os }}-${{ matrix.arch }}-${{ hashFiles('gms/**/*.py', 'packaging/knowlytix-core/build.sh') }}
+          restore-keys: |
+            nuitka-${{ matrix.os }}-${{ matrix.arch }}-
+
+      - name: Install build dependencies
+        # `build` runs hatchling per scoped pyproject.toml; Nuitka compiles
+        # `knowlytix-core` via `packaging/knowlytix-core/build.sh`.  CPU-
+        # only torch keeps the downstream install step fast (no CUDA
+        # wheels needed for building the wrappers).
+        #
+        # NB: `build_all.sh` / `packaging/knowlytix-core/build.sh` invoke
+        # the runner's Python directly (no internal venv), so nuitka on
+        # the system site-packages is the Python Nuitka runs as.
+        run: |
+          python -m pip install -U pip build nuitka
+          python -m pip install torch --index-url https://download.pytorch.org/whl/cpu
+
+      - name: Build all four wheels (dep order)
+        # `knowlytix-core` first (Nuitka-compiled, platform-specific);
+        # then the three Apache-2.0 wheels.  They're pure-Python and
+        # platform-agnostic but rebuilt per matrix leg anyway — the
+        # aggregator step dedupes them by filename.
+        #
+        # Invoked via `bash` so we don't depend on the exec bit in git.
+        run: bash ./packaging/build_all.sh
+
+      - name: Verify wheels (audit + METADATA + fixture size)
+        # Per-platform wheel audit: no forbidden patterns, METADATA
+        # integrity, fixture size guards.  The heavy fresh-venv install
+        # smoke is skipped here (VERIFY_SKIP_INSTALL=1) because each
+        # matrix leg re-installing the full torch CPU wheel (~200 MB)
+        # would waste ~600 MB of network per build.  The aggregator job
+        # runs the install smoke once against the linux-x86_64 wheel,
+        # matching ci.yml:install-smoke as the canonical install gate.
+        run: VERIFY_SKIP_INSTALL=1 bash ./packaging/verify_wheels.sh
+
+      - name: Upload matrix artifact
+        uses: actions/upload-artifact@v5
+        with:
+          name: wheels-${{ matrix.os }}-${{ matrix.arch }}
+          path: dist/*.whl
+          # Intermediate artifact — only needed long enough for the
+          # aggregator to pick it up on the same run.  7 days gives us
+          # headroom to retry a flaky matrix leg without rebuilding.
+          retention-days: 7
+          if-no-files-found: error
+
+  aggregate:
+    name: Aggregate + publish release
+    needs: build-matrix
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    # `contents: write` is required for softprops/action-gh-release to
+    # create the release.  All other jobs keep the workflow-level
+    # `contents: read` default.  Access model: the `knowlytix/GMS` repo
+    # is private, so GitHub Releases + their attached assets are gated
+    # behind repo collaborator auth — teammate access is via repo
+    # collaboration, not a public download URL.
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Download all matrix artifacts
+        uses: actions/download-artifact@v5
+        with:
+          # Merge every `wheels-*` artifact into a single staging dir.
+          # Pure-Python wheels (knowlytix-doc / knowlytix-bench /
+          # knowlytix-harness) appear once per matrix leg with identical
+          # filenames; `merge-multiple: true` deduplicates by
+          # overwriting, which is safe because hatchling produces byte-
+          # stable output for the same source.
+          pattern: wheels-*
+          merge-multiple: true
+          path: dist/
+
+      - name: Inspect staging dir
+        # Lists each wheel filename on its own line so a reviewer can
+        # eyeball the per-platform filename set (three
+        # knowlytix_core-*.whl plus one each of knowlytix_doc /
+        # knowlytix_bench / knowlytix_harness).  Portable find usage:
+        # GNU `-printf` is avoided so the step stays transferable if
+        # the aggregator ever moves off Linux.
+        run: |
+          echo "Wheels in staging dir:"
+          wheels=$(find dist -maxdepth 1 -name '*.whl' -exec basename {} \; | sort)
+          if [ -z "$wheels" ]; then
+            echo "  (none — check matrix upload steps)"
+            exit 1
+          fi
+          echo "$wheels"
+
+      - name: Bundle wheels + SHA256SUMS + INSTALL.md
+        # Produces a byte-deterministic gms-internal-<tag>.zip the
+        # release step attaches as a single asset.
+        run: |
+          python scripts/bundle_internal_release.py \
+            --dist dist/ \
+            --version "${GITHUB_REF_NAME}" \
+            --out "gms-internal-${GITHUB_REF_NAME}.zip"
+
+      - name: Generate release notes
+        # Written to a file so the release step can pick it up — avoids
+        # shell-escaping the multi-line body through action inputs.
+        # Lists each matrix leg (platform tag + filename) so a reviewer
+        # can confirm coverage without downloading the bundle.  Wheel
+        # list is piped through `sort` so the body is stable across
+        # re-runs (bash glob order is filesystem-dependent).
+        run: |
+          {
+            echo "Internal release candidate **${GITHUB_REF_NAME}**"
+            echo "(commit \`${GITHUB_SHA}\`)."
+            echo ""
+            echo "**Internal-only.**  This bundle is gated behind repo"
+            echo "collaborator auth and must not be redistributed."
+            echo "See \`LICENSE-NOTICE.txt\` inside the bundle for terms"
+            echo "and \`INSTALL.md\` for install steps."
+            echo ""
+            echo "## Bundled wheels"
+            echo ""
+            find dist -maxdepth 1 -name '*.whl' -exec basename {} \; | sort | while read -r whl; do
+              echo "- \`${whl}\`"
+            done
+            echo ""
+            echo "## Verify bundle integrity"
+            echo ""
+            echo '```bash'
+            echo "unzip gms-internal-${GITHUB_REF_NAME}.zip"
+            echo "cd gms-internal-${GITHUB_REF_NAME}"
+            echo "sha256sum -c SHA256SUMS    # or: shasum -a 256 -c SHA256SUMS"
+            echo '```'
+          } > release_notes.md
+          echo "Release notes preview:"
+          cat release_notes.md
+
+      - name: Publish prerelease
+        uses: softprops/action-gh-release@v3
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: ${{ github.ref_name }} (internal RC)
+          body_path: release_notes.md
+          prerelease: true
+          fail_on_unmatched_files: true
+          files: gms-internal-${{ github.ref_name }}.zip

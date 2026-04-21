@@ -1,0 +1,57 @@
+# GMS-092: delete internal-RC prereleases older than 90 days.
+#
+# Runs weekly (Sunday 03:00 UTC) and — for any prerelease older than
+# 90 days — deletes the release and its associated tag.  Final (non-
+# prerelease) releases are exempt, so the eventual v0.1.0 and its
+# successors never get reaped.
+#
+# Operates in dry-run mode unless ``dry_run`` is set to ``false`` via
+# workflow_dispatch.  Scheduled runs default to dry_run=false so
+# housekeeping actually happens; a human kicking the workflow can pass
+# dry_run=true to preview the delete list without acting.
+#
+# Every run posts a summary to the workflow log so there's an audit
+# trail for "which RC releases did we prune and when?".
+name: prune-old-rcs
+
+on:
+  schedule:
+    # Weekly, Sunday at 03:00 UTC.  Off-peak; doesn't interact with
+    # the ci.yml or build-internal-rc.yml workloads.
+    - cron: "0 3 * * 0"
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Preview only — don't delete"
+        type: boolean
+        default: true
+
+concurrency:
+  group: prune-old-rcs
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  prune:
+    name: Prune prereleases older than 90 days
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    env:
+      # Scheduled runs → actually prune.  Manual dispatch → default to
+      # dry-run unless the operator explicitly unticks the input.
+      DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run || 'false' }}
+      RETENTION_DAYS: "90"
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: List + prune stale prereleases
+        shell: bash
+        run: |
+          ARGS=(--repo "${GITHUB_REPOSITORY}" --retention-days "${RETENTION_DAYS}")
+          if [ "${DRY_RUN}" = "true" ]; then
+            ARGS+=(--dry-run)
+          fi
+          python3 scripts/prune_old_rcs.py "${ARGS[@]}"
