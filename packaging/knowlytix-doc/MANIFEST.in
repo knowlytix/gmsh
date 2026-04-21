@@ -1,0 +1,27 @@
+# knowlytix-doc wheel manifest (GMS-051; GMS-113 moved docgms/ → knowlytix/doc/).
+#
+# Hatchling drives the wheel layout via pyproject.toml. This MANIFEST is
+# kept for sdist parity. The per-package slice of smoke fixtures (GMS-037)
+# plus __init__.py stubs land via `recursive-include` so
+# `importlib.resources.files("knowlytix.doc.fixtures.smoke")` resolves at runtime.
+
+include README.md
+include pyproject.toml
+include ../../LICENSE
+
+# Smoke fixtures + fixture package __init__.py files (GMS-037).
+recursive-include ../../knowlytix/doc/fixtures *.md *.py
+
+# Exclude build/test artifacts.
+global-exclude *.pyc
+global-exclude __pycache__
+global-exclude .pytest_cache
+prune build
+prune dist
+prune *.egg-info
+
+# Modules intentionally kept out of the wheel (see pyproject comments).
+exclude ../../knowlytix/doc/mcp_server.py
+exclude ../../knowlytix/doc/web_agent.py
+exclude ../../knowlytix/doc/cli.py
+exclude ../../knowlytix/doc/__main__.py
