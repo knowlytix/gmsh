@@ -1,0 +1,215 @@
+# GMS-172: post-mirror-push smoke test.
+#
+# Triggers after every release force-push to knowlytix/gmsh main.
+# Installs the pinned `knowlytix-harness` wheel from real PyPI,
+# runs `knowlytix-smoke`, and executes the LLM-free tutorial
+# notebook set. Catches regressions the monorepo CI cannot see:
+# mirror-specific artifacts (rewritten pyproject URLs, filtered
+# CHANGELOG, pruned workflows, tutorials/), and breaking changes
+# in PyPI-resolved transitive deps between mirror pushes.
+#
+# SECURITY — DO NOT WEAKEN:
+#   - Trigger is `push: branches: [main]` ONLY. No `pull_request`,
+#     `pull_request_target`, or `workflow_run`. Each of those has
+#     a secret-exposure path on public repos that this workflow
+#     cannot tolerate.
+#   - External-PR CI lives in `ci.yml` (GMS-154) as a separate
+#     workflow file and MUST NOT reference `secrets.KNOWLYTIX_LICENSE_KEY`.
+#     Keeping the two workflows disjoint is defense-in-depth.
+#   - `KNOWLYTIX_LICENSE_KEY` is a trial-tier, short-lived JWT with
+#     a CI-distinct `sub` claim (e.g. `ci-gmsh-mirror-YYYYMMDD`) so
+#     a leak is traceable and revocable without touching customer
+#     keys. Rotation cadence + runbook: distribution/mirror_secret_rotation.md.
+#
+# See public_mirror_plan.md §"Post-push smoke CI (mirror side)"
+# for the full design rationale.
+
+name: post-mirror-smoke
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    name: Install pinned wheels + smoke + clean notebooks
+    runs-on: ubuntu-24.04
+    # 45 min covers: pip install (~3min) + smoke (<1s) + 19 notebook
+    # executions.  ch03/ch04 are training-heavy (3-5min each even after
+    # loading the lab_store); most others run in <1min.  Revisit if the
+    # clean-set grows materially.
+    timeout-minutes: 45
+    env:
+      # Exposed to every step in this job. Masked automatically in logs
+      # by GitHub Actions — never echo `$KNOWLYTIX_LICENSE_KEY` directly.
+      KNOWLYTIX_LICENSE_KEY: ${{ secrets.KNOWLYTIX_LICENSE_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+
+      - name: Verify license secret is wired (fail fast, log identity only)
+        # Fails if the secret is missing before we burn time on pip.
+        # Logs the decoded JWT `customer_id` + `tier` + `expires` claims
+        # so a leak (or a misconfigured environment) is traceable to the
+        # CI key vs. a customer key without ever printing the JWT body.
+        # Claims are extracted client-side without signature verification
+        # — this step is purely diagnostic; real verification happens
+        # inside `knowlytix-smoke` via the license gate.
+        #
+        # Claim names match the payload schema in
+        # `provisioning/provision.py::_build_payload`.
+        run: |
+          python - <<'PY'
+          import base64
+          import json
+          import os
+          import sys
+
+          key = os.environ.get("KNOWLYTIX_LICENSE_KEY", "")
+          if not key:
+              print("::error::KNOWLYTIX_LICENSE_KEY secret is not set; cannot run post-mirror smoke")
+              sys.exit(1)
+
+          # Strip the product prefix if present (`gmsh_live_` → raw JWT).
+          token = key.removeprefix("gmsh_live_")
+          try:
+              _hdr, payload_b64, _sig = token.split(".")
+          except ValueError:
+              print("::error::secret is not a JWT triplet — regenerate per mirror_secret_rotation.md")
+              sys.exit(1)
+
+          payload_b64 += "=" * (-len(payload_b64) % 4)
+          try:
+              payload = json.loads(base64.urlsafe_b64decode(payload_b64))
+          except Exception as exc:
+              print(f"::error::failed to decode JWT payload: {exc}")
+              sys.exit(1)
+
+          customer_id = payload.get("customer_id", "<missing-customer_id>")
+          tier = payload.get("tier", "<missing-tier>")
+          expires = payload.get("expires", "<missing-expires>")
+          print(f"license_customer_id={customer_id} tier={tier} expires={expires}")
+          PY
+
+      - name: Determine install source from pinned version
+        # Dual-path design:
+        #   - Pre-release (`*-rc*`, `*-alpha*`, `*-beta*`): download the
+        #     internal RC bundle `gms-internal-<tag>.zip` attached to
+        #     the matching GitHub Release on the private `knowlytix/GMS`
+        #     repo. Auth via `GMS_RELEASE_DOWNLOAD_TOKEN` (fine-grained
+        #     PAT, `Contents: Read` scoped to `knowlytix/GMS` only).
+        #   - Final release (`vX.Y.Z`): `pip install -r tutorials/requirements.txt`
+        #     from real PyPI. Matches what external users experience.
+        # The version pattern self-selects — no workflow edit needed at
+        # Phase 6 / public flip. See public_mirror_plan.md §"Post-push
+        # smoke CI (mirror side)".
+        id: src
+        run: |
+          ver=$(grep -oE '[0-9]+\.[0-9]+\.[0-9]+([-.][A-Za-z0-9]+)*' tutorials/requirements.txt | head -1)
+          if [[ -z "$ver" ]]; then
+              echo "::error::could not parse version from tutorials/requirements.txt"
+              exit 1
+          fi
+          echo "version=$ver" >> "$GITHUB_OUTPUT"
+          case "$ver" in
+              *-rc*|*rc[0-9]*|*-alpha*|*-beta*)
+                  echo "source=github-release" >> "$GITHUB_OUTPUT"
+                  echo "pre-release $ver detected — will install from knowlytix/GMS release assets"
+                  ;;
+              *)
+                  echo "source=pypi" >> "$GITHUB_OUTPUT"
+                  echo "final release $ver detected — will install from PyPI"
+                  ;;
+          esac
+
+      - name: Install from PyPI (final releases)
+        # Takes over once a real v0.1.0 is on PyPI. Matches what external
+        # users run: `pip install knowlytix-harness` pulls core/doc/bench
+        # transitively.
+        if: steps.src.outputs.source == 'pypi'
+        run: |
+          python -m pip install -U pip
+          python -m pip install -r tutorials/requirements.txt
+
+      - name: Install from knowlytix/GMS release assets (pre-releases)
+        # Validates end-to-end install during the internal RC cycle,
+        # before PyPI publishing (Phase 5/6) is live. Becomes dead code
+        # once the first final release ships — revoked at the public
+        # flip (GMS-158), per distribution/mirror_secret_rotation.md.
+        if: steps.src.outputs.source == 'github-release'
+        env:
+          GH_TOKEN: ${{ secrets.GMS_RELEASE_DOWNLOAD_TOKEN }}
+        run: |
+          if [[ -z "$GH_TOKEN" ]]; then
+              echo "::error::GMS_RELEASE_DOWNLOAD_TOKEN is not set; cannot fetch pre-release assets"
+              echo "::error::See distribution/mirror_secret_rotation.md §GMS_RELEASE_DOWNLOAD_TOKEN for provisioning"
+              exit 1
+          fi
+          tag="v${{ steps.src.outputs.version }}"
+          mkdir -p /tmp/rc-bundle
+          # build-internal-rc.yml attaches a single `gms-internal-<tag>.zip`
+          # asset containing core (Nuitka, platform-tagged) + doc/bench/harness
+          # (pure-Python `py3-none-any`).
+          if ! gh release download "$tag" \
+              --repo knowlytix/GMS \
+              --pattern "gms-internal-*.zip" \
+              --dir /tmp/rc-bundle; then
+              echo "::error::release $tag not found on knowlytix/GMS, or missing gms-internal-*.zip asset"
+              echo "::error::likely cause: build-internal-rc.yml hasn't finished yet — wait for it, then re-push the mirror"
+              exit 1
+          fi
+          unzip -q /tmp/rc-bundle/gms-internal-*.zip -d /tmp/rc-bundle/unpacked
+          python -m pip install -U pip
+          # Install the 4 knowlytix wheels by explicit path — pip resolves
+          # their transitive deps (litellm, torch, pydantic, numpy, …)
+          # from real PyPI normally.  Do NOT use --no-index: that cuts
+          # pip off from PyPI and the transitive-dep resolution fails on
+          # the first not-in-the-bundle package.
+          python -m pip install \
+              /tmp/rc-bundle/unpacked/knowlytix_core-*.whl \
+              /tmp/rc-bundle/unpacked/knowlytix_doc-*.whl \
+              /tmp/rc-bundle/unpacked/knowlytix_bench-*.whl \
+              /tmp/rc-bundle/unpacked/knowlytix_harness-*.whl
+
+      - name: Run knowlytix-smoke
+        run: knowlytix-smoke
+
+      - name: Install notebook-execution deps and register kernel
+        run: |
+          python -m pip install jupyter nbconvert ipykernel
+          python -m ipykernel install --user --name gmsh-ci
+
+      - name: Execute LLM-free tutorial notebooks
+        # `--only clean` skips notebooks tagged llm (anthropic import or
+        # DOEGMSBenchmark use) — those need a provider key and belong in
+        # monorepo CI, not here (see public_mirror_plan.md §"LLM-dependent
+        # notebooks — why skip, not mock").
+        # `--log-path /tmp/...` keeps the script from trying to write into
+        # `distribution/` (which isn't shipped to the mirror).
+        run: |
+          # --timeout 600: per-cell nbconvert timeout.  The default 300
+          # was not enough for ch03/ch04's training/analysis cells (hit
+          # CellExecutionError at 309s on rc9 first run).
+          python scripts/execute_tutorials.py \
+            --kernel gmsh-ci \
+            --only clean \
+            --timeout 600 \
+            --notebook-dir tutorials/notebooks \
+            --log-path /tmp/tutorials_smoke.md
+
+      - name: Upload notebook execution log
+        # Surfaces the per-notebook pass/skip/fail summary in the workflow
+        # UI so triage of a red run doesn't require re-running locally.
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: tutorials-smoke-log
+          path: /tmp/tutorials_smoke.md
+          retention-days: 14

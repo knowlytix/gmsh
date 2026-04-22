@@ -1,0 +1,34 @@
+# knowlytix-bench wheel manifest (GMS-052; renamed GMS-111; moved GMS-114).
+#
+# Hatchling drives the wheel layout via pyproject.toml. This MANIFEST is
+# kept for sdist parity. Smoke fixtures (GMS-037) and the five bundled
+# benchmark instance markdowns ship alongside the Python source so the
+# README quickstart runs against `importlib.resources.files(...)`.
+
+include README.md
+include pyproject.toml
+include ../../LICENSE
+
+# Smoke fixtures + fixture package __init__.py files (GMS-037).
+recursive-include ../../knowlytix/bench/fixtures *.json *.md *.py
+
+# Bundled benchmark instances — stable data contract documented in
+# packaging/knowlytix-bench/README.md.
+recursive-include ../../knowlytix/bench/instances *.md *.py
+
+# Exclude build/test artifacts and per-run outputs.
+global-exclude *.pyc
+global-exclude __pycache__
+global-exclude .pytest_cache
+prune build
+prune dist
+prune *.egg-info
+prune ../../knowlytix/bench/results
+
+# Exclude generator scripts (kept in repo for regenerating fixtures;
+# not part of the shipped API).
+exclude ../../knowlytix/bench/instances/generate_*.py
+exclude ../../knowlytix/bench/instances/gen_*.py
+
+# Legacy standalone pyproject — the scoped one is authoritative.
+exclude ../../knowlytix/bench/pyproject.toml
