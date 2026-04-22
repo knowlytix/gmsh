@@ -1,0 +1,17 @@
+# ⚠️ TEMPLATE NEEDED (GMS-154). Rehearsal placeholder — real ci.yml lands
+# before public flip. Will run ruff + pytest against the three
+# Apache-2.0 packages after `pip install knowlytix-core` from PyPI.
+#
+# SECURITY (GMS-172): this workflow handles external PRs from forks.
+# It MUST NOT reference `secrets.KNOWLYTIX_LICENSE_KEY`.  Post-push smoke
+# (which needs the license) lives in the disjoint `post-mirror-smoke.yml`,
+# scoped to `push: branches: [main]` only.  Keeping the two workflows
+# disjoint is defense-in-depth — an accidental edit here that dumps env
+# cannot leak a secret that isn't in scope.
+name: ci-placeholder
+on: [pull_request]
+jobs:
+  noop:
+    runs-on: ubuntu-24.04
+    steps:
+      - run: echo "CI placeholder — see GMS-154"

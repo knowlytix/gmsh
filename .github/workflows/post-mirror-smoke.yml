@@ -1,0 +1,135 @@
+# GMS-172: post-mirror-push smoke test.
+#
+# Triggers after every release force-push to knowlytix/gmsh main.
+# Installs the pinned `knowlytix-harness` wheel from real PyPI,
+# runs `knowlytix-smoke`, and executes the LLM-free tutorial
+# notebook set. Catches regressions the monorepo CI cannot see:
+# mirror-specific artifacts (rewritten pyproject URLs, filtered
+# CHANGELOG, pruned workflows, tutorials/), and breaking changes
+# in PyPI-resolved transitive deps between mirror pushes.
+#
+# SECURITY — DO NOT WEAKEN:
+#   - Trigger is `push: branches: [main]` ONLY. No `pull_request`,
+#     `pull_request_target`, or `workflow_run`. Each of those has
+#     a secret-exposure path on public repos that this workflow
+#     cannot tolerate.
+#   - External-PR CI lives in `ci.yml` (GMS-154) as a separate
+#     workflow file and MUST NOT reference `secrets.KNOWLYTIX_LICENSE_KEY`.
+#     Keeping the two workflows disjoint is defense-in-depth.
+#   - `KNOWLYTIX_LICENSE_KEY` is a trial-tier, short-lived JWT with
+#     a CI-distinct `sub` claim (e.g. `ci-gmsh-mirror-YYYYMMDD`) so
+#     a leak is traceable and revocable without touching customer
+#     keys. Rotation cadence + runbook: distribution/mirror_secret_rotation.md.
+#
+# See public_mirror_plan.md §"Post-push smoke CI (mirror side)"
+# for the full design rationale.
+
+name: post-mirror-smoke
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    name: Install pinned wheels + smoke + clean notebooks
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      # Exposed to every step in this job. Masked automatically in logs
+      # by GitHub Actions — never echo `$KNOWLYTIX_LICENSE_KEY` directly.
+      KNOWLYTIX_LICENSE_KEY: ${{ secrets.KNOWLYTIX_LICENSE_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+
+      - name: Verify license secret is wired (fail fast, log identity only)
+        # Fails if the secret is missing before we burn time on pip.
+        # Logs the decoded JWT `customer_id` + `tier` + `expires` claims
+        # so a leak (or a misconfigured environment) is traceable to the
+        # CI key vs. a customer key without ever printing the JWT body.
+        # Claims are extracted client-side without signature verification
+        # — this step is purely diagnostic; real verification happens
+        # inside `knowlytix-smoke` via the license gate.
+        #
+        # Claim names match the payload schema in
+        # `provisioning/provision.py::_build_payload`.
+        run: |
+          python - <<'PY'
+          import base64
+          import json
+          import os
+          import sys
+
+          key = os.environ.get("KNOWLYTIX_LICENSE_KEY", "")
+          if not key:
+              print("::error::KNOWLYTIX_LICENSE_KEY secret is not set; cannot run post-mirror smoke")
+              sys.exit(1)
+
+          # Strip the product prefix if present (`gmsh_live_` → raw JWT).
+          token = key.removeprefix("gmsh_live_")
+          try:
+              _hdr, payload_b64, _sig = token.split(".")
+          except ValueError:
+              print("::error::secret is not a JWT triplet — regenerate per mirror_secret_rotation.md")
+              sys.exit(1)
+
+          payload_b64 += "=" * (-len(payload_b64) % 4)
+          try:
+              payload = json.loads(base64.urlsafe_b64decode(payload_b64))
+          except Exception as exc:
+              print(f"::error::failed to decode JWT payload: {exc}")
+              sys.exit(1)
+
+          customer_id = payload.get("customer_id", "<missing-customer_id>")
+          tier = payload.get("tier", "<missing-tier>")
+          expires = payload.get("expires", "<missing-expires>")
+          print(f"license_customer_id={customer_id} tier={tier} expires={expires}")
+          PY
+
+      - name: Install pinned wheels from PyPI
+        # Uses the mirror's pinned requirements file written by
+        # scripts/mirror_to_public.sh — `knowlytix-harness==<version>`
+        # pulls `knowlytix-core`, `-doc`, `-bench` transitively.
+        run: |
+          python -m pip install -U pip
+          python -m pip install -r tutorials/requirements.txt
+
+      - name: Run knowlytix-smoke
+        run: knowlytix-smoke
+
+      - name: Install notebook-execution deps and register kernel
+        run: |
+          python -m pip install jupyter nbconvert ipykernel
+          python -m ipykernel install --user --name gmsh-ci
+
+      - name: Execute LLM-free tutorial notebooks
+        # `--only clean` skips notebooks tagged llm (anthropic import or
+        # DOEGMSBenchmark use) — those need a provider key and belong in
+        # monorepo CI, not here (see public_mirror_plan.md §"LLM-dependent
+        # notebooks — why skip, not mock").
+        # `--log-path /tmp/...` keeps the script from trying to write into
+        # `distribution/` (which isn't shipped to the mirror).
+        run: |
+          python scripts/execute_tutorials.py \
+            --kernel gmsh-ci \
+            --only clean \
+            --notebook-dir tutorials/notebooks \
+            --log-path /tmp/tutorials_smoke.md
+
+      - name: Upload notebook execution log
+        # Surfaces the per-notebook pass/skip/fail summary in the workflow
+        # UI so triage of a red run doesn't require re-running locally.
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: tutorials-smoke-log
+          path: /tmp/tutorials_smoke.md
+          retention-days: 14
