@@ -1,0 +1,79 @@
+geometry:
+  d_v: 384
+  d_u: 384
+  m: 128
+  d: 128
+
+memory:
+  k: 256
+  enm_capacity: 10000
+  eviction: lru
+
+loss:
+  # Primary weights — validated via development on model_risk_assessment.md
+  lambda_geo: 5.0           # dominant loss for v-space triple discrimination
+  lambda_tension: 2.0       # drives u-space structure via mined tension labels
+  lambda_path: 0.0          # enable after v-space converges (epoch ~100+)
+  lambda_logic: 0.0         # logical constraint loss (future)
+  lambda_recon: 0.0         # compression reconstruction (future)
+
+  # Negative sampling
+  lambda_neg: 2.0           # 2x penalty on negatives vs positive reward
+  gamma: 1.5                # margin ≈ random baseline on S^127 (~pi/2)
+  adv_temperature: 2.0      # self-adversarial: moderate focus on hard negatives
+
+  # Other
+  lambda_spec: 0.1
+  mu_holonomy: 0.1
+  tau_ent: 0.8
+  tau_contra: 1.7
+  tau_path: 0.5
+  alpha_decay: 0.1
+
+train:
+  lr: 1e-3
+  lr_riemannian: 5e-4
+  batch_size: 512
+  epochs: 200
+  neg_samples: 64
+  device: cuda
+  seed: 42
+  eval_every: 10
+  checkpoint_every: 20
+
+dataset: fb15k237
+
+# ---------------------------------------------------------------------------
+# LLM configuration (read by gms.llm.LLMSettings — GMS-011)
+# ---------------------------------------------------------------------------
+# All values here are illustrative defaults. In practice configure them via
+# environment variables so the same wheel ships across providers. LiteLLM
+# model strings (e.g. ``anthropic/claude-opus-4-6``, ``openai/gpt-4o-mini``,
+# ``ollama/llama3``) route to the right provider automatically.
+#
+# Precedence (highest → lowest):
+#   1. Explicit ``model=`` kwarg passed to ``LLMClient.complete`` /
+#      ``get_llm(purpose, model=...)``
+#   2. Purpose-specific env var (e.g. ``GMS_LLM_MODEL_JUDGE``)
+#   3. Generic env var ``GMS_LLM_MODEL``
+#   4. This YAML block (loaded by callers that opt in to file-based config)
+#
+# Provider keys (set the one matching your model string):
+#   ANTHROPIC_API_KEY, OPENAI_API_KEY, GOOGLE_API_KEY, MISTRAL_API_KEY,
+#   TOGETHER_API_KEY, OLLAMA_BASE_URL (+ any LiteLLM-supported provider).
+# A missing key surfaces as ``gms.llm.LLMConfigError`` with an actionable
+# message at the first call — no hardcoded defaults in shipped source.
+llm:
+  # Default model — env: GMS_LLM_MODEL
+  model: null
+  # Purpose-specific overrides — env: GMS_LLM_MODEL_<PURPOSE>
+  model_judge: null       # GMS_LLM_MODEL_JUDGE
+  model_generator: null   # GMS_LLM_MODEL_GENERATOR
+  model_scorer: null      # GMS_LLM_MODEL_SCORER
+  model_ds_agent: null    # GMS_LLM_MODEL_DS_AGENT
+  model_wiki: null        # GMS_LLM_MODEL_WIKI
+  # Dispatch tuning — env: GMS_LLM_TIMEOUT_SECONDS / _MAX_RETRIES / _TEMPERATURE
+  timeout_seconds: 60
+  max_retries: 3
+  temperature: 0.0
+
