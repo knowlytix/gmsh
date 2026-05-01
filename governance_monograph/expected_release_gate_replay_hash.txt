@@ -1,0 +1,8 @@
+{
+  "snapshots_hash": "e9d5e8c19625e301d1ced3f5b2063be955585a5d32589d9cdbde08cbf45979e2",
+  "n_probes": 1200,
+  "bundle_id": "e2cbe96d04a324b3",
+  "cohort_hash": "d9e24e5bbc0e9874143c61c8064535de38c4b4e3b3697112939c14e856f808f3",
+  "approver": "lab15_runbook",
+  "reason": "initial v1 ship"
+}
