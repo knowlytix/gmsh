@@ -1,0 +1,29 @@
+# knowlytix-harness wheel manifest (GMS-053; moved GMS-115).
+#
+# Hatchling drives the wheel layout via pyproject.toml. This MANIFEST is
+# kept for sdist parity. DOE smoke fixtures (GMS-037), the in-source API
+# reference and user guides, and the default config YAML all ship alongside.
+
+include README.md
+include pyproject.toml
+include ../../LICENSE
+
+# Default configuration (forwarded to knowlytix/harness/configs/default.yaml in the wheel).
+include ../../configs/default.yaml
+
+# Smoke fixtures + fixture package __init__.py files (GMS-037).
+recursive-include ../../knowlytix/harness/fixtures *.json *.md *.py
+
+# In-source user guide / API reference (referenced from the README).
+recursive-include ../../knowlytix/harness/doe *.md
+
+# Exclude build/test artifacts.
+global-exclude *.pyc
+global-exclude __pycache__
+global-exclude .pytest_cache
+prune build
+prune dist
+prune *.egg-info
+prune ../../knowlytix/harness/doe/tests/results
+exclude ../../knowlytix/harness/doe/tests/run_llm_benchmark.py
+exclude ../../knowlytix/harness/doe/tests/test_e2e.py

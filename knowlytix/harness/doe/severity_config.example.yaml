@@ -1,0 +1,98 @@
+# Example severity configuration for SeverityClassifier.from_yaml().
+#
+# This file is an *override*: only keys listed here change; everything
+# else retains the default from harness/doe/severity.py. Omit a section
+# to accept all defaults.
+#
+# Load with:
+#     from harness.doe import SeverityClassifier
+#     clf = SeverityClassifier.from_yaml("severity_config.yaml",
+#                                        store=gms_store)
+
+# ---------------------------------------------------------------------
+# Failure code -> severity level.  Valid levels: critical, high,
+# moderate, low.  Use the code's string value (e.g. "fact_incorrect").
+# ---------------------------------------------------------------------
+code_severity:
+  # Example: regulated numeric report — exact-value mismatches are
+  # consequential, not cosmetic.
+  exact_mismatch: high
+
+  # Example: safety-critical workflow — path-consistency violations
+  # should block release rather than warn.
+  tension_exceeded: high
+  holonomy_defect: high
+
+# ---------------------------------------------------------------------
+# Risk-tier escalation.  A failure whose base severity is in the
+# listed set is promoted one level for that tier.  Built-in tiers:
+#   action_taking  -> [moderate, high]  (default)
+#   recommendation -> [moderate]        (default)
+# Add or override tiers as needed.  Standard and advisory tiers apply
+# no escalation by default.
+# ---------------------------------------------------------------------
+tier_escalation:
+  # Custom tier for a strict regulated deployment: everything above
+  # LOW escalates one level.
+  strict_regulated: [moderate, high]
+
+# ---------------------------------------------------------------------
+# Composite-score weights and the geometric-modulation threshold.
+# Defaults: impact=0.50, recoverability=0.25, detectability=0.25,
+# modulation_threshold=0.85.  Weights are not required to sum to 1.0.
+# ---------------------------------------------------------------------
+composite_weights:
+  # Medical-AI weighting: emphasize impact, de-emphasize recoverability.
+  impact: 0.70
+  recoverability: 0.10
+  detectability: 0.20
+  modulation_threshold: 0.85
+
+# ---------------------------------------------------------------------
+# TypedVerdict.overall_confidence weights.  Recognized keys: exact,
+# geodesic, tension, holonomy.  Defaults: 0.30 / 0.30 / 0.20 / 0.20.
+# Weights need not sum to 1.0; the final score is clamped to [0, 1].
+#
+# Load with:
+#     from harness.doe import load_overall_confidence_weights
+#     weights = load_overall_confidence_weights(
+#         "severity_config.yaml")
+#     verdict = TypedVerdict.from_sub_verdicts(
+#         ..., weights=weights)
+# ---------------------------------------------------------------------
+overall_confidence_weights:
+  # Geometry-forward weighting: downweight exact-match, trust the
+  # geometric signals more for nuanced / multi-step answers.
+  exact: 0.20
+  geodesic: 0.35
+  tension: 0.25
+  holonomy: 0.20
+
+# ---------------------------------------------------------------------
+# Chapter 15 CompositeOracle per-oracle-type weights.  Recognized keys:
+# exact_outcome, acceptable_set, constraint, trace, side_effect,
+# human_reviewed, hallucination.  Defaults:
+#   exact_outcome=0.40, constraint=0.15, trace=0.15,
+#   side_effect=0.15, hallucination=0.15, acceptable_set=0.00,
+#   human_reviewed=0.00.
+# Set a weight to 0 to skip that oracle in the composite.  Weights
+# need not sum to 1.0; the composite normalizes by total weight before
+# comparing against its pass threshold.
+#
+# Load with:
+#     from harness.doe import (CompositeOracle,
+#                              load_composite_oracle_weights)
+#     weights = load_composite_oracle_weights("severity_config.yaml")
+#     oracle = CompositeOracle.from_weights(
+#         weights, store=gms_store, environment=env,
+#         threshold=0.5, fail_on_any_critical=True)
+# ---------------------------------------------------------------------
+composite_oracle_weights:
+  # Correctness-forward weighting for regulated numeric answers:
+  # exact_outcome carries the majority of the aggregate so that process
+  # oracles cannot mask a wrong answer.
+  exact_outcome:  0.60
+  constraint:     0.15
+  trace:          0.15
+  side_effect:    0.05
+  hallucination:  0.05
