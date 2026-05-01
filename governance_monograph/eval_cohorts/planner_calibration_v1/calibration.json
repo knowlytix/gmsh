@@ -1,0 +1,41 @@
+{
+  "feature_names": [
+    "holonomy",
+    "n_violations",
+    "n_unknown_steps",
+    "core_coverage",
+    "mean_precedes_score",
+    "plan_length_delta"
+  ],
+  "thresholds": {
+    "tau_accept": 0.65,
+    "tau_reject": 0.35,
+    "review_band": 0.15
+  },
+  "meta": {
+    "seed": 42,
+    "test_fraction": 0.3,
+    "n_train": 280,
+    "n_test": 120,
+    "fpr": 0.052083333333333336,
+    "fnr": 0.0,
+    "fpr_ci": [
+      0.010869565217391304,
+      0.10101010101010101
+    ],
+    "fnr_ci": [
+      0.0,
+      0.0
+    ],
+    "feature_weights": {
+      "holonomy": -0.748948958729931,
+      "n_violations": -4.00570417263932,
+      "n_unknown_steps": -4.302664872536219,
+      "core_coverage": 0.47858433117326643,
+      "mean_precedes_score": 0.009738584416131948,
+      "plan_length_delta": -0.47206883204374106
+    },
+    "intercept": 1.7761368835708005,
+    "cohort_size": 400
+  }
+}
