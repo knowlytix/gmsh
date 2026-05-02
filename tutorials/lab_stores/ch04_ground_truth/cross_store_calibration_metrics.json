@@ -1,0 +1,150 @@
+{
+  "confusion_matrix": [
+    [
+      26,
+      0,
+      1
+    ],
+    [
+      0,
+      12,
+      1
+    ],
+    [
+      1,
+      1,
+      8
+    ]
+  ],
+  "confusion_matrix_labels": [
+    "UNCHANGED",
+    "MODIFIED",
+    "CONTRADICTED"
+  ],
+  "per_class": {
+    "UNCHANGED": {
+      "precision": 0.9629629629629629,
+      "recall": 0.9629629629629629,
+      "f1": 0.9629629629629629,
+      "support": 27
+    },
+    "MODIFIED": {
+      "precision": 0.9230769230769231,
+      "recall": 0.9230769230769231,
+      "f1": 0.9230769230769231,
+      "support": 13
+    },
+    "CONTRADICTED": {
+      "precision": 0.8,
+      "recall": 0.8,
+      "f1": 0.8,
+      "support": 10
+    }
+  },
+  "expected_calibration_error": 0.10350019115218814,
+  "brier_score_ovr": {
+    "UNCHANGED": 0.03652530489390851,
+    "MODIFIED": 0.05650093271939577,
+    "CONTRADICTED": 0.09302623761330428
+  },
+  "reliability_bins": [
+    {
+      "bin_lo": 0.0,
+      "bin_hi": 0.1,
+      "count": 0,
+      "mean_confidence": null,
+      "empirical_accuracy": null
+    },
+    {
+      "bin_lo": 0.1,
+      "bin_hi": 0.2,
+      "count": 0,
+      "mean_confidence": null,
+      "empirical_accuracy": null
+    },
+    {
+      "bin_lo": 0.2,
+      "bin_hi": 0.30000000000000004,
+      "count": 0,
+      "mean_confidence": null,
+      "empirical_accuracy": null
+    },
+    {
+      "bin_lo": 0.30000000000000004,
+      "bin_hi": 0.4,
+      "count": 0,
+      "mean_confidence": null,
+      "empirical_accuracy": null
+    },
+    {
+      "bin_lo": 0.4,
+      "bin_hi": 0.5,
+      "count": 0,
+      "mean_confidence": null,
+      "empirical_accuracy": null
+    },
+    {
+      "bin_lo": 0.5,
+      "bin_hi": 0.6000000000000001,
+      "count": 4,
+      "mean_confidence": 0.5470736759871928,
+      "empirical_accuracy": 1.0
+    },
+    {
+      "bin_lo": 0.6000000000000001,
+      "bin_hi": 0.7000000000000001,
+      "count": 0,
+      "mean_confidence": null,
+      "empirical_accuracy": null
+    },
+    {
+      "bin_lo": 0.7000000000000001,
+      "bin_hi": 0.8,
+      "count": 5,
+      "mean_confidence": 0.727339147688364,
+      "empirical_accuracy": 0.8
+    },
+    {
+      "bin_lo": 0.8,
+      "bin_hi": 0.9,
+      "count": 0,
+      "mean_confidence": null,
+      "empirical_accuracy": null
+    },
+    {
+      "bin_lo": 0.9,
+      "bin_hi": 1.0,
+      "count": 41,
+      "mean_confidence": 1.0,
+      "empirical_accuracy": 0.926829268292683
+    }
+  ],
+  "test_size": 50,
+  "feature_names": [
+    "delta",
+    "tail_missing",
+    "has_replacement"
+  ],
+  "raw_lr_coef": [
+    [
+      -1.49334556924825,
+      -1.4596538407127044,
+      -2.379527230072708
+    ],
+    [
+      1.0094665181289038,
+      2.4514447969283952,
+      0.8358994326712523
+    ],
+    [
+      0.4838790511193457,
+      -0.9917909562156869,
+      1.5436277974014583
+    ]
+  ],
+  "raw_lr_intercept": [
+    2.3969266587112212,
+    -1.5171800439918421,
+    -0.8797466147193762
+  ]
+}
