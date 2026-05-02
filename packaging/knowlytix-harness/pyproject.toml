@@ -1,0 +1,120 @@
+# Scoped build configuration for the `knowlytix-harness` wheel
+# (GMS-053 scaffold; renamed from `gmsh` in GMS-111).
+#
+# `knowlytix-harness` is the GMS-Harness — the headline product wheel.
+# Ships the `knowlytix/harness/` tree, the default config YAML, and the
+# in-source user guide that the README points at.  CLI entry points
+# Console scripts (`knowlytix-harness`, `knowlytix-testing`, `knowlytix-smoke`)
+# wire up `knowlytix.harness.testing.cli:main` and
+# `knowlytix.harness._smoke:main` (renamed from legacy `gmsh`/`gms-doe`/
+# `gmsh-smoke` in GMS-117).
+
+[build-system]
+requires = ["hatchling>=1.18"]
+build-backend = "hatchling.build"
+
+[project]
+name = "knowlytix-harness"
+version = "0.2.0"
+description = "GMS-Harness — provider-agnostic DOE-driven black-box testing platform for LLM agents"
+readme = "README.md"
+requires-python = ">=3.12"
+license = "Apache-2.0"
+# See packaging/knowlytix-knowledge/pyproject.toml for the rationale — LICENSE lives at
+# `../../LICENSE` (outside this pyproject's project dir), so PEP 639
+# `license-files` is omitted and `force-include` places it into the wheel.
+authors = [
+    {name = "Agus Sudjianto"},
+    {name = "Wingyan Lau"},
+]
+keywords = [
+    "llm",
+    "agent-testing",
+    "design-of-experiments",
+    "black-box-testing",
+    "hallucination-detection",
+    "model-risk",
+    "release-gates",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: Financial and Insurance Industry",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Software Development :: Testing",
+    "Topic :: Software Development :: Quality Assurance",
+]
+dependencies = [
+    "knowlytix-core~=0.2.0",
+    "knowlytix-knowledge~=0.2.0",
+    "knowlytix-benchmark~=0.2.0",
+    "jinja2>=3.0",
+    "litellm>=1.40",
+    "pydantic-settings>=2.0",
+    "pyyaml>=6.0",
+    # GMS-214b (Phase 4.10, 2026-05-01 PM): runtime deps of the
+    # knowlytix.harness.governance subpackage. Hard requirements (NOT
+    # optional [governed] extra) per the no-extras decision — `pip
+    # install knowlytix-harness` must give the full governed harness
+    # to match knowlytix.ai marketing ("the governed harness").
+    "scikit-learn>=1.3",   # IsotonicRegression in governance.governance_bundle
+    "cryptography>=42",     # bundle signing in governance.bundle_signing
+    "pydantic>=2",          # data classes across governance subpackage
+    # `graphdoe`'s sole non-stdlib runtime dep that isn't already pulled
+    # in by knowlytix-core (scipy/numpy/pyyaml/torch). graphdoe itself
+    # ships inside this wheel at `knowlytix/harness/graphdoe/` as of
+    # 2026-04-20 (vendored from upstream asudjianto-xml/GMS), so no
+    # separate graphdoe dep is declared.
+    "statsmodels>=0.14",
+    "tenacity>=8.0",
+]
+
+[project.scripts]
+# GMS-214c (Phase 4.10, 2026-05-01 PM): cli moved from knowlytix.harness.doe.cli
+# to knowlytix.harness.testing.cli. knowlytix-doe alias dropped — no shipped
+# users yet to break. knowlytix-testing added as the new explicit name;
+# knowlytix-harness stays as the canonical wheel-name-matching alias.
+knowlytix-harness = "knowlytix.harness.testing.cli:main"
+knowlytix-testing = "knowlytix.harness.testing.cli:main"
+knowlytix-smoke = "knowlytix.harness._smoke:main"
+
+[project.urls]
+Homepage = "https://github.com/knowlytix/gmsh"
+Documentation = "https://github.com/knowlytix/gmsh/blob/main/knowlytix/harness/testing/USER_GUIDE.md"
+Issues = "https://github.com/knowlytix/gmsh/issues"
+
+# --- Hatchling wheel layout ---------------------------------------------------
+# Ships `knowlytix/harness/` as the `knowlytix.harness` namespace-package
+# slice plus the repo's `configs/default.yaml` as package-data.
+# GMSHSettings lives at `knowlytix.harness.settings` (not
+# `knowlytix.harness.testing.__init__`) to avoid importing
+# `knowlytix.harness.core` at package-load time — see GMS-018.
+
+[tool.hatch.build.targets.wheel]
+packages = []
+# NOTE: hatchling's `force-include` (below) bypasses these `exclude` rules —
+# anything under `../../knowlytix/harness/` is shipped regardless of what is
+# listed here. The `**/__pycache__` / `**/*.pyc` / `**/.pytest_cache` patterns
+# do work in practice because hatchling treats those as built-in defaults,
+# not because of this list. To keep a file OUT of the wheel, remove it from
+# the source tree — see GMS-216 (2026-05-01), where `graphdoe/papers/` was
+# moved to `/graphdoe_papers/` and `testing/tests/results/` was moved to
+# `/dev_test_results/` precisely because the exclude rules were silently
+# ineffective against force-include.
+exclude = [
+    "**/__pycache__",
+    "**/*.pyc",
+    "**/.pytest_cache",
+]
+
+[tool.hatch.build.targets.wheel.force-include]
+"../../knowlytix/harness" = "knowlytix/harness"
+"../../configs/default.yaml" = "knowlytix/harness/configs/default.yaml"
+"../../LICENSE" = "knowlytix/harness/LICENSE"
+# GMS-097: explicit force-include for the notebook's .ipynb payload.
+"../../knowlytix/harness/smoke/smoke.ipynb" = "knowlytix/harness/smoke/smoke.ipynb"
+
+# No sdist target — see packaging/knowlytix-core/pyproject.toml for rationale.

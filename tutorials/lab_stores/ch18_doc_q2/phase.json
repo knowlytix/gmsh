@@ -1,0 +1,26 @@
+{
+  "AUC": {
+    "v_min": 0.0,
+    "v_max": 1.0
+  },
+  "accuracy": {
+    "v_min": 0.0,
+    "v_max": 1.0
+  },
+  "ratio": {
+    "v_min": 0.0,
+    "v_max": 5.0
+  },
+  "rate": {
+    "v_min": 0.0,
+    "v_max": 1.0
+  },
+  "importance": {
+    "v_min": 0.0,
+    "v_max": 1.0
+  },
+  "loss": {
+    "v_min": 0.0,
+    "v_max": 2.0
+  }
+}
