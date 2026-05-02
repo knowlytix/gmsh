@@ -1,0 +1,18 @@
+{
+  "dataset_overview::California Housing dataset/samples": 20640.0,
+  "dataset_overview::California Housing dataset/features": 8.0,
+  "regression_evaluation_metrics::R2/range_min": -Infinity,
+  "regression_evaluation_metrics::R2/range_max": 1.0,
+  "regression_evaluation_metrics::MSE/range_min": 0.0,
+  "regression_evaluation_metrics::MSE/range_max": Infinity,
+  "regression_evaluation_metrics::MAE/range_min": 0.0,
+  "regression_evaluation_metrics::MAE/range_max": Infinity,
+  "regression_evaluation_metrics::RMSE/range_min": 0.0,
+  "regression_evaluation_metrics::RMSE/range_max": Infinity,
+  "regression_evaluation_metrics::R2/perfect_prediction_value": 1.0,
+  "regression_evaluation_metrics::R2/good_threshold_california_housing": 0.7,
+  "regression_evaluation_metrics::R2/strong_performance_threshold": 0.8,
+  "model_comparison_expectations::LinearRegression/R2_California_Housing": 0.6,
+  "robustness_considerations::Robust_models/R2_tolerance_percent": 10.0,
+  "robustness_considerations::Robust_models/feature_perturbation_percent": 5.0
+}
