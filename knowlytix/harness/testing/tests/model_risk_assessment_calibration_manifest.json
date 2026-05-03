@@ -1,0 +1,1184 @@
+{
+  "schema_version": 1,
+  "seed": 20260418,
+  "base_path": "knowlytix/harness/testing/tests/model_risk_assessment.md",
+  "amended_path": "knowlytix/harness/testing/tests/model_risk_assessment_calibration.md",
+  "counts": {
+    "UNCHANGED": 0,
+    "MODIFIED": 69,
+    "CONTRADICTED": 48
+  },
+  "total_changes": 117,
+  "perturbations": [
+    {
+      "table": "Table 2.1 \u2014 Models Under Review",
+      "row_key": "MDL-001",
+      "column": "Risk Rating",
+      "original": "High",
+      "replacement": "Medium",
+      "label": 2,
+      "label_name": "CONTRADICTED",
+      "relation_hint": "has_risk_rating"
+    },
+    {
+      "table": "Table 2.1 \u2014 Models Under Review",
+      "row_key": "MDL-001",
+      "column": "Status",
+      "original": "Degraded",
+      "replacement": "Watch",
+      "label": 2,
+      "label_name": "CONTRADICTED",
+      "relation_hint": "has_status"
+    },
+    {
+      "table": "Table 2.1 \u2014 Models Under Review",
+      "row_key": "MDL-002",
+      "column": "Risk Rating",
+      "original": "High",
+      "replacement": "Medium",
+      "label": 2,
+      "label_name": "CONTRADICTED",
+      "relation_hint": "has_risk_rating"
+    },
+    {
+      "table": "Table 2.1 \u2014 Models Under Review",
+      "row_key": "MDL-002",
+      "column": "Status",
+      "original": "Watch",
+      "replacement": "Stable",
+      "label": 2,
+      "label_name": "CONTRADICTED",
+      "relation_hint": "has_status"
+    },
+    {
+      "table": "Table 2.1 \u2014 Models Under Review",
+      "row_key": "MDL-003",
+      "column": "Risk Rating",
+      "original": "High",
+      "replacement": "Medium",
+      "label": 2,
+      "label_name": "CONTRADICTED",
+      "relation_hint": "has_risk_rating"
+    },
+    {
+      "table": "Table 2.1 \u2014 Models Under Review",
+      "row_key": "MDL-004",
+      "column": "Risk Rating",
+      "original": "High",
+      "replacement": "Medium",
+      "label": 2,
+      "label_name": "CONTRADICTED",
+      "relation_hint": "has_risk_rating"
+    },
+    {
+      "table": "Table 2.1 \u2014 Models Under Review",
+      "row_key": "MDL-004",
+      "column": "Status",
+      "original": "Stable",
+      "replacement": "Watch",
+      "label": 2,
+      "label_name": "CONTRADICTED",
+      "relation_hint": "has_status"
+    },
+    {
+      "table": "Table 2.1 \u2014 Models Under Review",
+      "row_key": "MDL-005",
+      "column": "Risk Rating",
+      "original": "Medium",
+      "replacement": "Low",
+      "label": 2,
+      "label_name": "CONTRADICTED",
+      "relation_hint": "has_risk_rating"
+    },
+    {
+      "table": "Table 2.1 \u2014 Models Under Review",
+      "row_key": "MDL-005",
+      "column": "Status",
+      "original": "Degraded",
+      "replacement": "Watch",
+      "label": 2,
+      "label_name": "CONTRADICTED",
+      "relation_hint": "has_status"
+    },
+    {
+      "table": "Table 2.1 \u2014 Models Under Review",
+      "row_key": "MDL-006",
+      "column": "Risk Rating",
+      "original": "Medium",
+      "replacement": "Low",
+      "label": 2,
+      "label_name": "CONTRADICTED",
+      "relation_hint": "has_risk_rating"
+    },
+    {
+      "table": "Table 2.1 \u2014 Models Under Review",
+      "row_key": "MDL-007",
+      "column": "Risk Rating",
+      "original": "Medium",
+      "replacement": "Low",
+      "label": 2,
+      "label_name": "CONTRADICTED",
+      "relation_hint": "has_risk_rating"
+    },
+    {
+      "table": "Table 2.1 \u2014 Models Under Review",
+      "row_key": "MDL-007",
+      "column": "Status",
+      "original": "Stable",
+      "replacement": "Watch",
+      "label": 2,
+      "label_name": "CONTRADICTED",
+      "relation_hint": "has_status"
+    },
+    {
+      "table": "Table 2.1 \u2014 Models Under Review",
+      "row_key": "MDL-008",
+      "column": "Status",
+      "original": "Watch",
+      "replacement": "Stable",
+      "label": 2,
+      "label_name": "CONTRADICTED",
+      "relation_hint": "has_status"
+    },
+    {
+      "table": "Table 2.1 \u2014 Models Under Review",
+      "row_key": "MDL-009",
+      "column": "Risk Rating",
+      "original": "Medium",
+      "replacement": "Low",
+      "label": 2,
+      "label_name": "CONTRADICTED",
+      "relation_hint": "has_risk_rating"
+    },
+    {
+      "table": "Table 2.1 \u2014 Models Under Review",
+      "row_key": "MDL-009",
+      "column": "Status",
+      "original": "Stable",
+      "replacement": "Watch",
+      "label": 2,
+      "label_name": "CONTRADICTED",
+      "relation_hint": "has_status"
+    },
+    {
+      "table": "Table 2.1 \u2014 Models Under Review",
+      "row_key": "MDL-010",
+      "column": "Risk Rating",
+      "original": "Low",
+      "replacement": "Medium",
+      "label": 2,
+      "label_name": "CONTRADICTED",
+      "relation_hint": "has_risk_rating"
+    },
+    {
+      "table": "Table 2.1 \u2014 Models Under Review",
+      "row_key": "MDL-011",
+      "column": "Status",
+      "original": "Stable",
+      "replacement": "Watch",
+      "label": 2,
+      "label_name": "CONTRADICTED",
+      "relation_hint": "has_status"
+    },
+    {
+      "table": "Table 2.1 \u2014 Models Under Review",
+      "row_key": "MDL-012",
+      "column": "Risk Rating",
+      "original": "Low",
+      "replacement": "Medium",
+      "label": 2,
+      "label_name": "CONTRADICTED",
+      "relation_hint": "has_risk_rating"
+    },
+    {
+      "table": "Table 2.1 \u2014 Models Under Review",
+      "row_key": "MDL-012",
+      "column": "Status",
+      "original": "Degraded",
+      "replacement": "Watch",
+      "label": 2,
+      "label_name": "CONTRADICTED",
+      "relation_hint": "has_status"
+    },
+    {
+      "table": "Table 3.1 \u2014 Accuracy Diagnostics",
+      "row_key": "MDL-001",
+      "column": "Train AUC",
+      "original": "0.8934",
+      "replacement": "0.4149",
+      "label": 1,
+      "label_name": "MODIFIED",
+      "relation_hint": "has_train_auc"
+    },
+    {
+      "table": "Table 3.1 \u2014 Accuracy Diagnostics",
+      "row_key": "MDL-001",
+      "column": "Test AUC",
+      "original": "0.8412",
+      "replacement": "0.3559",
+      "label": 1,
+      "label_name": "MODIFIED",
+      "relation_hint": "has_test_auc"
+    },
+    {
+      "table": "Table 3.1 \u2014 Accuracy Diagnostics",
+      "row_key": "MDL-001",
+      "column": "Train-Test Gap",
+      "original": "0.0522",
+      "replacement": "0.0314",
+      "label": 1,
+      "label_name": "MODIFIED",
+      "relation_hint": "has_train-test_gap"
+    },
+    {
+      "table": "Table 3.1 \u2014 Accuracy Diagnostics",
+      "row_key": "MDL-001",
+      "column": "KS Statistic",
+      "original": "0.4891",
+      "replacement": "0.2920",
+      "label": 1,
+      "label_name": "MODIFIED",
+      "relation_hint": "has_ks_statistic"
+    },
+    {
+      "table": "Table 3.1 \u2014 Accuracy Diagnostics",
+      "row_key": "MDL-002",
+      "column": "Test AUC",
+      "original": "0.9234",
+      "replacement": "1.5257",
+      "label": 1,
+      "label_name": "MODIFIED",
+      "relation_hint": "has_test_auc"
+    },
+    {
+      "table": "Table 3.1 \u2014 Accuracy Diagnostics",
+      "row_key": "MDL-002",
+      "column": "Train-Test Gap",
+      "original": "0.0333",
+      "replacement": "0.0158",
+      "label": 1,
+      "label_name": "MODIFIED",
+      "relation_hint": "has_train-test_gap"
+    },
+    {
+      "table": "Table 3.1 \u2014 Accuracy Diagnostics",
+      "row_key": "MDL-002",
+      "column": "KS Statistic",
+      "original": "0.6712",
+      "replacement": "0.4566",
+      "label": 1,
+      "label_name": "MODIFIED",
+      "relation_hint": "has_ks_statistic"
+    },
+    {
+      "table": "Table 3.1 \u2014 Accuracy Diagnostics",
+      "row_key": "MDL-002",
+      "column": "Brier Score",
+      "original": "0.0834",
+      "replacement": "0.1139",
+      "label": 1,
+      "label_name": "MODIFIED",
+      "relation_hint": "has_brier_score"
+    },
+    {
+      "table": "Table 3.1 \u2014 Accuracy Diagnostics",
+      "row_key": "MDL-003",
+      "column": "Train AUC",
+      "original": "0.9123",
+      "replacement": "0.4216",
+      "label": 1,
+      "label_name": "MODIFIED",
+      "relation_hint": "has_train_auc"
+    },
+    {
+      "table": "Table 3.1 \u2014 Accuracy Diagnostics",
+      "row_key": "MDL-003",
+      "column": "Test AUC",
+      "original": "0.8756",
+      "replacement": "1.2424",
+      "label": 1,
+      "label_name": "MODIFIED",
+      "relation_hint": "has_test_auc"
+    },
+    {
+      "table": "Table 3.1 \u2014 Accuracy Diagnostics",
+      "row_key": "MDL-004",
+      "column": "Train AUC",
+      "original": "0.8234",
+      "replacement": "1.2052",
+      "label": 1,
+      "label_name": "MODIFIED",
+      "relation_hint": "has_train_auc"
+    },
+    {
+      "table": "Table 3.1 \u2014 Accuracy Diagnostics",
+      "row_key": "MDL-004",
+      "column": "Train-Test Gap",
+      "original": "0.0222",
+      "replacement": "0.0109",
+      "label": 1,
+      "label_name": "MODIFIED",
+      "relation_hint": "has_train-test_gap"
+    },
+    {
+      "table": "Table 3.1 \u2014 Accuracy Diagnostics",
+      "row_key": "MDL-004",
+      "column": "KS Statistic",
+      "original": "0.3891",
+      "replacement": "0.6466",
+      "label": 1,
+      "label_name": "MODIFIED",
+      "relation_hint": "has_ks_statistic"
+    },
+    {
+      "table": "Table 3.1 \u2014 Accuracy Diagnostics",
+      "row_key": "MDL-004",
+      "column": "Brier Score",
+      "original": "0.1876",
+      "replacement": "0.2719",
+      "label": 1,
+      "label_name": "MODIFIED",
+      "relation_hint": "has_brier_score"
+    },
+    {
+      "table": "Table 3.1 \u2014 Accuracy Diagnostics",
+      "row_key": "MDL-005",
+      "column": "Test AUC",
+      "original": "0.7234",
+      "replacement": "0.3910",
+      "label": 1,
+      "label_name": "MODIFIED",
+      "relation_hint": "has_test_auc"
+    },
+    {
+      "table": "Table 3.1 \u2014 Accuracy Diagnostics",
+      "row_key": "MDL-005",
+      "column": "Train-Test Gap",
+      "original": "0.0657",
+      "replacement": "0.0356",
+      "label": 1,
+      "label_name": "MODIFIED",
+      "relation_hint": "has_train-test_gap"
+    },
+    {
+      "table": "Table 3.1 \u2014 Accuracy Diagnostics",
+      "row_key": "MDL-005",
+      "column": "KS Statistic",
+      "original": "0.3123",
+      "replacement": "0.4877",
+      "label": 1,
+      "label_name": "MODIFIED",
+      "relation_hint": "has_ks_statistic"
+    },
+    {
+      "table": "Table 3.1 \u2014 Accuracy Diagnostics",
+      "row_key": "MDL-005",
+      "column": "Brier Score",
+      "original": "0.2134",
+      "replacement": "0.3098",
+      "label": 1,
+      "label_name": "MODIFIED",
+      "relation_hint": "has_brier_score"
+    },
+    {
+      "table": "Table 3.1 \u2014 Accuracy Diagnostics",
+      "row_key": "MDL-006",
+      "column": "Train AUC",
+      "original": "0.8567",
+      "replacement": "1.2762",
+      "label": 1,
+      "label_name": "MODIFIED",
+      "relation_hint": "has_train_auc"
+    },
+    {
+      "table": "Table 3.1 \u2014 Accuracy Diagnostics",
+      "row_key": "MDL-006",
+      "column": "Train-Test Gap",
+      "original": "0.0444",
+      "replacement": "0.0708",
+      "label": 1,
+      "label_name": "MODIFIED",
+      "relation_hint": "has_train-test_gap"
+    },
+    {
+      "table": "Table 3.1 \u2014 Accuracy Diagnostics",
+      "row_key": "MDL-006",
+      "column": "KS Statistic",
+      "original": "0.4234",
+      "replacement": "0.2271",
+      "label": 1,
+      "label_name": "MODIFIED",
+      "relation_hint": "has_ks_statistic"
+    },
+    {
+      "table": "Table 3.1 \u2014 Accuracy Diagnostics",
+      "row_key": "MDL-006",
+      "column": "Brier Score",
+      "original": "0.1678",
+      "replacement": "0.2279",
+      "label": 1,
+      "label_name": "MODIFIED",
+      "relation_hint": "has_brier_score"
+    },
+    {
+      "table": "Table 3.1 \u2014 Accuracy Diagnostics",
+      "row_key": "MDL-007",
+      "column": "Train AUC",
+      "original": "0.7456",
+      "replacement": "1.2111",
+      "label": 1,
+      "label_name": "MODIFIED",
+      "relation_hint": "has_train_auc"
+    },
+    {
+      "table": "Table 3.1 \u2014 Accuracy Diagnostics",
+      "row_key": "MDL-007",
+      "column": "Test AUC",
+      "original": "0.7389",
+      "replacement": "0.9779",
+      "label": 1,
+      "label_name": "MODIFIED",
+      "relation_hint": "has_test_auc"
+    },
+    {
+      "table": "Table 3.1 \u2014 Accuracy Diagnostics",
+      "row_key": "MDL-007",
+      "column": "KS Statistic",
+      "original": "0.2891",
+      "replacement": "0.1446",
+      "label": 1,
+      "label_name": "MODIFIED",
+      "relation_hint": "has_ks_statistic"
+    },
+    {
+      "table": "Table 3.1 \u2014 Accuracy Diagnostics",
+      "row_key": "MDL-007",
+      "column": "Brier Score",
+      "original": "0.2245",
+      "replacement": "0.0779",
+      "label": 1,
+      "label_name": "MODIFIED",
+      "relation_hint": "has_brier_score"
+    },
+    {
+      "table": "Table 3.1 \u2014 Accuracy Diagnostics",
+      "row_key": "MDL-008",
+      "column": "Train AUC",
+      "original": "0.8789",
+      "replacement": "0.5601",
+      "label": 1,
+      "label_name": "MODIFIED",
+      "relation_hint": "has_train_auc"
+    },
+    {
+      "table": "Table 3.1 \u2014 Accuracy Diagnostics",
+      "row_key": "MDL-008",
+      "column": "Train-Test Gap",
+      "original": "0.0444",
+      "replacement": "0.0589",
+      "label": 1,
+      "label_name": "MODIFIED",
+      "relation_hint": "has_train-test_gap"
+    },
+    {
+      "table": "Table 3.1 \u2014 Accuracy Diagnostics",
+      "row_key": "MDL-008",
+      "column": "Brier Score",
+      "original": "0.1456",
+      "replacement": "0.2383",
+      "label": 1,
+      "label_name": "MODIFIED",
+      "relation_hint": "has_brier_score"
+    },
+    {
+      "table": "Table 3.1 \u2014 Accuracy Diagnostics",
+      "row_key": "MDL-009",
+      "column": "Train AUC",
+      "original": "0.7623",
+      "replacement": "1.0270",
+      "label": 1,
+      "label_name": "MODIFIED",
+      "relation_hint": "has_train_auc"
+    },
+    {
+      "table": "Table 3.1 \u2014 Accuracy Diagnostics",
+      "row_key": "MDL-009",
+      "column": "Test AUC",
+      "original": "0.7534",
+      "replacement": "0.5252",
+      "label": 1,
+      "label_name": "MODIFIED",
+      "relation_hint": "has_test_auc"
+    },
+    {
+      "table": "Table 3.1 \u2014 Accuracy Diagnostics",
+      "row_key": "MDL-009",
+      "column": "KS Statistic",
+      "original": "0.3012",
+      "replacement": "0.1291",
+      "label": 1,
+      "label_name": "MODIFIED",
+      "relation_hint": "has_ks_statistic"
+    },
+    {
+      "table": "Table 3.1 \u2014 Accuracy Diagnostics",
+      "row_key": "MDL-009",
+      "column": "Brier Score",
+      "original": "0.2156",
+      "replacement": "0.1137",
+      "label": 1,
+      "label_name": "MODIFIED",
+      "relation_hint": "has_brier_score"
+    },
+    {
+      "table": "Table 3.1 \u2014 Accuracy Diagnostics",
+      "row_key": "MDL-010",
+      "column": "Train AUC",
+      "original": "0.9012",
+      "replacement": "0.3067",
+      "label": 1,
+      "label_name": "MODIFIED",
+      "relation_hint": "has_train_auc"
+    },
+    {
+      "table": "Table 3.1 \u2014 Accuracy Diagnostics",
+      "row_key": "MDL-010",
+      "column": "Test AUC",
+      "original": "0.8891",
+      "replacement": "0.2931",
+      "label": 1,
+      "label_name": "MODIFIED",
+      "relation_hint": "has_test_auc"
+    },
+    {
+      "table": "Table 3.1 \u2014 Accuracy Diagnostics",
+      "row_key": "MDL-010",
+      "column": "KS Statistic",
+      "original": "0.5891",
+      "replacement": "0.1856",
+      "label": 1,
+      "label_name": "MODIFIED",
+      "relation_hint": "has_ks_statistic"
+    },
+    {
+      "table": "Table 3.1 \u2014 Accuracy Diagnostics",
+      "row_key": "MDL-010",
+      "column": "Brier Score",
+      "original": "0.0978",
+      "replacement": "0.0550",
+      "label": 1,
+      "label_name": "MODIFIED",
+      "relation_hint": "has_brier_score"
+    },
+    {
+      "table": "Table 3.1 \u2014 Accuracy Diagnostics",
+      "row_key": "MDL-011",
+      "column": "Train AUC",
+      "original": "0.6789",
+      "replacement": "1.1369",
+      "label": 1,
+      "label_name": "MODIFIED",
+      "relation_hint": "has_train_auc"
+    },
+    {
+      "table": "Table 3.1 \u2014 Accuracy Diagnostics",
+      "row_key": "MDL-011",
+      "column": "Train-Test Gap",
+      "original": "0.0255",
+      "replacement": "0.0080",
+      "label": 1,
+      "label_name": "MODIFIED",
+      "relation_hint": "has_train-test_gap"
+    },
+    {
+      "table": "Table 3.1 \u2014 Accuracy Diagnostics",
+      "row_key": "MDL-011",
+      "column": "Brier Score",
+      "original": "0.2678",
+      "replacement": "0.4160",
+      "label": 1,
+      "label_name": "MODIFIED",
+      "relation_hint": "has_brier_score"
+    },
+    {
+      "table": "Table 3.1 \u2014 Accuracy Diagnostics",
+      "row_key": "MDL-012",
+      "column": "Test AUC",
+      "original": "0.8567",
+      "replacement": "1.4448",
+      "label": 1,
+      "label_name": "MODIFIED",
+      "relation_hint": "has_test_auc"
+    },
+    {
+      "table": "Table 3.1 \u2014 Accuracy Diagnostics",
+      "row_key": "MDL-012",
+      "column": "KS Statistic",
+      "original": "0.5123",
+      "replacement": "0.3419",
+      "label": 1,
+      "label_name": "MODIFIED",
+      "relation_hint": "has_ks_statistic"
+    },
+    {
+      "table": "Table 3.1 \u2014 Accuracy Diagnostics",
+      "row_key": "MDL-012",
+      "column": "Brier Score",
+      "original": "0.1345",
+      "replacement": "0.0721",
+      "label": 1,
+      "label_name": "MODIFIED",
+      "relation_hint": "has_brier_score"
+    },
+    {
+      "table": "Table 3.2 \u2014 Robustness Under Perturbation",
+      "row_key": "MDL-002",
+      "column": "Robustness Rating",
+      "original": "Robust",
+      "replacement": "Moderate",
+      "label": 2,
+      "label_name": "CONTRADICTED",
+      "relation_hint": "has_robustness_rating"
+    },
+    {
+      "table": "Table 3.2 \u2014 Robustness Under Perturbation",
+      "row_key": "MDL-005",
+      "column": "Robustness Rating",
+      "original": "Fragile",
+      "replacement": "Moderate",
+      "label": 2,
+      "label_name": "CONTRADICTED",
+      "relation_hint": "has_robustness_rating"
+    },
+    {
+      "table": "Table 3.2 \u2014 Robustness Under Perturbation",
+      "row_key": "MDL-006",
+      "column": "Robustness Rating",
+      "original": "Moderate",
+      "replacement": "Robust",
+      "label": 2,
+      "label_name": "CONTRADICTED",
+      "relation_hint": "has_robustness_rating"
+    },
+    {
+      "table": "Table 3.2 \u2014 Robustness Under Perturbation",
+      "row_key": "MDL-007",
+      "column": "Robustness Rating",
+      "original": "Robust",
+      "replacement": "Moderate",
+      "label": 2,
+      "label_name": "CONTRADICTED",
+      "relation_hint": "has_robustness_rating"
+    },
+    {
+      "table": "Table 3.2 \u2014 Robustness Under Perturbation",
+      "row_key": "MDL-008",
+      "column": "Robustness Rating",
+      "original": "Moderate",
+      "replacement": "Robust",
+      "label": 2,
+      "label_name": "CONTRADICTED",
+      "relation_hint": "has_robustness_rating"
+    },
+    {
+      "table": "Table 3.2 \u2014 Robustness Under Perturbation",
+      "row_key": "MDL-009",
+      "column": "Robustness Rating",
+      "original": "Robust",
+      "replacement": "Moderate",
+      "label": 2,
+      "label_name": "CONTRADICTED",
+      "relation_hint": "has_robustness_rating"
+    },
+    {
+      "table": "Table 3.2 \u2014 Robustness Under Perturbation",
+      "row_key": "MDL-010",
+      "column": "Robustness Rating",
+      "original": "Robust",
+      "replacement": "Moderate",
+      "label": 2,
+      "label_name": "CONTRADICTED",
+      "relation_hint": "has_robustness_rating"
+    },
+    {
+      "table": "Table 3.2 \u2014 Robustness Under Perturbation",
+      "row_key": "MDL-011",
+      "column": "Robustness Rating",
+      "original": "Fragile",
+      "replacement": "Moderate",
+      "label": 2,
+      "label_name": "CONTRADICTED",
+      "relation_hint": "has_robustness_rating"
+    },
+    {
+      "table": "Table 3.2 \u2014 Robustness Under Perturbation",
+      "row_key": "MDL-012",
+      "column": "Robustness Rating",
+      "original": "Fragile",
+      "replacement": "Moderate",
+      "label": 2,
+      "label_name": "CONTRADICTED",
+      "relation_hint": "has_robustness_rating"
+    },
+    {
+      "table": "Table 3.3 \u2014 Fairness Metrics (Credit & Lending Models Only)",
+      "row_key": "MDL-001",
+      "column": "Adverse Impact Ratio",
+      "original": "0.7901",
+      "replacement": "1.2207",
+      "label": 1,
+      "label_name": "MODIFIED",
+      "relation_hint": "has_adverse_impact_ratio"
+    },
+    {
+      "table": "Table 3.3 \u2014 Fairness Metrics (Credit & Lending Models Only)",
+      "row_key": "MDL-001",
+      "column": "Adverse Impact Ratio",
+      "original": "0.8506",
+      "replacement": "1.3463",
+      "label": 1,
+      "label_name": "MODIFIED",
+      "relation_hint": "has_adverse_impact_ratio"
+    },
+    {
+      "table": "Table 3.3 \u2014 Fairness Metrics (Credit & Lending Models Only)",
+      "row_key": "MDL-001",
+      "column": "Adverse Impact Ratio",
+      "original": "0.9654",
+      "replacement": "0.4257",
+      "label": 1,
+      "label_name": "MODIFIED",
+      "relation_hint": "has_adverse_impact_ratio"
+    },
+    {
+      "table": "Table 3.3 \u2014 Fairness Metrics (Credit & Lending Models Only)",
+      "row_key": "MDL-001",
+      "column": "Adverse Impact Ratio",
+      "original": "0.7706",
+      "replacement": "0.4199",
+      "label": 1,
+      "label_name": "MODIFIED",
+      "relation_hint": "has_adverse_impact_ratio"
+    },
+    {
+      "table": "Table 3.3 \u2014 Fairness Metrics (Credit & Lending Models Only)",
+      "row_key": "MDL-009",
+      "column": "Adverse Impact Ratio",
+      "original": "0.8312",
+      "replacement": "0.2621",
+      "label": 1,
+      "label_name": "MODIFIED",
+      "relation_hint": "has_adverse_impact_ratio"
+    },
+    {
+      "table": "Table 3.3 \u2014 Fairness Metrics (Credit & Lending Models Only)",
+      "row_key": "MDL-009",
+      "column": "Adverse Impact Ratio",
+      "original": "0.9836",
+      "replacement": "0.3635",
+      "label": 1,
+      "label_name": "MODIFIED",
+      "relation_hint": "has_adverse_impact_ratio"
+    },
+    {
+      "table": "Table 3.3 \u2014 Fairness Metrics (Credit & Lending Models Only)",
+      "row_key": "MDL-009",
+      "column": "Adverse Impact Ratio",
+      "original": "0.8213",
+      "replacement": "0.2665",
+      "label": 1,
+      "label_name": "MODIFIED",
+      "relation_hint": "has_adverse_impact_ratio"
+    },
+    {
+      "table": "Table 4.1 \u2014 Feature Drift Detection (PSI Scores)",
+      "row_key": "MDL-001",
+      "column": "Current PSI",
+      "original": "0.1823",
+      "replacement": "0.2407",
+      "label": 1,
+      "label_name": "MODIFIED",
+      "relation_hint": "has_current_psi"
+    },
+    {
+      "table": "Table 4.1 \u2014 Feature Drift Detection (PSI Scores)",
+      "row_key": "MDL-001",
+      "column": "Drift Status",
+      "original": "Warning",
+      "replacement": "Stable",
+      "label": 2,
+      "label_name": "CONTRADICTED",
+      "relation_hint": "has_drift_status"
+    },
+    {
+      "table": "Table 4.1 \u2014 Feature Drift Detection (PSI Scores)",
+      "row_key": "MDL-001",
+      "column": "Current PSI",
+      "original": "0.0891",
+      "replacement": "0.1361",
+      "label": 1,
+      "label_name": "MODIFIED",
+      "relation_hint": "has_current_psi"
+    },
+    {
+      "table": "Table 4.1 \u2014 Feature Drift Detection (PSI Scores)",
+      "row_key": "MDL-002",
+      "column": "Current PSI",
+      "original": "0.3123",
+      "replacement": "0.5219",
+      "label": 1,
+      "label_name": "MODIFIED",
+      "relation_hint": "has_current_psi"
+    },
+    {
+      "table": "Table 4.1 \u2014 Feature Drift Detection (PSI Scores)",
+      "row_key": "MDL-002",
+      "column": "Current PSI",
+      "original": "0.1567",
+      "replacement": "0.0662",
+      "label": 1,
+      "label_name": "MODIFIED",
+      "relation_hint": "has_current_psi"
+    },
+    {
+      "table": "Table 4.1 \u2014 Feature Drift Detection (PSI Scores)",
+      "row_key": "MDL-002",
+      "column": "Drift Status",
+      "original": "Stable",
+      "replacement": "Warning",
+      "label": 2,
+      "label_name": "CONTRADICTED",
+      "relation_hint": "has_drift_status"
+    },
+    {
+      "table": "Table 4.1 \u2014 Feature Drift Detection (PSI Scores)",
+      "row_key": "MDL-003",
+      "column": "Current PSI",
+      "original": "0.0456",
+      "replacement": "0.0652",
+      "label": 1,
+      "label_name": "MODIFIED",
+      "relation_hint": "has_current_psi"
+    },
+    {
+      "table": "Table 4.1 \u2014 Feature Drift Detection (PSI Scores)",
+      "row_key": "MDL-003",
+      "column": "Drift Status",
+      "original": "Stable",
+      "replacement": "Warning",
+      "label": 2,
+      "label_name": "CONTRADICTED",
+      "relation_hint": "has_drift_status"
+    },
+    {
+      "table": "Table 4.1 \u2014 Feature Drift Detection (PSI Scores)",
+      "row_key": "MDL-003",
+      "column": "Current PSI",
+      "original": "0.1789",
+      "replacement": "0.2683",
+      "label": 1,
+      "label_name": "MODIFIED",
+      "relation_hint": "has_current_psi"
+    },
+    {
+      "table": "Table 4.1 \u2014 Feature Drift Detection (PSI Scores)",
+      "row_key": "MDL-003",
+      "column": "Drift Status",
+      "original": "ALERT",
+      "replacement": "Warning",
+      "label": 2,
+      "label_name": "CONTRADICTED",
+      "relation_hint": "has_drift_status"
+    },
+    {
+      "table": "Table 4.1 \u2014 Feature Drift Detection (PSI Scores)",
+      "row_key": "MDL-005",
+      "column": "Current PSI",
+      "original": "0.2891",
+      "replacement": "0.1660",
+      "label": 1,
+      "label_name": "MODIFIED",
+      "relation_hint": "has_current_psi"
+    },
+    {
+      "table": "Table 4.1 \u2014 Feature Drift Detection (PSI Scores)",
+      "row_key": "MDL-005",
+      "column": "Drift Status",
+      "original": "ALERT",
+      "replacement": "Warning",
+      "label": 2,
+      "label_name": "CONTRADICTED",
+      "relation_hint": "has_drift_status"
+    },
+    {
+      "table": "Table 4.1 \u2014 Feature Drift Detection (PSI Scores)",
+      "row_key": "MDL-005",
+      "column": "Drift Status",
+      "original": "Stable",
+      "replacement": "Warning",
+      "label": 2,
+      "label_name": "CONTRADICTED",
+      "relation_hint": "has_drift_status"
+    },
+    {
+      "table": "Table 4.1 \u2014 Feature Drift Detection (PSI Scores)",
+      "row_key": "MDL-006",
+      "column": "Current PSI",
+      "original": "0.0678",
+      "replacement": "0.0359",
+      "label": 1,
+      "label_name": "MODIFIED",
+      "relation_hint": "has_current_psi"
+    },
+    {
+      "table": "Table 4.1 \u2014 Feature Drift Detection (PSI Scores)",
+      "row_key": "MDL-006",
+      "column": "Drift Status",
+      "original": "Stable",
+      "replacement": "Warning",
+      "label": 2,
+      "label_name": "CONTRADICTED",
+      "relation_hint": "has_drift_status"
+    },
+    {
+      "table": "Table 4.1 \u2014 Feature Drift Detection (PSI Scores)",
+      "row_key": "MDL-006",
+      "column": "Current PSI",
+      "original": "0.1923",
+      "replacement": "0.0884",
+      "label": 1,
+      "label_name": "MODIFIED",
+      "relation_hint": "has_current_psi"
+    },
+    {
+      "table": "Table 4.1 \u2014 Feature Drift Detection (PSI Scores)",
+      "row_key": "MDL-006",
+      "column": "Drift Status",
+      "original": "ALERT",
+      "replacement": "Warning",
+      "label": 2,
+      "label_name": "CONTRADICTED",
+      "relation_hint": "has_drift_status"
+    },
+    {
+      "table": "Table 4.1 \u2014 Feature Drift Detection (PSI Scores)",
+      "row_key": "MDL-012",
+      "column": "Current PSI",
+      "original": "0.2567",
+      "replacement": "0.3991",
+      "label": 1,
+      "label_name": "MODIFIED",
+      "relation_hint": "has_current_psi"
+    },
+    {
+      "table": "Table 4.1 \u2014 Feature Drift Detection (PSI Scores)",
+      "row_key": "MDL-012",
+      "column": "Drift Status",
+      "original": "ALERT",
+      "replacement": "Warning",
+      "label": 2,
+      "label_name": "CONTRADICTED",
+      "relation_hint": "has_drift_status"
+    },
+    {
+      "table": "Table 5.2 \u2014 Model Risk Scores (Composite)",
+      "row_key": "MDL-001",
+      "column": "Risk Tier",
+      "original": "Critical",
+      "replacement": "High",
+      "label": 2,
+      "label_name": "CONTRADICTED",
+      "relation_hint": "has_risk_tier"
+    },
+    {
+      "table": "Table 5.2 \u2014 Model Risk Scores (Composite)",
+      "row_key": "MDL-002",
+      "column": "Composite Risk Score",
+      "original": "79.00",
+      "replacement": "129.00",
+      "label": 1,
+      "label_name": "MODIFIED",
+      "relation_hint": "has_composite_risk_score"
+    },
+    {
+      "table": "Table 5.2 \u2014 Model Risk Scores (Composite)",
+      "row_key": "MDL-002",
+      "column": "Risk Tier",
+      "original": "Medium",
+      "replacement": "Low",
+      "label": 2,
+      "label_name": "CONTRADICTED",
+      "relation_hint": "has_risk_tier"
+    },
+    {
+      "table": "Table 5.2 \u2014 Model Risk Scores (Composite)",
+      "row_key": "MDL-003",
+      "column": "Risk Tier",
+      "original": "High",
+      "replacement": "Medium",
+      "label": 2,
+      "label_name": "CONTRADICTED",
+      "relation_hint": "has_risk_tier"
+    },
+    {
+      "table": "Table 5.2 \u2014 Model Risk Scores (Composite)",
+      "row_key": "MDL-004",
+      "column": "Composite Risk Score",
+      "original": "76.67",
+      "replacement": "28.01",
+      "label": 1,
+      "label_name": "MODIFIED",
+      "relation_hint": "has_composite_risk_score"
+    },
+    {
+      "table": "Table 5.2 \u2014 Model Risk Scores (Composite)",
+      "row_key": "MDL-004",
+      "column": "Risk Tier",
+      "original": "Medium",
+      "replacement": "Low",
+      "label": 2,
+      "label_name": "CONTRADICTED",
+      "relation_hint": "has_risk_tier"
+    },
+    {
+      "table": "Table 5.2 \u2014 Model Risk Scores (Composite)",
+      "row_key": "MDL-006",
+      "column": "Composite Risk Score",
+      "original": "62.67",
+      "replacement": "87.99",
+      "label": 1,
+      "label_name": "MODIFIED",
+      "relation_hint": "has_composite_risk_score"
+    },
+    {
+      "table": "Table 5.2 \u2014 Model Risk Scores (Composite)",
+      "row_key": "MDL-006",
+      "column": "Risk Tier",
+      "original": "High",
+      "replacement": "Medium",
+      "label": 2,
+      "label_name": "CONTRADICTED",
+      "relation_hint": "has_risk_tier"
+    },
+    {
+      "table": "Table 5.2 \u2014 Model Risk Scores (Composite)",
+      "row_key": "MDL-007",
+      "column": "Composite Risk Score",
+      "original": "80.33",
+      "replacement": "109.65",
+      "label": 1,
+      "label_name": "MODIFIED",
+      "relation_hint": "has_composite_risk_score"
+    },
+    {
+      "table": "Table 5.2 \u2014 Model Risk Scores (Composite)",
+      "row_key": "MDL-007",
+      "column": "Risk Tier",
+      "original": "Low",
+      "replacement": "Medium",
+      "label": 2,
+      "label_name": "CONTRADICTED",
+      "relation_hint": "has_risk_tier"
+    },
+    {
+      "table": "Table 5.2 \u2014 Model Risk Scores (Composite)",
+      "row_key": "MDL-008",
+      "column": "Composite Risk Score",
+      "original": "76.33",
+      "replacement": "44.97",
+      "label": 1,
+      "label_name": "MODIFIED",
+      "relation_hint": "has_composite_risk_score"
+    },
+    {
+      "table": "Table 5.2 \u2014 Model Risk Scores (Composite)",
+      "row_key": "MDL-008",
+      "column": "Risk Tier",
+      "original": "Medium",
+      "replacement": "Low",
+      "label": 2,
+      "label_name": "CONTRADICTED",
+      "relation_hint": "has_risk_tier"
+    },
+    {
+      "table": "Table 5.2 \u2014 Model Risk Scores (Composite)",
+      "row_key": "MDL-009",
+      "column": "Composite Risk Score",
+      "original": "82.50",
+      "replacement": "41.23",
+      "label": 1,
+      "label_name": "MODIFIED",
+      "relation_hint": "has_composite_risk_score"
+    },
+    {
+      "table": "Table 5.2 \u2014 Model Risk Scores (Composite)",
+      "row_key": "MDL-009",
+      "column": "Risk Tier",
+      "original": "Low",
+      "replacement": "Medium",
+      "label": 2,
+      "label_name": "CONTRADICTED",
+      "relation_hint": "has_risk_tier"
+    },
+    {
+      "table": "Table 5.2 \u2014 Model Risk Scores (Composite)",
+      "row_key": "MDL-010",
+      "column": "Composite Risk Score",
+      "original": "90.67",
+      "replacement": "46.46",
+      "label": 1,
+      "label_name": "MODIFIED",
+      "relation_hint": "has_composite_risk_score"
+    },
+    {
+      "table": "Table 5.2 \u2014 Model Risk Scores (Composite)",
+      "row_key": "MDL-010",
+      "column": "Risk Tier",
+      "original": "Low",
+      "replacement": "Medium",
+      "label": 2,
+      "label_name": "CONTRADICTED",
+      "relation_hint": "has_risk_tier"
+    },
+    {
+      "table": "Table 5.2 \u2014 Model Risk Scores (Composite)",
+      "row_key": "MDL-011",
+      "column": "Composite Risk Score",
+      "original": "50.33",
+      "replacement": "77.80",
+      "label": 1,
+      "label_name": "MODIFIED",
+      "relation_hint": "has_composite_risk_score"
+    },
+    {
+      "table": "Table 5.2 \u2014 Model Risk Scores (Composite)",
+      "row_key": "MDL-011",
+      "column": "Risk Tier",
+      "original": "High",
+      "replacement": "Medium",
+      "label": 2,
+      "label_name": "CONTRADICTED",
+      "relation_hint": "has_risk_tier"
+    },
+    {
+      "table": "Table 5.2 \u2014 Model Risk Scores (Composite)",
+      "row_key": "MDL-012",
+      "column": "Composite Risk Score",
+      "original": "61.33",
+      "replacement": "29.77",
+      "label": 1,
+      "label_name": "MODIFIED",
+      "relation_hint": "has_composite_risk_score"
+    },
+    {
+      "table": "Table 5.2 \u2014 Model Risk Scores (Composite)",
+      "row_key": "MDL-012",
+      "column": "Risk Tier",
+      "original": "High",
+      "replacement": "Medium",
+      "label": 2,
+      "label_name": "CONTRADICTED",
+      "relation_hint": "has_risk_tier"
+    }
+  ]
+}
