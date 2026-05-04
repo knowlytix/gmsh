@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "thresholds": {
+    "geodesic": 1.384461690634489,
+    "holonomy": 2.354902744293213,
+    "path_transport": 1.5237713085114957,
+    "tension": 1.1270822250843047
+  },
+  "weights": {
+    "exact": 0.3,
+    "geodesic": 0.3,
+    "holonomy": 0.2,
+    "tension": 0.2
+  }
+}
