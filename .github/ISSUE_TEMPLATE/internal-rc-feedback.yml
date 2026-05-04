@@ -1,0 +1,136 @@
+name: Internal RC feedback
+description: Report what happened when installing or running an internal RC bundle.
+title: "[internal-rc] <short description>"
+labels: ["internal-rc-feedback"]
+# NOTE: `projects:` intentionally omitted — GitHub's issue-forms schema
+# requires `<org>/<project-number>` and the triage project doesn't have a
+# stable number yet.  Routing currently runs off the
+# `internal-rc-feedback` label plus a weekly-reviewed saved filter (see
+# the triage cadence in `distribution/implementation_plan.md` GMS-095).
+# Once the triage project is created:
+#   1. Fetch its number with `gh project list --owner knowlytix`.
+#   2. Add `projects: ["knowlytix/<N>"]` below `labels:`.
+#   3. Update `test_projects_entry_schema_guard` from a schema-shape
+#      check to a required-non-empty assertion.
+assignees: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for trying the internal RC. Fill in whatever's relevant — skip
+        fields that don't apply. If you're blocked, severity=Blocker moves it
+        to the top of the weekly triage.
+
+        **Not** the right place for: public PyPI install bugs, book content,
+        or research questions. Use a regular issue without this template for
+        those.
+
+  - type: input
+    id: rc_version
+    attributes:
+      label: RC version
+      description: The tag from the Release title (e.g., `v0.1.0-rc2`).
+      placeholder: v0.1.0-rc1
+    validations:
+      required: true
+
+  - type: dropdown
+    id: host_platform
+    attributes:
+      label: Host platform
+      description: Which wheel did pip install? (Check `pip show knowlytix-core` if unsure.)
+      options:
+        - macOS arm64 (Apple Silicon)
+        - macOS x86_64 (Intel)
+        - Linux x86_64
+        - Other / unsure
+    validations:
+      required: true
+
+  - type: input
+    id: python_version
+    attributes:
+      label: Python version
+      description: Output of `python --version` inside the venv you installed into.
+      placeholder: Python 3.12.4
+    validations:
+      required: true
+
+  - type: textarea
+    id: what_tried
+    attributes:
+      label: What you tried
+      description: The command(s) or code path you exercised. Paste the exact invocation.
+      placeholder: |
+        python3 -c "import gms; print(gms.__version__)"
+
+        gmsh-smoke
+      render: shell
+    validations:
+      required: true
+
+  - type: textarea
+    id: what_happened
+    attributes:
+      label: What happened
+      description: Actual output / error. Full traceback if there was one.
+      render: shell
+    validations:
+      required: true
+
+  - type: textarea
+    id: clamp_logs
+    attributes:
+      label: License clamp logs (if any)
+      description: |
+        If you saw `license cap: ... clamped N → M` on stderr, paste the
+        lines here. Clamps are expected on trial keys — we just want to
+        know whether the cap surprised you.
+      render: shell
+    validations:
+      required: false
+
+  - type: textarea
+    id: repro_steps
+    attributes:
+      label: Reproduction steps
+      description: |
+        What would a teammate on a clean 3.12 venv type, in order, to
+        reproduce this? Link to the RC bundle zip if it matters.
+      placeholder: |
+        1. Download gms-internal-v0.1.0-rc1.zip from Releases
+        2. unzip → cd gms-rc/
+        3. shasum -a 256 -c SHA256SUMS → all OK
+        4. pip install ./knowlytix_core-*.whl ./knowlytix_knowledge-*.whl ./knowlytix_benchmark-*.whl ./knowlytix_harness-*.whl
+        5. export KNOWLYTIX_LICENSE_KEY=gmsh_live_...
+        6. python3 -c "import gms; print(gms.__version__)"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: severity
+    attributes:
+      label: Severity
+      description: |
+        - **Blocker**: I can't install or the wheel crashes on import.
+        - **Annoyance**: Works but something's wrong or confusing.
+        - **Nice-to-have**: A polish ask or docs tweak.
+      options:
+        - Blocker — can't install / wheel crashes on import
+        - Annoyance — works but something's wrong or confusing
+        - Nice-to-have — polish / docs tweak
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: confirmations
+    attributes:
+      label: Pre-filing checks
+      description: Quick sanity checks to avoid cross-filed noise.
+      options:
+        - label: I verified SHA256SUMS before installing (see `docs/internal_team_install.md` §1).
+          required: true
+        - label: My `KNOWLYTIX_LICENSE_KEY` is still within its 30-day expiry window.
+          required: true
+        - label: I'm not filing a public PyPI install bug or a book/research question.
+          required: true
