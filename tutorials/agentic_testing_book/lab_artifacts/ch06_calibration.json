@@ -1,0 +1,257 @@
+{
+  "store_path": "gmsh_testing_ext/lab_stores/ch04_ground_truth",
+  "fixture_fingerprint": "374dedeb0394c8c2f4ad5397d36315d7830b2a9367e60abf91d9740704652d8d",
+  "seed": 42,
+  "n_resamples": 1000,
+  "confidence_level": 0.95,
+  "method": "BCa",
+  "method_note": "Real BCa: bias correction z0 from the empirical bootstrap distribution; acceleration a from jackknife replicates; percentile transformation applied. n_resamples=1000, seed=42. Logistic-refit statistics use _bootstrap_bca.bca_ci_refit; closed-form statistics use _bootstrap_bca.bca_ci (scipy.stats.bootstrap method='BCa').",
+  "thresholds": {
+    "plausibility": {
+      "mean": 0.9053144478169269,
+      "ci_low": 0.8649505900536754,
+      "ci_hi": 0.9300818374077789,
+      "z0": -0.04137116513242771,
+      "acceleration": -0.051775000644345454,
+      "n_resamples": 1000,
+      "n_valid_resamples": 1000,
+      "method": "BCa",
+      "library_fn": "governed_agent.plausibility_calibration._build_geodesic_training_set + sklearn.LogisticRegression refit",
+      "cohort": {
+        "n_pos": 807,
+        "n_neg": 807,
+        "n_total": 1614,
+        "source": "real triples vs random type-substituted tails"
+      }
+    },
+    "tension_ent": {
+      "mean": 0.6579974730627145,
+      "ci_low": 0.6435357466289823,
+      "ci_hi": 0.6712453572265804,
+      "z0": -0.015040336678635672,
+      "acceleration": -0.0007108947397492029,
+      "n_resamples": 1000,
+      "n_valid_resamples": 1000,
+      "method": "BCa",
+      "library_fn": "harness.doe.primitive_calibration.label_tension (agree/unrelated cohort) + sklearn.LogisticRegression refit",
+      "cohort": {
+        "n_agree": 274,
+        "n_unrelated": 500,
+        "n_total": 774,
+        "source": "agree = pairs sharing at least one (relation, target); unrelated = random pairs with no shared target and no direct edge"
+      }
+    },
+    "tension_contra": {
+      "mean": null,
+      "ci_low": null,
+      "ci_hi": null,
+      "z0": null,
+      "acceleration": null,
+      "n_resamples": 0,
+      "n_valid_resamples": 0,
+      "method": "BCa",
+      "library_fn": "governed_agent.policy_calibration.bootstrap_policy_tau_contra",
+      "cohort": {
+        "n_unrelated": 500,
+        "n_contradict": 0,
+        "n_total": 500,
+        "source": "harness.doe.primitive_calibration.label_tension (contradict class is built ONLY from corpus-declared (r_a, opposite_of, r_b) triples; this corpus has none)"
+      },
+      "status": "signal_unavailable",
+      "note": "Corpus has no (r_a, opposite_of, r_b) triples; bootstrap_policy_tau_contra correctly returns None as the documented `signal_unavailable` state. The runtime classifier overlays _TENSION_CONTRADICT_ANCHOR (=1.6) in judge._tension_label_from_value so extreme tension values still flag contradict. At the policy/governance layer, missing signals are handled by quorum (governed_agent.policy_calibration: layers reporting signal_unavailable are excluded from the quorum denominator), not by synthesizing a substitute cohort."
+    },
+    "tension_cohort": {
+      "n_agree": 274,
+      "n_unrelated": 500,
+      "n_contradict": 0,
+      "n_total": 774
+    },
+    "holonomy": {
+      "mean": 10.622550827264785,
+      "ci_low": 10.407157980704637,
+      "ci_hi": 10.780234962701797,
+      "z0": -0.09791473421149935,
+      "acceleration": -0.026867196895165,
+      "n_resamples": 1000,
+      "n_valid_resamples": 1000,
+      "method": "BCa",
+      "library_fn": "_build_holonomy_generator_cohort (HolonomyGenerator's real-vs-r2-swapped emission distribution) + sklearn.LogisticRegression refit",
+      "cohort": {
+        "n_consistent": 111,
+        "n_twisted": 111,
+        "n_total": 222,
+        "source": "real generator-emitted triangles vs r2-swapped twisted versions of the same triangles (closure-violation negatives by construction); matches the operating distribution the judge sees on emitted holonomy probes",
+        "consistent_defect_mean": 9.567432558214342,
+        "twisted_defect_mean": 11.283138094721613
+      }
+    }
+  },
+  "verdict_accuracy": {
+    "overall": {
+      "mean": 0.9769230769230769,
+      "ci_low": 0.9384615384615385,
+      "ci_hi": 0.9923076923076923,
+      "z0": -0.04889873121265653,
+      "acceleration": -0.09286162320478052,
+      "n_resamples": 1000,
+      "n_valid_resamples": 1000,
+      "method": "BCa",
+      "n_questions": 130,
+      "statistic": "per-question correctness (1 iff positive accepted AND negative rejected); cohort = 130 base questions (10 per category x 13 categories)"
+    },
+    "overall_paired_accuracy": {
+      "value": 0.9846153846153847,
+      "n_pos_ok": 129,
+      "n_pos_total": 130,
+      "n_neg_ok": 127,
+      "n_neg_total": 130,
+      "headline_string": "129/130 positives + 127/130 negatives = 98.5%"
+    },
+    "per_category": {
+      "adversarial": {
+        "n": 20,
+        "n_pos_ok": 10,
+        "n_pos": 10,
+        "n_neg_ok": 9,
+        "n_neg": 10,
+        "acc": 0.95,
+        "measure": "geodesic"
+      },
+      "boundary": {
+        "n": 20,
+        "n_pos_ok": 10,
+        "n_pos": 10,
+        "n_neg_ok": 10,
+        "n_neg": 10,
+        "acc": 1.0,
+        "measure": "enm"
+      },
+      "conditional": {
+        "n": 20,
+        "n_pos_ok": 10,
+        "n_pos": 10,
+        "n_neg_ok": 10,
+        "n_neg": 10,
+        "acc": 1.0,
+        "measure": "geodesic"
+      },
+      "governance": {
+        "n": 20,
+        "n_pos_ok": 10,
+        "n_pos": 10,
+        "n_neg_ok": 10,
+        "n_neg": 10,
+        "acc": 1.0,
+        "measure": "geodesic"
+      },
+      "holonomy": {
+        "n": 20,
+        "n_pos_ok": 9,
+        "n_pos": 10,
+        "n_neg_ok": 9,
+        "n_neg": 10,
+        "acc": 0.9,
+        "measure": "holonomy"
+      },
+      "link_prediction": {
+        "n": 20,
+        "n_pos_ok": 10,
+        "n_pos": 10,
+        "n_neg_ok": 10,
+        "n_neg": 10,
+        "acc": 1.0,
+        "measure": "enm"
+      },
+      "multi_hop_transport": {
+        "n": 20,
+        "n_pos_ok": 10,
+        "n_pos": 10,
+        "n_neg_ok": 10,
+        "n_neg": 10,
+        "acc": 1.0,
+        "measure": "geodesic"
+      },
+      "phase_comparison": {
+        "n": 20,
+        "n_pos_ok": 10,
+        "n_pos": 10,
+        "n_neg_ok": 10,
+        "n_neg": 10,
+        "acc": 1.0,
+        "measure": "phase"
+      },
+      "plausibility": {
+        "n": 20,
+        "n_pos_ok": 10,
+        "n_pos": 10,
+        "n_neg_ok": 10,
+        "n_neg": 10,
+        "acc": 1.0,
+        "measure": "geodesic"
+      },
+      "procedural": {
+        "n": 20,
+        "n_pos_ok": 10,
+        "n_pos": 10,
+        "n_neg_ok": 9,
+        "n_neg": 10,
+        "acc": 0.95,
+        "measure": "geodesic"
+      },
+      "recovery_test": {
+        "n": 20,
+        "n_pos_ok": 10,
+        "n_pos": 10,
+        "n_neg_ok": 10,
+        "n_neg": 10,
+        "acc": 1.0,
+        "measure": "geodesic"
+      },
+      "robustness": {
+        "n": 20,
+        "n_pos_ok": 10,
+        "n_pos": 10,
+        "n_neg_ok": 10,
+        "n_neg": 10,
+        "acc": 1.0,
+        "measure": "geodesic"
+      },
+      "tension": {
+        "n": 20,
+        "n_pos_ok": 10,
+        "n_pos": 10,
+        "n_neg_ok": 10,
+        "n_neg": 10,
+        "acc": 1.0,
+        "measure": "tension"
+      }
+    },
+    "n_categories_at_100pct": 10,
+    "n_categories_total": 13,
+    "note": "Per-category routing via judge.calibrated_classify (the canonical operating contract). Each question routes to its measure-of-record (geodesic / tension / holonomy / enm / phase). No signal aggregation; no SLSQP weight fit."
+  },
+  "drift_probe": {
+    "store_path": "gmsh_testing_ext/lab_stores/ch04_ground_truth",
+    "fixture_fingerprint": "374dedeb0394c8c2f4ad5397d36315d7830b2a9367e60abf91d9740704652d8d",
+    "seed": 42,
+    "baseline_acc": 1.0,
+    "drifted_acc": 0.0,
+    "delta": 1.0,
+    "two_sigma": 0.0,
+    "drift_detected": true,
+    "n_questions": 180,
+    "n_drift": 180,
+    "note": "baseline = judge accept-rate on positives; drifted = accept-rate on all-negatives. Detection: |delta| > 2 sigma binomial."
+  },
+  "latency": {
+    "n_calls": 130,
+    "judge_p50_seconds": 0.019649870693683624,
+    "judge_p99_seconds": 0.06179254891816527,
+    "judge_mean_seconds": 0.024074334063782142,
+    "classify_p50_seconds": 0.01932007260620594,
+    "classify_p99_seconds": 0.05823303304146975,
+    "classify_mean_seconds": 0.01559191457210825,
+    "total_p99_seconds": 0.11899634937755763
+  },
+  "wall_seconds": 205.15
+}

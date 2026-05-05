@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Internal team install guide
+    url: https://github.com/knowlytix/GMS/blob/main/docs/internal_team_install.md
+    about: Procedural install + smoke walkthrough; troubleshooting section covers the common install failures before you file an issue.
+  - name: Per-teammate issuance playbook (internal)
+    url: https://github.com/knowlytix/GMS/blob/main/provisioning/internal_team.md
+    about: For provisioners only — how to issue, renew, and revoke teammate trial keys via 1Password.
