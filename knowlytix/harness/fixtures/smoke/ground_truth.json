@@ -1,0 +1,20 @@
+{
+  "$schema": "gmsh DOE smoke fixture v1",
+  "description": "Ground-truth knowledge graph for doe_smoke.json scenarios. Hand-authored; matches docgms/fixtures/smoke/sample.md.",
+  "entities": [
+    {"id": "acme-widgets", "type": "company"},
+    {"id": "consumer-widgets", "type": "division", "parent": "acme-widgets"},
+    {"id": "industrial-widgets", "type": "division", "parent": "acme-widgets"},
+    {"id": "research-widgets", "type": "division", "parent": "acme-widgets"}
+  ],
+  "relations": [
+    {"subject": "consumer-widgets", "predicate": "reports_to", "object": "chief-consumer-officer"},
+    {"subject": "industrial-widgets", "predicate": "reports_to", "object": "chief-operations-officer"},
+    {"subject": "research-widgets", "predicate": "reports_to", "object": "chief-technology-officer"}
+  ],
+  "facts": {
+    "research-widgets:pre-revenue": true,
+    "acme-widgets:q3-revenue-usd": 35000000,
+    "consumer-widgets:defect-rate": 0.005
+  }
+}
