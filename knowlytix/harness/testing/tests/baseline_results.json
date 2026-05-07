@@ -1,0 +1,4826 @@
+{
+  "instance": "doe_test_model_risk",
+  "total_questions": 320,
+  "total_correct": 320,
+  "accuracy": 1.0,
+  "n_base_questions": 40,
+  "n_design_runs": 8,
+  "factors": [
+    "clarity",
+    "entity_aliasing",
+    "reasoning_cue"
+  ],
+  "model": "gms_baseline",
+  "timestamp": "2026-04-07 19:15:23",
+  "context_mode": "full",
+  "graph_stats": {
+    "entities": 508,
+    "relations": 66,
+    "triples": 889,
+    "enm_entries": 261,
+    "documents": 1,
+    "store_path": "gms_stores/doe_test_model_risk"
+  },
+  "questions": [
+    {
+      "doe_qid": "cross_reference_1309_run000",
+      "base_qid": "cross_reference_1309",
+      "category": "cross_reference",
+      "question": "[Ambiguous] Which entities appear in both the 'has_annual_loss_exposure' and 'has_delta_auc' relationships?",
+      "ground_truth": "{'MDL-005', 'MDL-004', 'MDL-009', 'MDL-007', 'MDL-003', 'MDL-011', 'MDL-012', 'MDL-001', 'MDL-010', 'MDL-006', 'MDL-008', 'MDL-002'}",
+      "answer": "{'MDL-005', 'MDL-004', 'MDL-009', 'MDL-007', 'MDL-003', 'MDL-011', 'MDL-012', 'MDL-001', 'MDL-010', 'MDL-006', 'MDL-008', 'MDL-002'}",
+      "correct": true,
+      "detail": "Exact set match",
+      "factors": {
+        "clarity": "Ambiguous",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "cross_reference_228_run000",
+      "base_qid": "cross_reference_228",
+      "category": "cross_reference",
+      "question": "[Ambiguous] Which entities appear in both the 'has_risk_rating' and 'has_reference_rate' relationships?",
+      "ground_truth": "{'MDL-001', 'MDL-009'}",
+      "answer": "{'MDL-001', 'MDL-009'}",
+      "correct": true,
+      "detail": "Exact set match",
+      "factors": {
+        "clarity": "Ambiguous",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "cross_reference_051_run000",
+      "base_qid": "cross_reference_051",
+      "category": "cross_reference",
+      "question": "[Ambiguous] Which entities appear in both the 'in_section' and 'has_capital_impact' relationships?",
+      "ground_truth": "{'MDL-005', 'MDL-004', 'MDL-009', 'MDL-007', 'MDL-003', 'MDL-011', 'MDL-012', 'MDL-001', 'MDL-010', 'MDL-006', 'MDL-008', 'MDL-002'}",
+      "answer": "{'MDL-005', 'MDL-004', 'MDL-009', 'MDL-007', 'MDL-003', 'MDL-011', 'MDL-012', 'MDL-001', 'MDL-010', 'MDL-006', 'MDL-008', 'MDL-002'}",
+      "correct": true,
+      "detail": "Exact set match",
+      "factors": {
+        "clarity": "Ambiguous",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "cross_reference_563_run000",
+      "base_qid": "cross_reference_563",
+      "category": "cross_reference",
+      "question": "[Ambiguous] Which entities appear in both the 'has_test_auc' and 'has_gini' relationships?",
+      "ground_truth": "{'MDL-005', 'MDL-004', 'MDL-009', 'MDL-007', 'MDL-003', 'MDL-011', 'MDL-012', 'MDL-001', 'MDL-010', 'MDL-006', 'MDL-008', 'MDL-002'}",
+      "answer": "{'MDL-005', 'MDL-004', 'MDL-009', 'MDL-007', 'MDL-003', 'MDL-011', 'MDL-012', 'MDL-001', 'MDL-010', 'MDL-006', 'MDL-008', 'MDL-002'}",
+      "correct": true,
+      "detail": "Exact set match",
+      "factors": {
+        "clarity": "Ambiguous",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "cross_reference_501_run000",
+      "base_qid": "cross_reference_501",
+      "category": "cross_reference",
+      "question": "[Ambiguous] Which entities appear in both the 'has_retrain_freq' and 'has_missing_rate_q4_2025' relationships?",
+      "ground_truth": "{'MDL-005', 'MDL-003', 'MDL-012', 'MDL-001', 'MDL-006', 'MDL-008', 'MDL-002'}",
+      "answer": "{'MDL-005', 'MDL-003', 'MDL-012', 'MDL-001', 'MDL-006', 'MDL-008', 'MDL-002'}",
+      "correct": true,
+      "detail": "Exact set match",
+      "factors": {
+        "clarity": "Ambiguous",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "multi_hop_327_run000",
+      "base_qid": "multi_hop_327",
+      "category": "multi_hop",
+      "question": "[Ambiguous] Find the entity with the lowest value in 'comparison_to_prior_period', then list its 'has_accuracy_score' relationships.",
+      "ground_truth": "('MDL-005', -0.0278, {'48.0'})",
+      "answer": "('MDL-005', -0.0278, {'48.0'})",
+      "correct": true,
+      "detail": "Exact tuple: ('MDL-005', -0.0278, {'48.0'})",
+      "factors": {
+        "clarity": "Ambiguous",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "multi_hop_057_run000",
+      "base_qid": "multi_hop_057",
+      "category": "multi_hop",
+      "question": "[Ambiguous] Find the entity with the highest value in 'model_inventory_summary', then list its 'has_feature_category' relationships.",
+      "ground_truth": "('MDL-012', 768.0, {'Text Distribution'})",
+      "answer": "('MDL-012', 768.0, {'Text Distribution'})",
+      "correct": true,
+      "detail": "Exact tuple: ('MDL-012', 768.0, {'Text Distribution'})",
+      "factors": {
+        "clarity": "Ambiguous",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "multi_hop_012_run000",
+      "base_qid": "multi_hop_012",
+      "category": "multi_hop",
+      "question": "[Ambiguous] Find the entity with the lowest value in 'model_inventory_summary', then list its 'has_training_samples' relationships.",
+      "ground_truth": "('MDL-001', 1.0, {'2,450,000'})",
+      "answer": "('MDL-001', 1.0, {'2,450,000'})",
+      "correct": true,
+      "detail": "Exact tuple: ('MDL-001', 1.0, {'2,450,000'})",
+      "factors": {
+        "clarity": "Ambiguous",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "multi_hop_379_run000",
+      "base_qid": "multi_hop_379",
+      "category": "multi_hop",
+      "question": "[Ambiguous] Find the entity with the highest value in 'comparison_to_prior_period', then list its 'has_noise_1%' relationships.",
+      "ground_truth": "('MDL-002', 0.9312, {'0.9198'})",
+      "answer": "('MDL-002', 0.9312, {'0.9198'})",
+      "correct": true,
+      "detail": "Exact tuple: ('MDL-002', 0.9312, {'0.9198'})",
+      "factors": {
+        "clarity": "Ambiguous",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "multi_hop_140_run000",
+      "base_qid": "multi_hop_140",
+      "category": "multi_hop",
+      "question": "[Ambiguous] Find the entity with the lowest value in 'data_quality_assessment', then list its 'has_composite_risk_score' relationships.",
+      "ground_truth": "('MDL-005', 0.0234, {'41.33'})",
+      "answer": "('MDL-005', 0.0234, {'41.33'})",
+      "correct": true,
+      "detail": "Exact tuple: ('MDL-005', 0.0234, {'41.33'})",
+      "factors": {
+        "clarity": "Ambiguous",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "counting_163_run000",
+      "base_qid": "counting_163",
+      "category": "counting",
+      "question": "[Ambiguous] How many unique entities participate in 'has_robustness_rating' relationships?",
+      "ground_truth": "12",
+      "answer": "12",
+      "correct": true,
+      "detail": "Exact: 12",
+      "factors": {
+        "clarity": "Ambiguous",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "counting_028_run000",
+      "base_qid": "counting_028",
+      "category": "counting",
+      "question": "[Ambiguous] How many 'has_reference_rate' relationships exist in the report?",
+      "ground_truth": "9",
+      "answer": "9",
+      "correct": true,
+      "detail": "Exact: 9",
+      "factors": {
+        "clarity": "Ambiguous",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "counting_006_run000",
+      "base_qid": "counting_006",
+      "category": "counting",
+      "question": "[Ambiguous] How many 'has_status' relationships exist in the report?",
+      "ground_truth": "24",
+      "answer": "24",
+      "correct": true,
+      "detail": "Exact: 24",
+      "factors": {
+        "clarity": "Ambiguous",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "counting_189_run000",
+      "base_qid": "counting_189",
+      "category": "counting",
+      "question": "[Ambiguous] How many unique entities participate in 'has_annual_revenue_impact' relationships?",
+      "ground_truth": "12",
+      "answer": "12",
+      "correct": true,
+      "detail": "Exact: 12",
+      "factors": {
+        "clarity": "Ambiguous",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "counting_070_run000",
+      "base_qid": "counting_070",
+      "category": "counting",
+      "question": "[Ambiguous] How many entities have 'has_status' = 'Watch'?",
+      "ground_truth": "3",
+      "answer": "3",
+      "correct": true,
+      "detail": "Exact: 3",
+      "factors": {
+        "clarity": "Ambiguous",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "plausibility_abs_007_run000",
+      "base_qid": "plausibility_abs_007",
+      "category": "plausibility",
+      "question": "[Ambiguous] Is the relationship 'High-Risk Models in_section executive_summary' supported by the document?",
+      "ground_truth": "False",
+      "answer": "False",
+      "correct": true,
+      "detail": "Correct: False",
+      "factors": {
+        "clarity": "Ambiguous",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "plausibility_cmp_008_run000",
+      "base_qid": "plausibility_cmp_008",
+      "category": "plausibility",
+      "question": "[Ambiguous] Which entity is more plausible as the 'has_detail' of 'Medium-Risk Models': (A) 63.45% or (B) 5?",
+      "ground_truth": "B",
+      "answer": "B",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Ambiguous",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "plausibility_cmp_001_run000",
+      "base_qid": "plausibility_cmp_001",
+      "category": "plausibility",
+      "question": "[Ambiguous] Which entity is more plausible as the 'in_section' of 'Organization': (A) executive_summary or (B) Fragile?",
+      "ground_truth": "A",
+      "answer": "A",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Ambiguous",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "plausibility_abs_014_run000",
+      "base_qid": "plausibility_abs_014",
+      "category": "plausibility",
+      "question": "[Ambiguous] Is the relationship 'Chief Model Risk Officer has_detail Dr. Elena Vasquez' supported by the document?",
+      "ground_truth": "False",
+      "answer": "False",
+      "correct": true,
+      "detail": "Correct: False",
+      "factors": {
+        "clarity": "Ambiguous",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "plausibility_cmp_027_run000",
+      "base_qid": "plausibility_cmp_027",
+      "category": "plausibility",
+      "question": "[Ambiguous] Which entity is more plausible as the 'has_risk_rating' of 'MDL-002': (A) +0.34% or (B) High?",
+      "ground_truth": "B",
+      "answer": "B",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Ambiguous",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "tension_classify_007_run000",
+      "base_qid": "tension_classify_007",
+      "category": "tension",
+      "question": "[Ambiguous] Based on the document, do 'ACT-006' and '0.7934' agree, contradict each other, or are they unrelated?",
+      "ground_truth": "unrelated",
+      "answer": "unrelated",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Ambiguous",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "tension_classify_001_run000",
+      "base_qid": "tension_classify_001",
+      "category": "tension",
+      "question": "[Ambiguous] Based on the document, do '78.0' and '0.0667' agree, contradict each other, or are they unrelated?",
+      "ground_truth": "unrelated",
+      "answer": "unrelated",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Ambiguous",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "tension_classify_017_run000",
+      "base_qid": "tension_classify_017",
+      "category": "tension",
+      "question": "[Ambiguous] Based on the document, do '84.0' and '88' agree, contradict each other, or are they unrelated?",
+      "ground_truth": "unrelated",
+      "answer": "unrelated",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Ambiguous",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "tension_classify_015_run000",
+      "base_qid": "tension_classify_015",
+      "category": "tension",
+      "question": "[Ambiguous] Based on the document, do '0.7512' and 'Race: Asian' agree, contradict each other, or are they unrelated?",
+      "ground_truth": "unrelated",
+      "answer": "unrelated",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Ambiguous",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "tension_classify_014_run000",
+      "base_qid": "tension_classify_014",
+      "category": "tension",
+      "question": "[Ambiguous] Based on the document, do '0.9567' and 'MDL-004' agree, contradict each other, or are they unrelated?",
+      "ground_truth": "unrelated",
+      "answer": "unrelated",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Ambiguous",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "holonomy_040_run000",
+      "base_qid": "holonomy_040",
+      "category": "holonomy",
+      "question": "[Ambiguous] Is the indirect path 'MDL-009' --[has_downstream_model]--> 'MDL-001' --[in_section]--> 'performance_metrics' consistent with the direct relationship 'MDL-009' --[in_section]--> 'performance_metrics'?",
+      "ground_truth": "False",
+      "answer": "False",
+      "correct": true,
+      "detail": "Correct: False",
+      "factors": {
+        "clarity": "Ambiguous",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "holonomy_007_run000",
+      "base_qid": "holonomy_007",
+      "category": "holonomy",
+      "question": "[Ambiguous] Is the indirect path 'MDL-006' --[has_downstream_model]--> 'MDL-008' --[has_risk_tier]--> 'Medium' consistent with the direct relationship 'MDL-006' --[has_risk_rating]--> 'Medium'?",
+      "ground_truth": "False",
+      "answer": "False",
+      "correct": true,
+      "detail": "Correct: False",
+      "factors": {
+        "clarity": "Ambiguous",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "holonomy_001_run000",
+      "base_qid": "holonomy_001",
+      "category": "holonomy",
+      "question": "[Ambiguous] Is the indirect path 'MDL-001' --[has_downstream_model]--> 'MDL-008' --[in_section]--> 'model_inventory_summary' consistent with the direct relationship 'MDL-001' --[in_section]--> 'model_inventory_summary'?",
+      "ground_truth": "False",
+      "answer": "False",
+      "correct": true,
+      "detail": "Correct: False",
+      "factors": {
+        "clarity": "Ambiguous",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "holonomy_047_run000",
+      "base_qid": "holonomy_047",
+      "category": "holonomy",
+      "question": "[Ambiguous] Is the indirect path 'MDL-009' --[has_downstream_model]--> 'MDL-008' --[in_section]--> 'performance_metrics' consistent with the direct relationship 'MDL-009' --[in_section]--> 'performance_metrics'?",
+      "ground_truth": "False",
+      "answer": "False",
+      "correct": true,
+      "detail": "Correct: False",
+      "factors": {
+        "clarity": "Ambiguous",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "holonomy_017_run000",
+      "base_qid": "holonomy_017",
+      "category": "holonomy",
+      "question": "[Ambiguous] Is the indirect path 'MDL-009' --[has_downstream_model]--> 'MDL-008' --[in_section]--> 'model_inventory_summary' consistent with the direct relationship 'MDL-009' --[in_section]--> 'model_inventory_summary'?",
+      "ground_truth": "False",
+      "answer": "False",
+      "correct": true,
+      "detail": "Correct: False",
+      "factors": {
+        "clarity": "Ambiguous",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "link_pred_007_run000",
+      "base_qid": "link_pred_007",
+      "category": "link_prediction",
+      "question": "[Ambiguous] What entity is the 'has_ks_statistic' of 'MDL-006'?",
+      "ground_truth": "0.4234",
+      "answer": "0.4234",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Ambiguous",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "link_pred_001_run000",
+      "base_qid": "link_pred_001",
+      "category": "link_prediction",
+      "question": "[Ambiguous] What entity is the 'has_annual_loss_exposure' of 'MDL-011'?",
+      "ground_truth": "$0",
+      "answer": "$0",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Ambiguous",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "link_pred_017_run000",
+      "base_qid": "link_pred_017",
+      "category": "link_prediction",
+      "question": "[Ambiguous] What entity is the 'has_robustness_score' of 'MDL-010'?",
+      "ground_truth": "88.0",
+      "answer": "88.0",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Ambiguous",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "link_pred_015_run000",
+      "base_qid": "link_pred_015",
+      "category": "link_prediction",
+      "question": "[Ambiguous] What entity is the 'in_section' of 'Accuracy'?",
+      "ground_truth": "risk_findings_and_remediation",
+      "answer": "risk_findings_and_remediation",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Ambiguous",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "link_pred_014_run000",
+      "base_qid": "link_pred_014",
+      "category": "link_prediction",
+      "question": "[Ambiguous] What entity is the 'has_risk_tier' of 'MDL-011'?",
+      "ground_truth": "High",
+      "answer": "High",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Ambiguous",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "multihop_transport_020_run000",
+      "base_qid": "multihop_transport_020",
+      "category": "multi_hop_transport",
+      "question": "[Ambiguous] Starting from 'Accuracy', follow the 'has_model_id' relation to reach an intermediate entity, then follow 'has_approval_rate'. What entity do you reach?",
+      "ground_truth": "62.34%",
+      "answer": "62.34%",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Ambiguous",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "multihop_transport_003_run000",
+      "base_qid": "multihop_transport_003",
+      "category": "multi_hop_transport",
+      "question": "[Ambiguous] Starting from 'ACT-002', follow the 'has_model_id' relation to reach an intermediate entity, then follow 'has_reference_rate'. What entity do you reach?",
+      "ground_truth": "78.91%",
+      "answer": "78.91%",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Ambiguous",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "multihop_transport_000_run000",
+      "base_qid": "multihop_transport_000",
+      "category": "multi_hop_transport",
+      "question": "[Ambiguous] Starting from 'ACT-010', follow the 'has_model_id' relation to reach an intermediate entity, then follow 'has_delta_auc'. What entity do you reach?",
+      "ground_truth": "-0.0245",
+      "answer": "-0.0245",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Ambiguous",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "multihop_transport_023_run000",
+      "base_qid": "multihop_transport_023",
+      "category": "multi_hop_transport",
+      "question": "[Ambiguous] Starting from 'Accuracy', follow the 'has_model_id' relation to reach an intermediate entity, then follow 'has_dependency_type'. What entity do you reach?",
+      "ground_truth": "Credit scores segment LGD pools",
+      "answer": "Credit scores segment LGD pools",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Ambiguous",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "multihop_transport_008_run000",
+      "base_qid": "multihop_transport_008",
+      "category": "multi_hop_transport",
+      "question": "[Ambiguous] Starting from 'MDL-001', follow the 'has_downstream_model' relation to reach an intermediate entity, then follow 'has_robustness_score'. What entity do you reach?",
+      "ground_truth": "61.0",
+      "answer": "61.0",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Ambiguous",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "cross_reference_1309_run001",
+      "base_qid": "cross_reference_1309",
+      "category": "cross_reference",
+      "question": "Some sources suggest a different figure, but which entities appear in both the 'has_annual_loss_exposure' and 'has_delta_auc' relationships?",
+      "ground_truth": "{'MDL-005', 'MDL-004', 'MDL-009', 'MDL-007', 'MDL-003', 'MDL-011', 'MDL-012', 'MDL-001', 'MDL-010', 'MDL-006', 'MDL-008', 'MDL-002'}",
+      "answer": "{'MDL-005', 'MDL-004', 'MDL-009', 'MDL-007', 'MDL-003', 'MDL-011', 'MDL-012', 'MDL-001', 'MDL-010', 'MDL-006', 'MDL-008', 'MDL-002'}",
+      "correct": true,
+      "detail": "Exact set match",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "cross_reference_228_run001",
+      "base_qid": "cross_reference_228",
+      "category": "cross_reference",
+      "question": "Some sources suggest a different figure, but which entities appear in both the 'has_risk_rating' and 'has_reference_rate' relationships?",
+      "ground_truth": "{'MDL-001', 'MDL-009'}",
+      "answer": "{'MDL-001', 'MDL-009'}",
+      "correct": true,
+      "detail": "Exact set match",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "cross_reference_051_run001",
+      "base_qid": "cross_reference_051",
+      "category": "cross_reference",
+      "question": "Some sources suggest a different figure, but which entities appear in both the 'in_section' and 'has_capital_impact' relationships?",
+      "ground_truth": "{'MDL-005', 'MDL-004', 'MDL-009', 'MDL-007', 'MDL-003', 'MDL-011', 'MDL-012', 'MDL-001', 'MDL-010', 'MDL-006', 'MDL-008', 'MDL-002'}",
+      "answer": "{'MDL-005', 'MDL-004', 'MDL-009', 'MDL-007', 'MDL-003', 'MDL-011', 'MDL-012', 'MDL-001', 'MDL-010', 'MDL-006', 'MDL-008', 'MDL-002'}",
+      "correct": true,
+      "detail": "Exact set match",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "cross_reference_563_run001",
+      "base_qid": "cross_reference_563",
+      "category": "cross_reference",
+      "question": "Some sources suggest a different figure, but which entities appear in both the 'has_test_auc' and 'has_gini' relationships?",
+      "ground_truth": "{'MDL-005', 'MDL-004', 'MDL-009', 'MDL-007', 'MDL-003', 'MDL-011', 'MDL-012', 'MDL-001', 'MDL-010', 'MDL-006', 'MDL-008', 'MDL-002'}",
+      "answer": "{'MDL-005', 'MDL-004', 'MDL-009', 'MDL-007', 'MDL-003', 'MDL-011', 'MDL-012', 'MDL-001', 'MDL-010', 'MDL-006', 'MDL-008', 'MDL-002'}",
+      "correct": true,
+      "detail": "Exact set match",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "cross_reference_501_run001",
+      "base_qid": "cross_reference_501",
+      "category": "cross_reference",
+      "question": "Some sources suggest a different figure, but which entities appear in both the 'has_retrain_freq' and 'has_missing_rate_q4_2025' relationships?",
+      "ground_truth": "{'MDL-005', 'MDL-003', 'MDL-012', 'MDL-001', 'MDL-006', 'MDL-008', 'MDL-002'}",
+      "answer": "{'MDL-005', 'MDL-003', 'MDL-012', 'MDL-001', 'MDL-006', 'MDL-008', 'MDL-002'}",
+      "correct": true,
+      "detail": "Exact set match",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "multi_hop_327_run001",
+      "base_qid": "multi_hop_327",
+      "category": "multi_hop",
+      "question": "Some sources suggest a different figure, but find the entity with the lowest value in 'comparison_to_prior_period', then list its 'has_accuracy_score' relationships.",
+      "ground_truth": "('MDL-005', -0.0278, {'48.0'})",
+      "answer": "('MDL-005', -0.0278, {'48.0'})",
+      "correct": true,
+      "detail": "Exact tuple: ('MDL-005', -0.0278, {'48.0'})",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "multi_hop_057_run001",
+      "base_qid": "multi_hop_057",
+      "category": "multi_hop",
+      "question": "Some sources suggest a different figure, but find the entity with the highest value in 'model_inventory_summary', then list its 'has_feature_category' relationships.",
+      "ground_truth": "('MDL-012', 768.0, {'Text Distribution'})",
+      "answer": "('MDL-012', 768.0, {'Text Distribution'})",
+      "correct": true,
+      "detail": "Exact tuple: ('MDL-012', 768.0, {'Text Distribution'})",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "multi_hop_012_run001",
+      "base_qid": "multi_hop_012",
+      "category": "multi_hop",
+      "question": "Some sources suggest a different figure, but find the entity with the lowest value in 'model_inventory_summary', then list its 'has_training_samples' relationships.",
+      "ground_truth": "('MDL-001', 1.0, {'2,450,000'})",
+      "answer": "('MDL-001', 1.0, {'2,450,000'})",
+      "correct": true,
+      "detail": "Exact tuple: ('MDL-001', 1.0, {'2,450,000'})",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "multi_hop_379_run001",
+      "base_qid": "multi_hop_379",
+      "category": "multi_hop",
+      "question": "Some sources suggest a different figure, but find the entity with the highest value in 'comparison_to_prior_period', then list its 'has_noise_1%' relationships.",
+      "ground_truth": "('MDL-002', 0.9312, {'0.9198'})",
+      "answer": "('MDL-002', 0.9312, {'0.9198'})",
+      "correct": true,
+      "detail": "Exact tuple: ('MDL-002', 0.9312, {'0.9198'})",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "multi_hop_140_run001",
+      "base_qid": "multi_hop_140",
+      "category": "multi_hop",
+      "question": "Some sources suggest a different figure, but find the entity with the lowest value in 'data_quality_assessment', then list its 'has_composite_risk_score' relationships.",
+      "ground_truth": "('MDL-005', 0.0234, {'41.33'})",
+      "answer": "('MDL-005', 0.0234, {'41.33'})",
+      "correct": true,
+      "detail": "Exact tuple: ('MDL-005', 0.0234, {'41.33'})",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "counting_163_run001",
+      "base_qid": "counting_163",
+      "category": "counting",
+      "question": "Some sources suggest a different figure, but how many unique entities participate in 'has_robustness_rating' relationships?",
+      "ground_truth": "12",
+      "answer": "12",
+      "correct": true,
+      "detail": "Exact: 12",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "counting_028_run001",
+      "base_qid": "counting_028",
+      "category": "counting",
+      "question": "Some sources suggest a different figure, but how many 'has_reference_rate' relationships exist in the report?",
+      "ground_truth": "9",
+      "answer": "9",
+      "correct": true,
+      "detail": "Exact: 9",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "counting_006_run001",
+      "base_qid": "counting_006",
+      "category": "counting",
+      "question": "Some sources suggest a different figure, but how many 'has_status' relationships exist in the report?",
+      "ground_truth": "24",
+      "answer": "24",
+      "correct": true,
+      "detail": "Exact: 24",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "counting_189_run001",
+      "base_qid": "counting_189",
+      "category": "counting",
+      "question": "Some sources suggest a different figure, but how many unique entities participate in 'has_annual_revenue_impact' relationships?",
+      "ground_truth": "12",
+      "answer": "12",
+      "correct": true,
+      "detail": "Exact: 12",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "counting_070_run001",
+      "base_qid": "counting_070",
+      "category": "counting",
+      "question": "Some sources suggest a different figure, but how many entities have 'has_status' = 'watch'?",
+      "ground_truth": "3",
+      "answer": "3",
+      "correct": true,
+      "detail": "Exact: 3",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "plausibility_abs_007_run001",
+      "base_qid": "plausibility_abs_007",
+      "category": "plausibility",
+      "question": "Some sources suggest a different figure, but is the relationship 'high-risk models in_section executive_summary' supported by the document?",
+      "ground_truth": "False",
+      "answer": "False",
+      "correct": true,
+      "detail": "Correct: False",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "plausibility_cmp_008_run001",
+      "base_qid": "plausibility_cmp_008",
+      "category": "plausibility",
+      "question": "Some sources suggest a different figure, but which entity is more plausible as the 'has_detail' of 'medium-risk models': (a) 63.45% or (b) 5?",
+      "ground_truth": "B",
+      "answer": "B",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "plausibility_cmp_001_run001",
+      "base_qid": "plausibility_cmp_001",
+      "category": "plausibility",
+      "question": "Some sources suggest a different figure, but which entity is more plausible as the 'in_section' of 'organization': (a) executive_summary or (b) fragile?",
+      "ground_truth": "A",
+      "answer": "A",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "plausibility_abs_014_run001",
+      "base_qid": "plausibility_abs_014",
+      "category": "plausibility",
+      "question": "Some sources suggest a different figure, but is the relationship 'chief model risk officer has_detail dr. elena vasquez' supported by the document?",
+      "ground_truth": "False",
+      "answer": "False",
+      "correct": true,
+      "detail": "Correct: False",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "plausibility_cmp_027_run001",
+      "base_qid": "plausibility_cmp_027",
+      "category": "plausibility",
+      "question": "Some sources suggest a different figure, but which entity is more plausible as the 'has_risk_rating' of 'mdl-002': (a) +0.34% or (b) high?",
+      "ground_truth": "B",
+      "answer": "B",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "tension_classify_007_run001",
+      "base_qid": "tension_classify_007",
+      "category": "tension",
+      "question": "Some sources suggest a different figure, but based on the document, do 'act-006' and '0.7934' agree, contradict each other, or are they unrelated?",
+      "ground_truth": "unrelated",
+      "answer": "unrelated",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "tension_classify_001_run001",
+      "base_qid": "tension_classify_001",
+      "category": "tension",
+      "question": "Some sources suggest a different figure, but based on the document, do '78.0' and '0.0667' agree, contradict each other, or are they unrelated?",
+      "ground_truth": "unrelated",
+      "answer": "unrelated",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "tension_classify_017_run001",
+      "base_qid": "tension_classify_017",
+      "category": "tension",
+      "question": "Some sources suggest a different figure, but based on the document, do '84.0' and '88' agree, contradict each other, or are they unrelated?",
+      "ground_truth": "unrelated",
+      "answer": "unrelated",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "tension_classify_015_run001",
+      "base_qid": "tension_classify_015",
+      "category": "tension",
+      "question": "Some sources suggest a different figure, but based on the document, do '0.7512' and 'race: asian' agree, contradict each other, or are they unrelated?",
+      "ground_truth": "unrelated",
+      "answer": "unrelated",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "tension_classify_014_run001",
+      "base_qid": "tension_classify_014",
+      "category": "tension",
+      "question": "Some sources suggest a different figure, but based on the document, do '0.9567' and 'mdl-004' agree, contradict each other, or are they unrelated?",
+      "ground_truth": "unrelated",
+      "answer": "unrelated",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "holonomy_040_run001",
+      "base_qid": "holonomy_040",
+      "category": "holonomy",
+      "question": "Some sources suggest a different figure, but is the indirect path 'mdl-009' --[has_downstream_model]--> 'mdl-001' --[in_section]--> 'performance_metrics' consistent with the direct relationship 'mdl-009' --[in_section]--> 'performance_metrics'?",
+      "ground_truth": "False",
+      "answer": "False",
+      "correct": true,
+      "detail": "Correct: False",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "holonomy_007_run001",
+      "base_qid": "holonomy_007",
+      "category": "holonomy",
+      "question": "Some sources suggest a different figure, but is the indirect path 'mdl-006' --[has_downstream_model]--> 'mdl-008' --[has_risk_tier]--> 'medium' consistent with the direct relationship 'mdl-006' --[has_risk_rating]--> 'medium'?",
+      "ground_truth": "False",
+      "answer": "False",
+      "correct": true,
+      "detail": "Correct: False",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "holonomy_001_run001",
+      "base_qid": "holonomy_001",
+      "category": "holonomy",
+      "question": "Some sources suggest a different figure, but is the indirect path 'mdl-001' --[has_downstream_model]--> 'mdl-008' --[in_section]--> 'model_inventory_summary' consistent with the direct relationship 'mdl-001' --[in_section]--> 'model_inventory_summary'?",
+      "ground_truth": "False",
+      "answer": "False",
+      "correct": true,
+      "detail": "Correct: False",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "holonomy_047_run001",
+      "base_qid": "holonomy_047",
+      "category": "holonomy",
+      "question": "Some sources suggest a different figure, but is the indirect path 'mdl-009' --[has_downstream_model]--> 'mdl-008' --[in_section]--> 'performance_metrics' consistent with the direct relationship 'mdl-009' --[in_section]--> 'performance_metrics'?",
+      "ground_truth": "False",
+      "answer": "False",
+      "correct": true,
+      "detail": "Correct: False",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "holonomy_017_run001",
+      "base_qid": "holonomy_017",
+      "category": "holonomy",
+      "question": "Some sources suggest a different figure, but is the indirect path 'mdl-009' --[has_downstream_model]--> 'mdl-008' --[in_section]--> 'model_inventory_summary' consistent with the direct relationship 'mdl-009' --[in_section]--> 'model_inventory_summary'?",
+      "ground_truth": "False",
+      "answer": "False",
+      "correct": true,
+      "detail": "Correct: False",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "link_pred_007_run001",
+      "base_qid": "link_pred_007",
+      "category": "link_prediction",
+      "question": "Some sources suggest a different figure, but what entity is the 'has_ks_statistic' of 'mdl-006'?",
+      "ground_truth": "0.4234",
+      "answer": "0.4234",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "link_pred_001_run001",
+      "base_qid": "link_pred_001",
+      "category": "link_prediction",
+      "question": "Some sources suggest a different figure, but what entity is the 'has_annual_loss_exposure' of 'mdl-011'?",
+      "ground_truth": "$0",
+      "answer": "$0",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "link_pred_017_run001",
+      "base_qid": "link_pred_017",
+      "category": "link_prediction",
+      "question": "Some sources suggest a different figure, but what entity is the 'has_robustness_score' of 'mdl-010'?",
+      "ground_truth": "88.0",
+      "answer": "88.0",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "link_pred_015_run001",
+      "base_qid": "link_pred_015",
+      "category": "link_prediction",
+      "question": "Some sources suggest a different figure, but what entity is the 'in_section' of 'accuracy'?",
+      "ground_truth": "risk_findings_and_remediation",
+      "answer": "risk_findings_and_remediation",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "link_pred_014_run001",
+      "base_qid": "link_pred_014",
+      "category": "link_prediction",
+      "question": "Some sources suggest a different figure, but what entity is the 'has_risk_tier' of 'mdl-011'?",
+      "ground_truth": "High",
+      "answer": "High",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "multihop_transport_020_run001",
+      "base_qid": "multihop_transport_020",
+      "category": "multi_hop_transport",
+      "question": "Some sources suggest a different figure, but starting from 'accuracy', follow the 'has_model_id' relation to reach an intermediate entity, then follow 'has_approval_rate'. what entity do you reach?",
+      "ground_truth": "62.34%",
+      "answer": "62.34%",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "multihop_transport_003_run001",
+      "base_qid": "multihop_transport_003",
+      "category": "multi_hop_transport",
+      "question": "Some sources suggest a different figure, but starting from 'act-002', follow the 'has_model_id' relation to reach an intermediate entity, then follow 'has_reference_rate'. what entity do you reach?",
+      "ground_truth": "78.91%",
+      "answer": "78.91%",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "multihop_transport_000_run001",
+      "base_qid": "multihop_transport_000",
+      "category": "multi_hop_transport",
+      "question": "Some sources suggest a different figure, but starting from 'act-010', follow the 'has_model_id' relation to reach an intermediate entity, then follow 'has_delta_auc'. what entity do you reach?",
+      "ground_truth": "-0.0245",
+      "answer": "-0.0245",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "multihop_transport_023_run001",
+      "base_qid": "multihop_transport_023",
+      "category": "multi_hop_transport",
+      "question": "Some sources suggest a different figure, but starting from 'accuracy', follow the 'has_model_id' relation to reach an intermediate entity, then follow 'has_dependency_type'. what entity do you reach?",
+      "ground_truth": "Credit scores segment LGD pools",
+      "answer": "Credit scores segment LGD pools",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "multihop_transport_008_run001",
+      "base_qid": "multihop_transport_008",
+      "category": "multi_hop_transport",
+      "question": "Some sources suggest a different figure, but starting from 'mdl-001', follow the 'has_downstream_model' relation to reach an intermediate entity, then follow 'has_robustness_score'. what entity do you reach?",
+      "ground_truth": "61.0",
+      "answer": "61.0",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "cross_reference_1309_run002",
+      "base_qid": "cross_reference_1309",
+      "category": "cross_reference",
+      "question": "[Ambiguous] Which entities appear in both the 'has_annual_loss_exposure' and 'has_delta_auc' relationships?",
+      "ground_truth": "{'MDL-005', 'MDL-004', 'MDL-009', 'MDL-007', 'MDL-003', 'MDL-011', 'MDL-012', 'MDL-001', 'MDL-010', 'MDL-006', 'MDL-008', 'MDL-002'}",
+      "answer": "{'MDL-005', 'MDL-004', 'MDL-009', 'MDL-007', 'MDL-003', 'MDL-011', 'MDL-012', 'MDL-001', 'MDL-010', 'MDL-006', 'MDL-008', 'MDL-002'}",
+      "correct": true,
+      "detail": "Exact set match",
+      "factors": {
+        "clarity": "Ambiguous",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "cross_reference_228_run002",
+      "base_qid": "cross_reference_228",
+      "category": "cross_reference",
+      "question": "[Ambiguous] Which entities appear in both the 'has_risk_rating' and 'has_reference_rate' relationships?",
+      "ground_truth": "{'MDL-001', 'MDL-009'}",
+      "answer": "{'MDL-001', 'MDL-009'}",
+      "correct": true,
+      "detail": "Exact set match",
+      "factors": {
+        "clarity": "Ambiguous",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "cross_reference_051_run002",
+      "base_qid": "cross_reference_051",
+      "category": "cross_reference",
+      "question": "[Ambiguous] Which entities appear in both the 'in_section' and 'has_capital_impact' relationships?",
+      "ground_truth": "{'MDL-005', 'MDL-004', 'MDL-009', 'MDL-007', 'MDL-003', 'MDL-011', 'MDL-012', 'MDL-001', 'MDL-010', 'MDL-006', 'MDL-008', 'MDL-002'}",
+      "answer": "{'MDL-005', 'MDL-004', 'MDL-009', 'MDL-007', 'MDL-003', 'MDL-011', 'MDL-012', 'MDL-001', 'MDL-010', 'MDL-006', 'MDL-008', 'MDL-002'}",
+      "correct": true,
+      "detail": "Exact set match",
+      "factors": {
+        "clarity": "Ambiguous",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "cross_reference_563_run002",
+      "base_qid": "cross_reference_563",
+      "category": "cross_reference",
+      "question": "[Ambiguous] Which entities appear in both the 'has_test_auc' and 'has_gini' relationships?",
+      "ground_truth": "{'MDL-005', 'MDL-004', 'MDL-009', 'MDL-007', 'MDL-003', 'MDL-011', 'MDL-012', 'MDL-001', 'MDL-010', 'MDL-006', 'MDL-008', 'MDL-002'}",
+      "answer": "{'MDL-005', 'MDL-004', 'MDL-009', 'MDL-007', 'MDL-003', 'MDL-011', 'MDL-012', 'MDL-001', 'MDL-010', 'MDL-006', 'MDL-008', 'MDL-002'}",
+      "correct": true,
+      "detail": "Exact set match",
+      "factors": {
+        "clarity": "Ambiguous",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "cross_reference_501_run002",
+      "base_qid": "cross_reference_501",
+      "category": "cross_reference",
+      "question": "[Ambiguous] Which entities appear in both the 'has_retrain_freq' and 'has_missing_rate_q4_2025' relationships?",
+      "ground_truth": "{'MDL-005', 'MDL-003', 'MDL-012', 'MDL-001', 'MDL-006', 'MDL-008', 'MDL-002'}",
+      "answer": "{'MDL-005', 'MDL-003', 'MDL-012', 'MDL-001', 'MDL-006', 'MDL-008', 'MDL-002'}",
+      "correct": true,
+      "detail": "Exact set match",
+      "factors": {
+        "clarity": "Ambiguous",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "multi_hop_327_run002",
+      "base_qid": "multi_hop_327",
+      "category": "multi_hop",
+      "question": "[Ambiguous] Find the entity with the lowest value in 'comparison_to_prior_period', then list its 'has_accuracy_score' relationships.",
+      "ground_truth": "('MDL-005', -0.0278, {'48.0'})",
+      "answer": "('MDL-005', -0.0278, {'48.0'})",
+      "correct": true,
+      "detail": "Exact tuple: ('MDL-005', -0.0278, {'48.0'})",
+      "factors": {
+        "clarity": "Ambiguous",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "multi_hop_057_run002",
+      "base_qid": "multi_hop_057",
+      "category": "multi_hop",
+      "question": "[Ambiguous] Find the entity with the highest value in 'model_inventory_summary', then list its 'has_feature_category' relationships.",
+      "ground_truth": "('MDL-012', 768.0, {'Text Distribution'})",
+      "answer": "('MDL-012', 768.0, {'Text Distribution'})",
+      "correct": true,
+      "detail": "Exact tuple: ('MDL-012', 768.0, {'Text Distribution'})",
+      "factors": {
+        "clarity": "Ambiguous",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "multi_hop_012_run002",
+      "base_qid": "multi_hop_012",
+      "category": "multi_hop",
+      "question": "[Ambiguous] Find the entity with the lowest value in 'model_inventory_summary', then list its 'has_training_samples' relationships.",
+      "ground_truth": "('MDL-001', 1.0, {'2,450,000'})",
+      "answer": "('MDL-001', 1.0, {'2,450,000'})",
+      "correct": true,
+      "detail": "Exact tuple: ('MDL-001', 1.0, {'2,450,000'})",
+      "factors": {
+        "clarity": "Ambiguous",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "multi_hop_379_run002",
+      "base_qid": "multi_hop_379",
+      "category": "multi_hop",
+      "question": "[Ambiguous] Find the entity with the highest value in 'comparison_to_prior_period', then list its 'has_noise_1%' relationships.",
+      "ground_truth": "('MDL-002', 0.9312, {'0.9198'})",
+      "answer": "('MDL-002', 0.9312, {'0.9198'})",
+      "correct": true,
+      "detail": "Exact tuple: ('MDL-002', 0.9312, {'0.9198'})",
+      "factors": {
+        "clarity": "Ambiguous",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "multi_hop_140_run002",
+      "base_qid": "multi_hop_140",
+      "category": "multi_hop",
+      "question": "[Ambiguous] Find the entity with the lowest value in 'data_quality_assessment', then list its 'has_composite_risk_score' relationships.",
+      "ground_truth": "('MDL-005', 0.0234, {'41.33'})",
+      "answer": "('MDL-005', 0.0234, {'41.33'})",
+      "correct": true,
+      "detail": "Exact tuple: ('MDL-005', 0.0234, {'41.33'})",
+      "factors": {
+        "clarity": "Ambiguous",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "counting_163_run002",
+      "base_qid": "counting_163",
+      "category": "counting",
+      "question": "[Ambiguous] How many unique entities participate in 'has_robustness_rating' relationships?",
+      "ground_truth": "12",
+      "answer": "12",
+      "correct": true,
+      "detail": "Exact: 12",
+      "factors": {
+        "clarity": "Ambiguous",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "counting_028_run002",
+      "base_qid": "counting_028",
+      "category": "counting",
+      "question": "[Ambiguous] How many 'has_reference_rate' relationships exist in the report?",
+      "ground_truth": "9",
+      "answer": "9",
+      "correct": true,
+      "detail": "Exact: 9",
+      "factors": {
+        "clarity": "Ambiguous",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "counting_006_run002",
+      "base_qid": "counting_006",
+      "category": "counting",
+      "question": "[Ambiguous] How many 'has_status' relationships exist in the report?",
+      "ground_truth": "24",
+      "answer": "24",
+      "correct": true,
+      "detail": "Exact: 24",
+      "factors": {
+        "clarity": "Ambiguous",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "counting_189_run002",
+      "base_qid": "counting_189",
+      "category": "counting",
+      "question": "[Ambiguous] How many unique entities participate in 'has_annual_revenue_impact' relationships?",
+      "ground_truth": "12",
+      "answer": "12",
+      "correct": true,
+      "detail": "Exact: 12",
+      "factors": {
+        "clarity": "Ambiguous",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "counting_070_run002",
+      "base_qid": "counting_070",
+      "category": "counting",
+      "question": "[Ambiguous] How many entities have 'has_status' = 'Watch'?",
+      "ground_truth": "3",
+      "answer": "3",
+      "correct": true,
+      "detail": "Exact: 3",
+      "factors": {
+        "clarity": "Ambiguous",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "plausibility_abs_007_run002",
+      "base_qid": "plausibility_abs_007",
+      "category": "plausibility",
+      "question": "[Ambiguous] Is the relationship 'High-Risk Models in_section executive_summary' supported by the document?",
+      "ground_truth": "False",
+      "answer": "False",
+      "correct": true,
+      "detail": "Correct: False",
+      "factors": {
+        "clarity": "Ambiguous",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "plausibility_cmp_008_run002",
+      "base_qid": "plausibility_cmp_008",
+      "category": "plausibility",
+      "question": "[Ambiguous] Which entity is more plausible as the 'has_detail' of 'Medium-Risk Models': (A) 63.45% or (B) 5?",
+      "ground_truth": "B",
+      "answer": "B",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Ambiguous",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "plausibility_cmp_001_run002",
+      "base_qid": "plausibility_cmp_001",
+      "category": "plausibility",
+      "question": "[Ambiguous] Which entity is more plausible as the 'in_section' of 'Organization': (A) executive_summary or (B) Fragile?",
+      "ground_truth": "A",
+      "answer": "A",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Ambiguous",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "plausibility_abs_014_run002",
+      "base_qid": "plausibility_abs_014",
+      "category": "plausibility",
+      "question": "[Ambiguous] Is the relationship 'Chief Model Risk Officer has_detail Dr. Elena Vasquez' supported by the document?",
+      "ground_truth": "False",
+      "answer": "False",
+      "correct": true,
+      "detail": "Correct: False",
+      "factors": {
+        "clarity": "Ambiguous",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "plausibility_cmp_027_run002",
+      "base_qid": "plausibility_cmp_027",
+      "category": "plausibility",
+      "question": "[Ambiguous] Which entity is more plausible as the 'has_risk_rating' of 'MDL-002': (A) +0.34% or (B) High?",
+      "ground_truth": "B",
+      "answer": "B",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Ambiguous",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "tension_classify_007_run002",
+      "base_qid": "tension_classify_007",
+      "category": "tension",
+      "question": "[Ambiguous] Based on the document, do 'ACT-006' and '0.7934' agree, contradict each other, or are they unrelated?",
+      "ground_truth": "unrelated",
+      "answer": "unrelated",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Ambiguous",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "tension_classify_001_run002",
+      "base_qid": "tension_classify_001",
+      "category": "tension",
+      "question": "[Ambiguous] Based on the document, do '78.0' and '0.0667' agree, contradict each other, or are they unrelated?",
+      "ground_truth": "unrelated",
+      "answer": "unrelated",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Ambiguous",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "tension_classify_017_run002",
+      "base_qid": "tension_classify_017",
+      "category": "tension",
+      "question": "[Ambiguous] Based on the document, do '84.0' and '88' agree, contradict each other, or are they unrelated?",
+      "ground_truth": "unrelated",
+      "answer": "unrelated",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Ambiguous",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "tension_classify_015_run002",
+      "base_qid": "tension_classify_015",
+      "category": "tension",
+      "question": "[Ambiguous] Based on the document, do '0.7512' and 'Race: Asian' agree, contradict each other, or are they unrelated?",
+      "ground_truth": "unrelated",
+      "answer": "unrelated",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Ambiguous",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "tension_classify_014_run002",
+      "base_qid": "tension_classify_014",
+      "category": "tension",
+      "question": "[Ambiguous] Based on the document, do '0.9567' and 'MDL-004' agree, contradict each other, or are they unrelated?",
+      "ground_truth": "unrelated",
+      "answer": "unrelated",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Ambiguous",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "holonomy_040_run002",
+      "base_qid": "holonomy_040",
+      "category": "holonomy",
+      "question": "[Ambiguous] Is the indirect path 'MDL-009' --[has_downstream_model]--> 'MDL-001' --[in_section]--> 'performance_metrics' consistent with the direct relationship 'MDL-009' --[in_section]--> 'performance_metrics'?",
+      "ground_truth": "False",
+      "answer": "False",
+      "correct": true,
+      "detail": "Correct: False",
+      "factors": {
+        "clarity": "Ambiguous",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "holonomy_007_run002",
+      "base_qid": "holonomy_007",
+      "category": "holonomy",
+      "question": "[Ambiguous] Is the indirect path 'MDL-006' --[has_downstream_model]--> 'MDL-008' --[has_risk_tier]--> 'Medium' consistent with the direct relationship 'MDL-006' --[has_risk_rating]--> 'Medium'?",
+      "ground_truth": "False",
+      "answer": "False",
+      "correct": true,
+      "detail": "Correct: False",
+      "factors": {
+        "clarity": "Ambiguous",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "holonomy_001_run002",
+      "base_qid": "holonomy_001",
+      "category": "holonomy",
+      "question": "[Ambiguous] Is the indirect path 'MDL-001' --[has_downstream_model]--> 'MDL-008' --[in_section]--> 'model_inventory_summary' consistent with the direct relationship 'MDL-001' --[in_section]--> 'model_inventory_summary'?",
+      "ground_truth": "False",
+      "answer": "False",
+      "correct": true,
+      "detail": "Correct: False",
+      "factors": {
+        "clarity": "Ambiguous",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "holonomy_047_run002",
+      "base_qid": "holonomy_047",
+      "category": "holonomy",
+      "question": "[Ambiguous] Is the indirect path 'MDL-009' --[has_downstream_model]--> 'MDL-008' --[in_section]--> 'performance_metrics' consistent with the direct relationship 'MDL-009' --[in_section]--> 'performance_metrics'?",
+      "ground_truth": "False",
+      "answer": "False",
+      "correct": true,
+      "detail": "Correct: False",
+      "factors": {
+        "clarity": "Ambiguous",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "holonomy_017_run002",
+      "base_qid": "holonomy_017",
+      "category": "holonomy",
+      "question": "[Ambiguous] Is the indirect path 'MDL-009' --[has_downstream_model]--> 'MDL-008' --[in_section]--> 'model_inventory_summary' consistent with the direct relationship 'MDL-009' --[in_section]--> 'model_inventory_summary'?",
+      "ground_truth": "False",
+      "answer": "False",
+      "correct": true,
+      "detail": "Correct: False",
+      "factors": {
+        "clarity": "Ambiguous",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "link_pred_007_run002",
+      "base_qid": "link_pred_007",
+      "category": "link_prediction",
+      "question": "[Ambiguous] What entity is the 'has_ks_statistic' of 'MDL-006'?",
+      "ground_truth": "0.4234",
+      "answer": "0.4234",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Ambiguous",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "link_pred_001_run002",
+      "base_qid": "link_pred_001",
+      "category": "link_prediction",
+      "question": "[Ambiguous] What entity is the 'has_annual_loss_exposure' of 'MDL-011'?",
+      "ground_truth": "$0",
+      "answer": "$0",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Ambiguous",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "link_pred_017_run002",
+      "base_qid": "link_pred_017",
+      "category": "link_prediction",
+      "question": "[Ambiguous] What entity is the 'has_robustness_score' of 'MDL-010'?",
+      "ground_truth": "88.0",
+      "answer": "88.0",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Ambiguous",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "link_pred_015_run002",
+      "base_qid": "link_pred_015",
+      "category": "link_prediction",
+      "question": "[Ambiguous] What entity is the 'in_section' of 'Accuracy'?",
+      "ground_truth": "risk_findings_and_remediation",
+      "answer": "risk_findings_and_remediation",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Ambiguous",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "link_pred_014_run002",
+      "base_qid": "link_pred_014",
+      "category": "link_prediction",
+      "question": "[Ambiguous] What entity is the 'has_risk_tier' of 'MDL-011'?",
+      "ground_truth": "High",
+      "answer": "High",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Ambiguous",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "multihop_transport_020_run002",
+      "base_qid": "multihop_transport_020",
+      "category": "multi_hop_transport",
+      "question": "[Ambiguous] Starting from 'Accuracy', follow the 'has_model_id' relation to reach an intermediate entity, then follow 'has_approval_rate'. What entity do you reach?",
+      "ground_truth": "62.34%",
+      "answer": "62.34%",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Ambiguous",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "multihop_transport_003_run002",
+      "base_qid": "multihop_transport_003",
+      "category": "multi_hop_transport",
+      "question": "[Ambiguous] Starting from 'ACT-002', follow the 'has_model_id' relation to reach an intermediate entity, then follow 'has_reference_rate'. What entity do you reach?",
+      "ground_truth": "78.91%",
+      "answer": "78.91%",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Ambiguous",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "multihop_transport_000_run002",
+      "base_qid": "multihop_transport_000",
+      "category": "multi_hop_transport",
+      "question": "[Ambiguous] Starting from 'ACT-010', follow the 'has_model_id' relation to reach an intermediate entity, then follow 'has_delta_auc'. What entity do you reach?",
+      "ground_truth": "-0.0245",
+      "answer": "-0.0245",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Ambiguous",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "multihop_transport_023_run002",
+      "base_qid": "multihop_transport_023",
+      "category": "multi_hop_transport",
+      "question": "[Ambiguous] Starting from 'Accuracy', follow the 'has_model_id' relation to reach an intermediate entity, then follow 'has_dependency_type'. What entity do you reach?",
+      "ground_truth": "Credit scores segment LGD pools",
+      "answer": "Credit scores segment LGD pools",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Ambiguous",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "multihop_transport_008_run002",
+      "base_qid": "multihop_transport_008",
+      "category": "multi_hop_transport",
+      "question": "[Ambiguous] Starting from 'MDL-001', follow the 'has_downstream_model' relation to reach an intermediate entity, then follow 'has_robustness_score'. What entity do you reach?",
+      "ground_truth": "61.0",
+      "answer": "61.0",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Ambiguous",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "cross_reference_1309_run003",
+      "base_qid": "cross_reference_1309",
+      "category": "cross_reference",
+      "question": "Which entities appear in both the 'has_annual_loss_exposure' and 'has_delta_auc' relationships?",
+      "ground_truth": "{'MDL-005', 'MDL-004', 'MDL-009', 'MDL-007', 'MDL-003', 'MDL-011', 'MDL-012', 'MDL-001', 'MDL-010', 'MDL-006', 'MDL-008', 'MDL-002'}",
+      "answer": "{'MDL-005', 'MDL-004', 'MDL-009', 'MDL-007', 'MDL-003', 'MDL-011', 'MDL-012', 'MDL-001', 'MDL-010', 'MDL-006', 'MDL-008', 'MDL-002'}",
+      "correct": true,
+      "detail": "Exact set match",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Exact",
+        "reasoning_cue": "Direct"
+      }
+    },
+    {
+      "doe_qid": "cross_reference_228_run003",
+      "base_qid": "cross_reference_228",
+      "category": "cross_reference",
+      "question": "Which entities appear in both the 'has_risk_rating' and 'has_reference_rate' relationships?",
+      "ground_truth": "{'MDL-001', 'MDL-009'}",
+      "answer": "{'MDL-001', 'MDL-009'}",
+      "correct": true,
+      "detail": "Exact set match",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Exact",
+        "reasoning_cue": "Direct"
+      }
+    },
+    {
+      "doe_qid": "cross_reference_051_run003",
+      "base_qid": "cross_reference_051",
+      "category": "cross_reference",
+      "question": "Which entities appear in both the 'in_section' and 'has_capital_impact' relationships?",
+      "ground_truth": "{'MDL-005', 'MDL-004', 'MDL-009', 'MDL-007', 'MDL-003', 'MDL-011', 'MDL-012', 'MDL-001', 'MDL-010', 'MDL-006', 'MDL-008', 'MDL-002'}",
+      "answer": "{'MDL-005', 'MDL-004', 'MDL-009', 'MDL-007', 'MDL-003', 'MDL-011', 'MDL-012', 'MDL-001', 'MDL-010', 'MDL-006', 'MDL-008', 'MDL-002'}",
+      "correct": true,
+      "detail": "Exact set match",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Exact",
+        "reasoning_cue": "Direct"
+      }
+    },
+    {
+      "doe_qid": "cross_reference_563_run003",
+      "base_qid": "cross_reference_563",
+      "category": "cross_reference",
+      "question": "Which entities appear in both the 'has_test_auc' and 'has_gini' relationships?",
+      "ground_truth": "{'MDL-005', 'MDL-004', 'MDL-009', 'MDL-007', 'MDL-003', 'MDL-011', 'MDL-012', 'MDL-001', 'MDL-010', 'MDL-006', 'MDL-008', 'MDL-002'}",
+      "answer": "{'MDL-005', 'MDL-004', 'MDL-009', 'MDL-007', 'MDL-003', 'MDL-011', 'MDL-012', 'MDL-001', 'MDL-010', 'MDL-006', 'MDL-008', 'MDL-002'}",
+      "correct": true,
+      "detail": "Exact set match",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Exact",
+        "reasoning_cue": "Direct"
+      }
+    },
+    {
+      "doe_qid": "cross_reference_501_run003",
+      "base_qid": "cross_reference_501",
+      "category": "cross_reference",
+      "question": "Which entities appear in both the 'has_retrain_freq' and 'has_missing_rate_q4_2025' relationships?",
+      "ground_truth": "{'MDL-005', 'MDL-003', 'MDL-012', 'MDL-001', 'MDL-006', 'MDL-008', 'MDL-002'}",
+      "answer": "{'MDL-005', 'MDL-003', 'MDL-012', 'MDL-001', 'MDL-006', 'MDL-008', 'MDL-002'}",
+      "correct": true,
+      "detail": "Exact set match",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Exact",
+        "reasoning_cue": "Direct"
+      }
+    },
+    {
+      "doe_qid": "multi_hop_327_run003",
+      "base_qid": "multi_hop_327",
+      "category": "multi_hop",
+      "question": "Find the entity with the lowest value in 'comparison_to_prior_period', then list its 'has_accuracy_score' relationships.",
+      "ground_truth": "('MDL-005', -0.0278, {'48.0'})",
+      "answer": "('MDL-005', -0.0278, {'48.0'})",
+      "correct": true,
+      "detail": "Exact tuple: ('MDL-005', -0.0278, {'48.0'})",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Exact",
+        "reasoning_cue": "Direct"
+      }
+    },
+    {
+      "doe_qid": "multi_hop_057_run003",
+      "base_qid": "multi_hop_057",
+      "category": "multi_hop",
+      "question": "Find the entity with the highest value in 'model_inventory_summary', then list its 'has_feature_category' relationships.",
+      "ground_truth": "('MDL-012', 768.0, {'Text Distribution'})",
+      "answer": "('MDL-012', 768.0, {'Text Distribution'})",
+      "correct": true,
+      "detail": "Exact tuple: ('MDL-012', 768.0, {'Text Distribution'})",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Exact",
+        "reasoning_cue": "Direct"
+      }
+    },
+    {
+      "doe_qid": "multi_hop_012_run003",
+      "base_qid": "multi_hop_012",
+      "category": "multi_hop",
+      "question": "Find the entity with the lowest value in 'model_inventory_summary', then list its 'has_training_samples' relationships.",
+      "ground_truth": "('MDL-001', 1.0, {'2,450,000'})",
+      "answer": "('MDL-001', 1.0, {'2,450,000'})",
+      "correct": true,
+      "detail": "Exact tuple: ('MDL-001', 1.0, {'2,450,000'})",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Exact",
+        "reasoning_cue": "Direct"
+      }
+    },
+    {
+      "doe_qid": "multi_hop_379_run003",
+      "base_qid": "multi_hop_379",
+      "category": "multi_hop",
+      "question": "Find the entity with the highest value in 'comparison_to_prior_period', then list its 'has_noise_1%' relationships.",
+      "ground_truth": "('MDL-002', 0.9312, {'0.9198'})",
+      "answer": "('MDL-002', 0.9312, {'0.9198'})",
+      "correct": true,
+      "detail": "Exact tuple: ('MDL-002', 0.9312, {'0.9198'})",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Exact",
+        "reasoning_cue": "Direct"
+      }
+    },
+    {
+      "doe_qid": "multi_hop_140_run003",
+      "base_qid": "multi_hop_140",
+      "category": "multi_hop",
+      "question": "Find the entity with the lowest value in 'data_quality_assessment', then list its 'has_composite_risk_score' relationships.",
+      "ground_truth": "('MDL-005', 0.0234, {'41.33'})",
+      "answer": "('MDL-005', 0.0234, {'41.33'})",
+      "correct": true,
+      "detail": "Exact tuple: ('MDL-005', 0.0234, {'41.33'})",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Exact",
+        "reasoning_cue": "Direct"
+      }
+    },
+    {
+      "doe_qid": "counting_163_run003",
+      "base_qid": "counting_163",
+      "category": "counting",
+      "question": "How many unique entities participate in 'has_robustness_rating' relationships?",
+      "ground_truth": "12",
+      "answer": "12",
+      "correct": true,
+      "detail": "Exact: 12",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Exact",
+        "reasoning_cue": "Direct"
+      }
+    },
+    {
+      "doe_qid": "counting_028_run003",
+      "base_qid": "counting_028",
+      "category": "counting",
+      "question": "How many 'has_reference_rate' relationships exist in the report?",
+      "ground_truth": "9",
+      "answer": "9",
+      "correct": true,
+      "detail": "Exact: 9",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Exact",
+        "reasoning_cue": "Direct"
+      }
+    },
+    {
+      "doe_qid": "counting_006_run003",
+      "base_qid": "counting_006",
+      "category": "counting",
+      "question": "How many 'has_status' relationships exist in the report?",
+      "ground_truth": "24",
+      "answer": "24",
+      "correct": true,
+      "detail": "Exact: 24",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Exact",
+        "reasoning_cue": "Direct"
+      }
+    },
+    {
+      "doe_qid": "counting_189_run003",
+      "base_qid": "counting_189",
+      "category": "counting",
+      "question": "How many unique entities participate in 'has_annual_revenue_impact' relationships?",
+      "ground_truth": "12",
+      "answer": "12",
+      "correct": true,
+      "detail": "Exact: 12",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Exact",
+        "reasoning_cue": "Direct"
+      }
+    },
+    {
+      "doe_qid": "counting_070_run003",
+      "base_qid": "counting_070",
+      "category": "counting",
+      "question": "How many entities have 'has_status' = 'Watch'?",
+      "ground_truth": "3",
+      "answer": "3",
+      "correct": true,
+      "detail": "Exact: 3",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Exact",
+        "reasoning_cue": "Direct"
+      }
+    },
+    {
+      "doe_qid": "plausibility_abs_007_run003",
+      "base_qid": "plausibility_abs_007",
+      "category": "plausibility",
+      "question": "Is the relationship 'High-Risk Models in_section executive_summary' supported by the document?",
+      "ground_truth": "False",
+      "answer": "False",
+      "correct": true,
+      "detail": "Correct: False",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Exact",
+        "reasoning_cue": "Direct"
+      }
+    },
+    {
+      "doe_qid": "plausibility_cmp_008_run003",
+      "base_qid": "plausibility_cmp_008",
+      "category": "plausibility",
+      "question": "Which entity is more plausible as the 'has_detail' of 'Medium-Risk Models': (A) 63.45% or (B) 5?",
+      "ground_truth": "B",
+      "answer": "B",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Exact",
+        "reasoning_cue": "Direct"
+      }
+    },
+    {
+      "doe_qid": "plausibility_cmp_001_run003",
+      "base_qid": "plausibility_cmp_001",
+      "category": "plausibility",
+      "question": "Which entity is more plausible as the 'in_section' of 'Organization': (A) executive_summary or (B) Fragile?",
+      "ground_truth": "A",
+      "answer": "A",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Exact",
+        "reasoning_cue": "Direct"
+      }
+    },
+    {
+      "doe_qid": "plausibility_abs_014_run003",
+      "base_qid": "plausibility_abs_014",
+      "category": "plausibility",
+      "question": "Is the relationship 'Chief Model Risk Officer has_detail Dr. Elena Vasquez' supported by the document?",
+      "ground_truth": "False",
+      "answer": "False",
+      "correct": true,
+      "detail": "Correct: False",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Exact",
+        "reasoning_cue": "Direct"
+      }
+    },
+    {
+      "doe_qid": "plausibility_cmp_027_run003",
+      "base_qid": "plausibility_cmp_027",
+      "category": "plausibility",
+      "question": "Which entity is more plausible as the 'has_risk_rating' of 'MDL-002': (A) +0.34% or (B) High?",
+      "ground_truth": "B",
+      "answer": "B",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Exact",
+        "reasoning_cue": "Direct"
+      }
+    },
+    {
+      "doe_qid": "tension_classify_007_run003",
+      "base_qid": "tension_classify_007",
+      "category": "tension",
+      "question": "Based on the document, do 'ACT-006' and '0.7934' agree, contradict each other, or are they unrelated?",
+      "ground_truth": "unrelated",
+      "answer": "unrelated",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Exact",
+        "reasoning_cue": "Direct"
+      }
+    },
+    {
+      "doe_qid": "tension_classify_001_run003",
+      "base_qid": "tension_classify_001",
+      "category": "tension",
+      "question": "Based on the document, do '78.0' and '0.0667' agree, contradict each other, or are they unrelated?",
+      "ground_truth": "unrelated",
+      "answer": "unrelated",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Exact",
+        "reasoning_cue": "Direct"
+      }
+    },
+    {
+      "doe_qid": "tension_classify_017_run003",
+      "base_qid": "tension_classify_017",
+      "category": "tension",
+      "question": "Based on the document, do '84.0' and '88' agree, contradict each other, or are they unrelated?",
+      "ground_truth": "unrelated",
+      "answer": "unrelated",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Exact",
+        "reasoning_cue": "Direct"
+      }
+    },
+    {
+      "doe_qid": "tension_classify_015_run003",
+      "base_qid": "tension_classify_015",
+      "category": "tension",
+      "question": "Based on the document, do '0.7512' and 'Race: Asian' agree, contradict each other, or are they unrelated?",
+      "ground_truth": "unrelated",
+      "answer": "unrelated",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Exact",
+        "reasoning_cue": "Direct"
+      }
+    },
+    {
+      "doe_qid": "tension_classify_014_run003",
+      "base_qid": "tension_classify_014",
+      "category": "tension",
+      "question": "Based on the document, do '0.9567' and 'MDL-004' agree, contradict each other, or are they unrelated?",
+      "ground_truth": "unrelated",
+      "answer": "unrelated",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Exact",
+        "reasoning_cue": "Direct"
+      }
+    },
+    {
+      "doe_qid": "holonomy_040_run003",
+      "base_qid": "holonomy_040",
+      "category": "holonomy",
+      "question": "Is the indirect path 'MDL-009' --[has_downstream_model]--> 'MDL-001' --[in_section]--> 'performance_metrics' consistent with the direct relationship 'MDL-009' --[in_section]--> 'performance_metrics'?",
+      "ground_truth": "False",
+      "answer": "False",
+      "correct": true,
+      "detail": "Correct: False",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Exact",
+        "reasoning_cue": "Direct"
+      }
+    },
+    {
+      "doe_qid": "holonomy_007_run003",
+      "base_qid": "holonomy_007",
+      "category": "holonomy",
+      "question": "Is the indirect path 'MDL-006' --[has_downstream_model]--> 'MDL-008' --[has_risk_tier]--> 'Medium' consistent with the direct relationship 'MDL-006' --[has_risk_rating]--> 'Medium'?",
+      "ground_truth": "False",
+      "answer": "False",
+      "correct": true,
+      "detail": "Correct: False",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Exact",
+        "reasoning_cue": "Direct"
+      }
+    },
+    {
+      "doe_qid": "holonomy_001_run003",
+      "base_qid": "holonomy_001",
+      "category": "holonomy",
+      "question": "Is the indirect path 'MDL-001' --[has_downstream_model]--> 'MDL-008' --[in_section]--> 'model_inventory_summary' consistent with the direct relationship 'MDL-001' --[in_section]--> 'model_inventory_summary'?",
+      "ground_truth": "False",
+      "answer": "False",
+      "correct": true,
+      "detail": "Correct: False",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Exact",
+        "reasoning_cue": "Direct"
+      }
+    },
+    {
+      "doe_qid": "holonomy_047_run003",
+      "base_qid": "holonomy_047",
+      "category": "holonomy",
+      "question": "Is the indirect path 'MDL-009' --[has_downstream_model]--> 'MDL-008' --[in_section]--> 'performance_metrics' consistent with the direct relationship 'MDL-009' --[in_section]--> 'performance_metrics'?",
+      "ground_truth": "False",
+      "answer": "False",
+      "correct": true,
+      "detail": "Correct: False",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Exact",
+        "reasoning_cue": "Direct"
+      }
+    },
+    {
+      "doe_qid": "holonomy_017_run003",
+      "base_qid": "holonomy_017",
+      "category": "holonomy",
+      "question": "Is the indirect path 'MDL-009' --[has_downstream_model]--> 'MDL-008' --[in_section]--> 'model_inventory_summary' consistent with the direct relationship 'MDL-009' --[in_section]--> 'model_inventory_summary'?",
+      "ground_truth": "False",
+      "answer": "False",
+      "correct": true,
+      "detail": "Correct: False",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Exact",
+        "reasoning_cue": "Direct"
+      }
+    },
+    {
+      "doe_qid": "link_pred_007_run003",
+      "base_qid": "link_pred_007",
+      "category": "link_prediction",
+      "question": "What entity is the 'has_ks_statistic' of 'MDL-006'?",
+      "ground_truth": "0.4234",
+      "answer": "0.4234",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Exact",
+        "reasoning_cue": "Direct"
+      }
+    },
+    {
+      "doe_qid": "link_pred_001_run003",
+      "base_qid": "link_pred_001",
+      "category": "link_prediction",
+      "question": "What entity is the 'has_annual_loss_exposure' of 'MDL-011'?",
+      "ground_truth": "$0",
+      "answer": "$0",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Exact",
+        "reasoning_cue": "Direct"
+      }
+    },
+    {
+      "doe_qid": "link_pred_017_run003",
+      "base_qid": "link_pred_017",
+      "category": "link_prediction",
+      "question": "What entity is the 'has_robustness_score' of 'MDL-010'?",
+      "ground_truth": "88.0",
+      "answer": "88.0",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Exact",
+        "reasoning_cue": "Direct"
+      }
+    },
+    {
+      "doe_qid": "link_pred_015_run003",
+      "base_qid": "link_pred_015",
+      "category": "link_prediction",
+      "question": "What entity is the 'in_section' of 'Accuracy'?",
+      "ground_truth": "risk_findings_and_remediation",
+      "answer": "risk_findings_and_remediation",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Exact",
+        "reasoning_cue": "Direct"
+      }
+    },
+    {
+      "doe_qid": "link_pred_014_run003",
+      "base_qid": "link_pred_014",
+      "category": "link_prediction",
+      "question": "What entity is the 'has_risk_tier' of 'MDL-011'?",
+      "ground_truth": "High",
+      "answer": "High",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Exact",
+        "reasoning_cue": "Direct"
+      }
+    },
+    {
+      "doe_qid": "multihop_transport_020_run003",
+      "base_qid": "multihop_transport_020",
+      "category": "multi_hop_transport",
+      "question": "Starting from 'Accuracy', follow the 'has_model_id' relation to reach an intermediate entity, then follow 'has_approval_rate'. What entity do you reach?",
+      "ground_truth": "62.34%",
+      "answer": "62.34%",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Exact",
+        "reasoning_cue": "Direct"
+      }
+    },
+    {
+      "doe_qid": "multihop_transport_003_run003",
+      "base_qid": "multihop_transport_003",
+      "category": "multi_hop_transport",
+      "question": "Starting from 'ACT-002', follow the 'has_model_id' relation to reach an intermediate entity, then follow 'has_reference_rate'. What entity do you reach?",
+      "ground_truth": "78.91%",
+      "answer": "78.91%",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Exact",
+        "reasoning_cue": "Direct"
+      }
+    },
+    {
+      "doe_qid": "multihop_transport_000_run003",
+      "base_qid": "multihop_transport_000",
+      "category": "multi_hop_transport",
+      "question": "Starting from 'ACT-010', follow the 'has_model_id' relation to reach an intermediate entity, then follow 'has_delta_auc'. What entity do you reach?",
+      "ground_truth": "-0.0245",
+      "answer": "-0.0245",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Exact",
+        "reasoning_cue": "Direct"
+      }
+    },
+    {
+      "doe_qid": "multihop_transport_023_run003",
+      "base_qid": "multihop_transport_023",
+      "category": "multi_hop_transport",
+      "question": "Starting from 'Accuracy', follow the 'has_model_id' relation to reach an intermediate entity, then follow 'has_dependency_type'. What entity do you reach?",
+      "ground_truth": "Credit scores segment LGD pools",
+      "answer": "Credit scores segment LGD pools",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Exact",
+        "reasoning_cue": "Direct"
+      }
+    },
+    {
+      "doe_qid": "multihop_transport_008_run003",
+      "base_qid": "multihop_transport_008",
+      "category": "multi_hop_transport",
+      "question": "Starting from 'MDL-001', follow the 'has_downstream_model' relation to reach an intermediate entity, then follow 'has_robustness_score'. What entity do you reach?",
+      "ground_truth": "61.0",
+      "answer": "61.0",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Exact",
+        "reasoning_cue": "Direct"
+      }
+    },
+    {
+      "doe_qid": "cross_reference_1309_run004",
+      "base_qid": "cross_reference_1309",
+      "category": "cross_reference",
+      "question": "Which entities appear in both the 'has_annual_loss_exposure' and 'has_delta_auc' relationships?",
+      "ground_truth": "{'MDL-005', 'MDL-004', 'MDL-009', 'MDL-007', 'MDL-003', 'MDL-011', 'MDL-012', 'MDL-001', 'MDL-010', 'MDL-006', 'MDL-008', 'MDL-002'}",
+      "answer": "{'MDL-005', 'MDL-004', 'MDL-009', 'MDL-007', 'MDL-003', 'MDL-011', 'MDL-012', 'MDL-001', 'MDL-010', 'MDL-006', 'MDL-008', 'MDL-002'}",
+      "correct": true,
+      "detail": "Exact set match",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "cross_reference_228_run004",
+      "base_qid": "cross_reference_228",
+      "category": "cross_reference",
+      "question": "Which entities appear in both the 'has_risk_rating' and 'has_reference_rate' relationships?",
+      "ground_truth": "{'MDL-001', 'MDL-009'}",
+      "answer": "{'MDL-001', 'MDL-009'}",
+      "correct": true,
+      "detail": "Exact set match",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "cross_reference_051_run004",
+      "base_qid": "cross_reference_051",
+      "category": "cross_reference",
+      "question": "Which entities appear in both the 'in_section' and 'has_capital_impact' relationships?",
+      "ground_truth": "{'MDL-005', 'MDL-004', 'MDL-009', 'MDL-007', 'MDL-003', 'MDL-011', 'MDL-012', 'MDL-001', 'MDL-010', 'MDL-006', 'MDL-008', 'MDL-002'}",
+      "answer": "{'MDL-005', 'MDL-004', 'MDL-009', 'MDL-007', 'MDL-003', 'MDL-011', 'MDL-012', 'MDL-001', 'MDL-010', 'MDL-006', 'MDL-008', 'MDL-002'}",
+      "correct": true,
+      "detail": "Exact set match",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "cross_reference_563_run004",
+      "base_qid": "cross_reference_563",
+      "category": "cross_reference",
+      "question": "Which entities appear in both the 'has_test_auc' and 'has_gini' relationships?",
+      "ground_truth": "{'MDL-005', 'MDL-004', 'MDL-009', 'MDL-007', 'MDL-003', 'MDL-011', 'MDL-012', 'MDL-001', 'MDL-010', 'MDL-006', 'MDL-008', 'MDL-002'}",
+      "answer": "{'MDL-005', 'MDL-004', 'MDL-009', 'MDL-007', 'MDL-003', 'MDL-011', 'MDL-012', 'MDL-001', 'MDL-010', 'MDL-006', 'MDL-008', 'MDL-002'}",
+      "correct": true,
+      "detail": "Exact set match",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "cross_reference_501_run004",
+      "base_qid": "cross_reference_501",
+      "category": "cross_reference",
+      "question": "Which entities appear in both the 'has_retrain_freq' and 'has_missing_rate_q4_2025' relationships?",
+      "ground_truth": "{'MDL-005', 'MDL-003', 'MDL-012', 'MDL-001', 'MDL-006', 'MDL-008', 'MDL-002'}",
+      "answer": "{'MDL-005', 'MDL-003', 'MDL-012', 'MDL-001', 'MDL-006', 'MDL-008', 'MDL-002'}",
+      "correct": true,
+      "detail": "Exact set match",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "multi_hop_327_run004",
+      "base_qid": "multi_hop_327",
+      "category": "multi_hop",
+      "question": "Find the entity with the lowest value in 'comparison_to_prior_period', then list its 'has_accuracy_score' relationships.",
+      "ground_truth": "('MDL-005', -0.0278, {'48.0'})",
+      "answer": "('MDL-005', -0.0278, {'48.0'})",
+      "correct": true,
+      "detail": "Exact tuple: ('MDL-005', -0.0278, {'48.0'})",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "multi_hop_057_run004",
+      "base_qid": "multi_hop_057",
+      "category": "multi_hop",
+      "question": "Find the entity with the highest value in 'model_inventory_summary', then list its 'has_feature_category' relationships.",
+      "ground_truth": "('MDL-012', 768.0, {'Text Distribution'})",
+      "answer": "('MDL-012', 768.0, {'Text Distribution'})",
+      "correct": true,
+      "detail": "Exact tuple: ('MDL-012', 768.0, {'Text Distribution'})",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "multi_hop_012_run004",
+      "base_qid": "multi_hop_012",
+      "category": "multi_hop",
+      "question": "Find the entity with the lowest value in 'model_inventory_summary', then list its 'has_training_samples' relationships.",
+      "ground_truth": "('MDL-001', 1.0, {'2,450,000'})",
+      "answer": "('MDL-001', 1.0, {'2,450,000'})",
+      "correct": true,
+      "detail": "Exact tuple: ('MDL-001', 1.0, {'2,450,000'})",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "multi_hop_379_run004",
+      "base_qid": "multi_hop_379",
+      "category": "multi_hop",
+      "question": "Find the entity with the highest value in 'comparison_to_prior_period', then list its 'has_noise_1%' relationships.",
+      "ground_truth": "('MDL-002', 0.9312, {'0.9198'})",
+      "answer": "('MDL-002', 0.9312, {'0.9198'})",
+      "correct": true,
+      "detail": "Exact tuple: ('MDL-002', 0.9312, {'0.9198'})",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "multi_hop_140_run004",
+      "base_qid": "multi_hop_140",
+      "category": "multi_hop",
+      "question": "Find the entity with the lowest value in 'data_quality_assessment', then list its 'has_composite_risk_score' relationships.",
+      "ground_truth": "('MDL-005', 0.0234, {'41.33'})",
+      "answer": "('MDL-005', 0.0234, {'41.33'})",
+      "correct": true,
+      "detail": "Exact tuple: ('MDL-005', 0.0234, {'41.33'})",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "counting_163_run004",
+      "base_qid": "counting_163",
+      "category": "counting",
+      "question": "How many unique entities participate in 'has_robustness_rating' relationships?",
+      "ground_truth": "12",
+      "answer": "12",
+      "correct": true,
+      "detail": "Exact: 12",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "counting_028_run004",
+      "base_qid": "counting_028",
+      "category": "counting",
+      "question": "How many 'has_reference_rate' relationships exist in the report?",
+      "ground_truth": "9",
+      "answer": "9",
+      "correct": true,
+      "detail": "Exact: 9",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "counting_006_run004",
+      "base_qid": "counting_006",
+      "category": "counting",
+      "question": "How many 'has_status' relationships exist in the report?",
+      "ground_truth": "24",
+      "answer": "24",
+      "correct": true,
+      "detail": "Exact: 24",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "counting_189_run004",
+      "base_qid": "counting_189",
+      "category": "counting",
+      "question": "How many unique entities participate in 'has_annual_revenue_impact' relationships?",
+      "ground_truth": "12",
+      "answer": "12",
+      "correct": true,
+      "detail": "Exact: 12",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "counting_070_run004",
+      "base_qid": "counting_070",
+      "category": "counting",
+      "question": "How many entities have 'has_status' = 'Watch'?",
+      "ground_truth": "3",
+      "answer": "3",
+      "correct": true,
+      "detail": "Exact: 3",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "plausibility_abs_007_run004",
+      "base_qid": "plausibility_abs_007",
+      "category": "plausibility",
+      "question": "Is the relationship 'High-Risk Models in_section executive_summary' supported by the document?",
+      "ground_truth": "False",
+      "answer": "False",
+      "correct": true,
+      "detail": "Correct: False",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "plausibility_cmp_008_run004",
+      "base_qid": "plausibility_cmp_008",
+      "category": "plausibility",
+      "question": "Which entity is more plausible as the 'has_detail' of 'Medium-Risk Models': (A) 63.45% or (B) 5?",
+      "ground_truth": "B",
+      "answer": "B",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "plausibility_cmp_001_run004",
+      "base_qid": "plausibility_cmp_001",
+      "category": "plausibility",
+      "question": "Which entity is more plausible as the 'in_section' of 'Organization': (A) executive_summary or (B) Fragile?",
+      "ground_truth": "A",
+      "answer": "A",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "plausibility_abs_014_run004",
+      "base_qid": "plausibility_abs_014",
+      "category": "plausibility",
+      "question": "Is the relationship 'Chief Model Risk Officer has_detail Dr. Elena Vasquez' supported by the document?",
+      "ground_truth": "False",
+      "answer": "False",
+      "correct": true,
+      "detail": "Correct: False",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "plausibility_cmp_027_run004",
+      "base_qid": "plausibility_cmp_027",
+      "category": "plausibility",
+      "question": "Which entity is more plausible as the 'has_risk_rating' of 'MDL-002': (A) +0.34% or (B) High?",
+      "ground_truth": "B",
+      "answer": "B",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "tension_classify_007_run004",
+      "base_qid": "tension_classify_007",
+      "category": "tension",
+      "question": "Based on the document, do 'ACT-006' and '0.7934' agree, contradict each other, or are they unrelated?",
+      "ground_truth": "unrelated",
+      "answer": "unrelated",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "tension_classify_001_run004",
+      "base_qid": "tension_classify_001",
+      "category": "tension",
+      "question": "Based on the document, do '78.0' and '0.0667' agree, contradict each other, or are they unrelated?",
+      "ground_truth": "unrelated",
+      "answer": "unrelated",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "tension_classify_017_run004",
+      "base_qid": "tension_classify_017",
+      "category": "tension",
+      "question": "Based on the document, do '84.0' and '88' agree, contradict each other, or are they unrelated?",
+      "ground_truth": "unrelated",
+      "answer": "unrelated",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "tension_classify_015_run004",
+      "base_qid": "tension_classify_015",
+      "category": "tension",
+      "question": "Based on the document, do '0.7512' and 'Race: Asian' agree, contradict each other, or are they unrelated?",
+      "ground_truth": "unrelated",
+      "answer": "unrelated",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "tension_classify_014_run004",
+      "base_qid": "tension_classify_014",
+      "category": "tension",
+      "question": "Based on the document, do '0.9567' and 'MDL-004' agree, contradict each other, or are they unrelated?",
+      "ground_truth": "unrelated",
+      "answer": "unrelated",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "holonomy_040_run004",
+      "base_qid": "holonomy_040",
+      "category": "holonomy",
+      "question": "Is the indirect path 'MDL-009' --[has_downstream_model]--> 'MDL-001' --[in_section]--> 'performance_metrics' consistent with the direct relationship 'MDL-009' --[in_section]--> 'performance_metrics'?",
+      "ground_truth": "False",
+      "answer": "False",
+      "correct": true,
+      "detail": "Correct: False",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "holonomy_007_run004",
+      "base_qid": "holonomy_007",
+      "category": "holonomy",
+      "question": "Is the indirect path 'MDL-006' --[has_downstream_model]--> 'MDL-008' --[has_risk_tier]--> 'Medium' consistent with the direct relationship 'MDL-006' --[has_risk_rating]--> 'Medium'?",
+      "ground_truth": "False",
+      "answer": "False",
+      "correct": true,
+      "detail": "Correct: False",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "holonomy_001_run004",
+      "base_qid": "holonomy_001",
+      "category": "holonomy",
+      "question": "Is the indirect path 'MDL-001' --[has_downstream_model]--> 'MDL-008' --[in_section]--> 'model_inventory_summary' consistent with the direct relationship 'MDL-001' --[in_section]--> 'model_inventory_summary'?",
+      "ground_truth": "False",
+      "answer": "False",
+      "correct": true,
+      "detail": "Correct: False",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "holonomy_047_run004",
+      "base_qid": "holonomy_047",
+      "category": "holonomy",
+      "question": "Is the indirect path 'MDL-009' --[has_downstream_model]--> 'MDL-008' --[in_section]--> 'performance_metrics' consistent with the direct relationship 'MDL-009' --[in_section]--> 'performance_metrics'?",
+      "ground_truth": "False",
+      "answer": "False",
+      "correct": true,
+      "detail": "Correct: False",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "holonomy_017_run004",
+      "base_qid": "holonomy_017",
+      "category": "holonomy",
+      "question": "Is the indirect path 'MDL-009' --[has_downstream_model]--> 'MDL-008' --[in_section]--> 'model_inventory_summary' consistent with the direct relationship 'MDL-009' --[in_section]--> 'model_inventory_summary'?",
+      "ground_truth": "False",
+      "answer": "False",
+      "correct": true,
+      "detail": "Correct: False",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "link_pred_007_run004",
+      "base_qid": "link_pred_007",
+      "category": "link_prediction",
+      "question": "What entity is the 'has_ks_statistic' of 'MDL-006'?",
+      "ground_truth": "0.4234",
+      "answer": "0.4234",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "link_pred_001_run004",
+      "base_qid": "link_pred_001",
+      "category": "link_prediction",
+      "question": "What entity is the 'has_annual_loss_exposure' of 'MDL-011'?",
+      "ground_truth": "$0",
+      "answer": "$0",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "link_pred_017_run004",
+      "base_qid": "link_pred_017",
+      "category": "link_prediction",
+      "question": "What entity is the 'has_robustness_score' of 'MDL-010'?",
+      "ground_truth": "88.0",
+      "answer": "88.0",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "link_pred_015_run004",
+      "base_qid": "link_pred_015",
+      "category": "link_prediction",
+      "question": "What entity is the 'in_section' of 'Accuracy'?",
+      "ground_truth": "risk_findings_and_remediation",
+      "answer": "risk_findings_and_remediation",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "link_pred_014_run004",
+      "base_qid": "link_pred_014",
+      "category": "link_prediction",
+      "question": "What entity is the 'has_risk_tier' of 'MDL-011'?",
+      "ground_truth": "High",
+      "answer": "High",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "multihop_transport_020_run004",
+      "base_qid": "multihop_transport_020",
+      "category": "multi_hop_transport",
+      "question": "Starting from 'Accuracy', follow the 'has_model_id' relation to reach an intermediate entity, then follow 'has_approval_rate'. What entity do you reach?",
+      "ground_truth": "62.34%",
+      "answer": "62.34%",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "multihop_transport_003_run004",
+      "base_qid": "multihop_transport_003",
+      "category": "multi_hop_transport",
+      "question": "Starting from 'ACT-002', follow the 'has_model_id' relation to reach an intermediate entity, then follow 'has_reference_rate'. What entity do you reach?",
+      "ground_truth": "78.91%",
+      "answer": "78.91%",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "multihop_transport_000_run004",
+      "base_qid": "multihop_transport_000",
+      "category": "multi_hop_transport",
+      "question": "Starting from 'ACT-010', follow the 'has_model_id' relation to reach an intermediate entity, then follow 'has_delta_auc'. What entity do you reach?",
+      "ground_truth": "-0.0245",
+      "answer": "-0.0245",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "multihop_transport_023_run004",
+      "base_qid": "multihop_transport_023",
+      "category": "multi_hop_transport",
+      "question": "Starting from 'Accuracy', follow the 'has_model_id' relation to reach an intermediate entity, then follow 'has_dependency_type'. What entity do you reach?",
+      "ground_truth": "Credit scores segment LGD pools",
+      "answer": "Credit scores segment LGD pools",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "multihop_transport_008_run004",
+      "base_qid": "multihop_transport_008",
+      "category": "multi_hop_transport",
+      "question": "Starting from 'MDL-001', follow the 'has_downstream_model' relation to reach an intermediate entity, then follow 'has_robustness_score'. What entity do you reach?",
+      "ground_truth": "61.0",
+      "answer": "61.0",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "cross_reference_1309_run005",
+      "base_qid": "cross_reference_1309",
+      "category": "cross_reference",
+      "question": "Some sources suggest a different figure, but which entities appear in both the 'has_annual_loss_exposure' and 'has_delta_auc' relationships?",
+      "ground_truth": "{'MDL-005', 'MDL-004', 'MDL-009', 'MDL-007', 'MDL-003', 'MDL-011', 'MDL-012', 'MDL-001', 'MDL-010', 'MDL-006', 'MDL-008', 'MDL-002'}",
+      "answer": "{'MDL-005', 'MDL-004', 'MDL-009', 'MDL-007', 'MDL-003', 'MDL-011', 'MDL-012', 'MDL-001', 'MDL-010', 'MDL-006', 'MDL-008', 'MDL-002'}",
+      "correct": true,
+      "detail": "Exact set match",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Exact",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "cross_reference_228_run005",
+      "base_qid": "cross_reference_228",
+      "category": "cross_reference",
+      "question": "Some sources suggest a different figure, but which entities appear in both the 'has_risk_rating' and 'has_reference_rate' relationships?",
+      "ground_truth": "{'MDL-001', 'MDL-009'}",
+      "answer": "{'MDL-001', 'MDL-009'}",
+      "correct": true,
+      "detail": "Exact set match",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Exact",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "cross_reference_051_run005",
+      "base_qid": "cross_reference_051",
+      "category": "cross_reference",
+      "question": "Some sources suggest a different figure, but which entities appear in both the 'in_section' and 'has_capital_impact' relationships?",
+      "ground_truth": "{'MDL-005', 'MDL-004', 'MDL-009', 'MDL-007', 'MDL-003', 'MDL-011', 'MDL-012', 'MDL-001', 'MDL-010', 'MDL-006', 'MDL-008', 'MDL-002'}",
+      "answer": "{'MDL-005', 'MDL-004', 'MDL-009', 'MDL-007', 'MDL-003', 'MDL-011', 'MDL-012', 'MDL-001', 'MDL-010', 'MDL-006', 'MDL-008', 'MDL-002'}",
+      "correct": true,
+      "detail": "Exact set match",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Exact",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "cross_reference_563_run005",
+      "base_qid": "cross_reference_563",
+      "category": "cross_reference",
+      "question": "Some sources suggest a different figure, but which entities appear in both the 'has_test_auc' and 'has_gini' relationships?",
+      "ground_truth": "{'MDL-005', 'MDL-004', 'MDL-009', 'MDL-007', 'MDL-003', 'MDL-011', 'MDL-012', 'MDL-001', 'MDL-010', 'MDL-006', 'MDL-008', 'MDL-002'}",
+      "answer": "{'MDL-005', 'MDL-004', 'MDL-009', 'MDL-007', 'MDL-003', 'MDL-011', 'MDL-012', 'MDL-001', 'MDL-010', 'MDL-006', 'MDL-008', 'MDL-002'}",
+      "correct": true,
+      "detail": "Exact set match",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Exact",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "cross_reference_501_run005",
+      "base_qid": "cross_reference_501",
+      "category": "cross_reference",
+      "question": "Some sources suggest a different figure, but which entities appear in both the 'has_retrain_freq' and 'has_missing_rate_q4_2025' relationships?",
+      "ground_truth": "{'MDL-005', 'MDL-003', 'MDL-012', 'MDL-001', 'MDL-006', 'MDL-008', 'MDL-002'}",
+      "answer": "{'MDL-005', 'MDL-003', 'MDL-012', 'MDL-001', 'MDL-006', 'MDL-008', 'MDL-002'}",
+      "correct": true,
+      "detail": "Exact set match",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Exact",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "multi_hop_327_run005",
+      "base_qid": "multi_hop_327",
+      "category": "multi_hop",
+      "question": "Some sources suggest a different figure, but find the entity with the lowest value in 'comparison_to_prior_period', then list its 'has_accuracy_score' relationships.",
+      "ground_truth": "('MDL-005', -0.0278, {'48.0'})",
+      "answer": "('MDL-005', -0.0278, {'48.0'})",
+      "correct": true,
+      "detail": "Exact tuple: ('MDL-005', -0.0278, {'48.0'})",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Exact",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "multi_hop_057_run005",
+      "base_qid": "multi_hop_057",
+      "category": "multi_hop",
+      "question": "Some sources suggest a different figure, but find the entity with the highest value in 'model_inventory_summary', then list its 'has_feature_category' relationships.",
+      "ground_truth": "('MDL-012', 768.0, {'Text Distribution'})",
+      "answer": "('MDL-012', 768.0, {'Text Distribution'})",
+      "correct": true,
+      "detail": "Exact tuple: ('MDL-012', 768.0, {'Text Distribution'})",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Exact",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "multi_hop_012_run005",
+      "base_qid": "multi_hop_012",
+      "category": "multi_hop",
+      "question": "Some sources suggest a different figure, but find the entity with the lowest value in 'model_inventory_summary', then list its 'has_training_samples' relationships.",
+      "ground_truth": "('MDL-001', 1.0, {'2,450,000'})",
+      "answer": "('MDL-001', 1.0, {'2,450,000'})",
+      "correct": true,
+      "detail": "Exact tuple: ('MDL-001', 1.0, {'2,450,000'})",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Exact",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "multi_hop_379_run005",
+      "base_qid": "multi_hop_379",
+      "category": "multi_hop",
+      "question": "Some sources suggest a different figure, but find the entity with the highest value in 'comparison_to_prior_period', then list its 'has_noise_1%' relationships.",
+      "ground_truth": "('MDL-002', 0.9312, {'0.9198'})",
+      "answer": "('MDL-002', 0.9312, {'0.9198'})",
+      "correct": true,
+      "detail": "Exact tuple: ('MDL-002', 0.9312, {'0.9198'})",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Exact",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "multi_hop_140_run005",
+      "base_qid": "multi_hop_140",
+      "category": "multi_hop",
+      "question": "Some sources suggest a different figure, but find the entity with the lowest value in 'data_quality_assessment', then list its 'has_composite_risk_score' relationships.",
+      "ground_truth": "('MDL-005', 0.0234, {'41.33'})",
+      "answer": "('MDL-005', 0.0234, {'41.33'})",
+      "correct": true,
+      "detail": "Exact tuple: ('MDL-005', 0.0234, {'41.33'})",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Exact",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "counting_163_run005",
+      "base_qid": "counting_163",
+      "category": "counting",
+      "question": "Some sources suggest a different figure, but how many unique entities participate in 'has_robustness_rating' relationships?",
+      "ground_truth": "12",
+      "answer": "12",
+      "correct": true,
+      "detail": "Exact: 12",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Exact",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "counting_028_run005",
+      "base_qid": "counting_028",
+      "category": "counting",
+      "question": "Some sources suggest a different figure, but how many 'has_reference_rate' relationships exist in the report?",
+      "ground_truth": "9",
+      "answer": "9",
+      "correct": true,
+      "detail": "Exact: 9",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Exact",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "counting_006_run005",
+      "base_qid": "counting_006",
+      "category": "counting",
+      "question": "Some sources suggest a different figure, but how many 'has_status' relationships exist in the report?",
+      "ground_truth": "24",
+      "answer": "24",
+      "correct": true,
+      "detail": "Exact: 24",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Exact",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "counting_189_run005",
+      "base_qid": "counting_189",
+      "category": "counting",
+      "question": "Some sources suggest a different figure, but how many unique entities participate in 'has_annual_revenue_impact' relationships?",
+      "ground_truth": "12",
+      "answer": "12",
+      "correct": true,
+      "detail": "Exact: 12",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Exact",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "counting_070_run005",
+      "base_qid": "counting_070",
+      "category": "counting",
+      "question": "Some sources suggest a different figure, but how many entities have 'has_status' = 'watch'?",
+      "ground_truth": "3",
+      "answer": "3",
+      "correct": true,
+      "detail": "Exact: 3",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Exact",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "plausibility_abs_007_run005",
+      "base_qid": "plausibility_abs_007",
+      "category": "plausibility",
+      "question": "Some sources suggest a different figure, but is the relationship 'high-risk models in_section executive_summary' supported by the document?",
+      "ground_truth": "False",
+      "answer": "False",
+      "correct": true,
+      "detail": "Correct: False",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Exact",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "plausibility_cmp_008_run005",
+      "base_qid": "plausibility_cmp_008",
+      "category": "plausibility",
+      "question": "Some sources suggest a different figure, but which entity is more plausible as the 'has_detail' of 'medium-risk models': (a) 63.45% or (b) 5?",
+      "ground_truth": "B",
+      "answer": "B",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Exact",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "plausibility_cmp_001_run005",
+      "base_qid": "plausibility_cmp_001",
+      "category": "plausibility",
+      "question": "Some sources suggest a different figure, but which entity is more plausible as the 'in_section' of 'organization': (a) executive_summary or (b) fragile?",
+      "ground_truth": "A",
+      "answer": "A",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Exact",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "plausibility_abs_014_run005",
+      "base_qid": "plausibility_abs_014",
+      "category": "plausibility",
+      "question": "Some sources suggest a different figure, but is the relationship 'chief model risk officer has_detail dr. elena vasquez' supported by the document?",
+      "ground_truth": "False",
+      "answer": "False",
+      "correct": true,
+      "detail": "Correct: False",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Exact",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "plausibility_cmp_027_run005",
+      "base_qid": "plausibility_cmp_027",
+      "category": "plausibility",
+      "question": "Some sources suggest a different figure, but which entity is more plausible as the 'has_risk_rating' of 'mdl-002': (a) +0.34% or (b) high?",
+      "ground_truth": "B",
+      "answer": "B",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Exact",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "tension_classify_007_run005",
+      "base_qid": "tension_classify_007",
+      "category": "tension",
+      "question": "Some sources suggest a different figure, but based on the document, do 'act-006' and '0.7934' agree, contradict each other, or are they unrelated?",
+      "ground_truth": "unrelated",
+      "answer": "unrelated",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Exact",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "tension_classify_001_run005",
+      "base_qid": "tension_classify_001",
+      "category": "tension",
+      "question": "Some sources suggest a different figure, but based on the document, do '78.0' and '0.0667' agree, contradict each other, or are they unrelated?",
+      "ground_truth": "unrelated",
+      "answer": "unrelated",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Exact",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "tension_classify_017_run005",
+      "base_qid": "tension_classify_017",
+      "category": "tension",
+      "question": "Some sources suggest a different figure, but based on the document, do '84.0' and '88' agree, contradict each other, or are they unrelated?",
+      "ground_truth": "unrelated",
+      "answer": "unrelated",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Exact",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "tension_classify_015_run005",
+      "base_qid": "tension_classify_015",
+      "category": "tension",
+      "question": "Some sources suggest a different figure, but based on the document, do '0.7512' and 'race: asian' agree, contradict each other, or are they unrelated?",
+      "ground_truth": "unrelated",
+      "answer": "unrelated",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Exact",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "tension_classify_014_run005",
+      "base_qid": "tension_classify_014",
+      "category": "tension",
+      "question": "Some sources suggest a different figure, but based on the document, do '0.9567' and 'mdl-004' agree, contradict each other, or are they unrelated?",
+      "ground_truth": "unrelated",
+      "answer": "unrelated",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Exact",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "holonomy_040_run005",
+      "base_qid": "holonomy_040",
+      "category": "holonomy",
+      "question": "Some sources suggest a different figure, but is the indirect path 'mdl-009' --[has_downstream_model]--> 'mdl-001' --[in_section]--> 'performance_metrics' consistent with the direct relationship 'mdl-009' --[in_section]--> 'performance_metrics'?",
+      "ground_truth": "False",
+      "answer": "False",
+      "correct": true,
+      "detail": "Correct: False",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Exact",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "holonomy_007_run005",
+      "base_qid": "holonomy_007",
+      "category": "holonomy",
+      "question": "Some sources suggest a different figure, but is the indirect path 'mdl-006' --[has_downstream_model]--> 'mdl-008' --[has_risk_tier]--> 'medium' consistent with the direct relationship 'mdl-006' --[has_risk_rating]--> 'medium'?",
+      "ground_truth": "False",
+      "answer": "False",
+      "correct": true,
+      "detail": "Correct: False",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Exact",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "holonomy_001_run005",
+      "base_qid": "holonomy_001",
+      "category": "holonomy",
+      "question": "Some sources suggest a different figure, but is the indirect path 'mdl-001' --[has_downstream_model]--> 'mdl-008' --[in_section]--> 'model_inventory_summary' consistent with the direct relationship 'mdl-001' --[in_section]--> 'model_inventory_summary'?",
+      "ground_truth": "False",
+      "answer": "False",
+      "correct": true,
+      "detail": "Correct: False",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Exact",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "holonomy_047_run005",
+      "base_qid": "holonomy_047",
+      "category": "holonomy",
+      "question": "Some sources suggest a different figure, but is the indirect path 'mdl-009' --[has_downstream_model]--> 'mdl-008' --[in_section]--> 'performance_metrics' consistent with the direct relationship 'mdl-009' --[in_section]--> 'performance_metrics'?",
+      "ground_truth": "False",
+      "answer": "False",
+      "correct": true,
+      "detail": "Correct: False",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Exact",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "holonomy_017_run005",
+      "base_qid": "holonomy_017",
+      "category": "holonomy",
+      "question": "Some sources suggest a different figure, but is the indirect path 'mdl-009' --[has_downstream_model]--> 'mdl-008' --[in_section]--> 'model_inventory_summary' consistent with the direct relationship 'mdl-009' --[in_section]--> 'model_inventory_summary'?",
+      "ground_truth": "False",
+      "answer": "False",
+      "correct": true,
+      "detail": "Correct: False",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Exact",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "link_pred_007_run005",
+      "base_qid": "link_pred_007",
+      "category": "link_prediction",
+      "question": "Some sources suggest a different figure, but what entity is the 'has_ks_statistic' of 'mdl-006'?",
+      "ground_truth": "0.4234",
+      "answer": "0.4234",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Exact",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "link_pred_001_run005",
+      "base_qid": "link_pred_001",
+      "category": "link_prediction",
+      "question": "Some sources suggest a different figure, but what entity is the 'has_annual_loss_exposure' of 'mdl-011'?",
+      "ground_truth": "$0",
+      "answer": "$0",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Exact",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "link_pred_017_run005",
+      "base_qid": "link_pred_017",
+      "category": "link_prediction",
+      "question": "Some sources suggest a different figure, but what entity is the 'has_robustness_score' of 'mdl-010'?",
+      "ground_truth": "88.0",
+      "answer": "88.0",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Exact",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "link_pred_015_run005",
+      "base_qid": "link_pred_015",
+      "category": "link_prediction",
+      "question": "Some sources suggest a different figure, but what entity is the 'in_section' of 'accuracy'?",
+      "ground_truth": "risk_findings_and_remediation",
+      "answer": "risk_findings_and_remediation",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Exact",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "link_pred_014_run005",
+      "base_qid": "link_pred_014",
+      "category": "link_prediction",
+      "question": "Some sources suggest a different figure, but what entity is the 'has_risk_tier' of 'mdl-011'?",
+      "ground_truth": "High",
+      "answer": "High",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Exact",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "multihop_transport_020_run005",
+      "base_qid": "multihop_transport_020",
+      "category": "multi_hop_transport",
+      "question": "Some sources suggest a different figure, but starting from 'accuracy', follow the 'has_model_id' relation to reach an intermediate entity, then follow 'has_approval_rate'. what entity do you reach?",
+      "ground_truth": "62.34%",
+      "answer": "62.34%",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Exact",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "multihop_transport_003_run005",
+      "base_qid": "multihop_transport_003",
+      "category": "multi_hop_transport",
+      "question": "Some sources suggest a different figure, but starting from 'act-002', follow the 'has_model_id' relation to reach an intermediate entity, then follow 'has_reference_rate'. what entity do you reach?",
+      "ground_truth": "78.91%",
+      "answer": "78.91%",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Exact",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "multihop_transport_000_run005",
+      "base_qid": "multihop_transport_000",
+      "category": "multi_hop_transport",
+      "question": "Some sources suggest a different figure, but starting from 'act-010', follow the 'has_model_id' relation to reach an intermediate entity, then follow 'has_delta_auc'. what entity do you reach?",
+      "ground_truth": "-0.0245",
+      "answer": "-0.0245",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Exact",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "multihop_transport_023_run005",
+      "base_qid": "multihop_transport_023",
+      "category": "multi_hop_transport",
+      "question": "Some sources suggest a different figure, but starting from 'accuracy', follow the 'has_model_id' relation to reach an intermediate entity, then follow 'has_dependency_type'. what entity do you reach?",
+      "ground_truth": "Credit scores segment LGD pools",
+      "answer": "Credit scores segment LGD pools",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Exact",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "multihop_transport_008_run005",
+      "base_qid": "multihop_transport_008",
+      "category": "multi_hop_transport",
+      "question": "Some sources suggest a different figure, but starting from 'mdl-001', follow the 'has_downstream_model' relation to reach an intermediate entity, then follow 'has_robustness_score'. what entity do you reach?",
+      "ground_truth": "61.0",
+      "answer": "61.0",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Exact",
+        "reasoning_cue": "No_Cue"
+      }
+    },
+    {
+      "doe_qid": "cross_reference_1309_run006",
+      "base_qid": "cross_reference_1309",
+      "category": "cross_reference",
+      "question": "Some sources suggest a different figure, but which entities appear in both the 'has_annual_loss_exposure' and 'has_delta_auc' relationships?",
+      "ground_truth": "{'MDL-005', 'MDL-004', 'MDL-009', 'MDL-007', 'MDL-003', 'MDL-011', 'MDL-012', 'MDL-001', 'MDL-010', 'MDL-006', 'MDL-008', 'MDL-002'}",
+      "answer": "{'MDL-005', 'MDL-004', 'MDL-009', 'MDL-007', 'MDL-003', 'MDL-011', 'MDL-012', 'MDL-001', 'MDL-010', 'MDL-006', 'MDL-008', 'MDL-002'}",
+      "correct": true,
+      "detail": "Exact set match",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "Direct"
+      }
+    },
+    {
+      "doe_qid": "cross_reference_228_run006",
+      "base_qid": "cross_reference_228",
+      "category": "cross_reference",
+      "question": "Some sources suggest a different figure, but which entities appear in both the 'has_risk_rating' and 'has_reference_rate' relationships?",
+      "ground_truth": "{'MDL-001', 'MDL-009'}",
+      "answer": "{'MDL-001', 'MDL-009'}",
+      "correct": true,
+      "detail": "Exact set match",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "Direct"
+      }
+    },
+    {
+      "doe_qid": "cross_reference_051_run006",
+      "base_qid": "cross_reference_051",
+      "category": "cross_reference",
+      "question": "Some sources suggest a different figure, but which entities appear in both the 'in_section' and 'has_capital_impact' relationships?",
+      "ground_truth": "{'MDL-005', 'MDL-004', 'MDL-009', 'MDL-007', 'MDL-003', 'MDL-011', 'MDL-012', 'MDL-001', 'MDL-010', 'MDL-006', 'MDL-008', 'MDL-002'}",
+      "answer": "{'MDL-005', 'MDL-004', 'MDL-009', 'MDL-007', 'MDL-003', 'MDL-011', 'MDL-012', 'MDL-001', 'MDL-010', 'MDL-006', 'MDL-008', 'MDL-002'}",
+      "correct": true,
+      "detail": "Exact set match",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "Direct"
+      }
+    },
+    {
+      "doe_qid": "cross_reference_563_run006",
+      "base_qid": "cross_reference_563",
+      "category": "cross_reference",
+      "question": "Some sources suggest a different figure, but which entities appear in both the 'has_test_auc' and 'has_gini' relationships?",
+      "ground_truth": "{'MDL-005', 'MDL-004', 'MDL-009', 'MDL-007', 'MDL-003', 'MDL-011', 'MDL-012', 'MDL-001', 'MDL-010', 'MDL-006', 'MDL-008', 'MDL-002'}",
+      "answer": "{'MDL-005', 'MDL-004', 'MDL-009', 'MDL-007', 'MDL-003', 'MDL-011', 'MDL-012', 'MDL-001', 'MDL-010', 'MDL-006', 'MDL-008', 'MDL-002'}",
+      "correct": true,
+      "detail": "Exact set match",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "Direct"
+      }
+    },
+    {
+      "doe_qid": "cross_reference_501_run006",
+      "base_qid": "cross_reference_501",
+      "category": "cross_reference",
+      "question": "Some sources suggest a different figure, but which entities appear in both the 'has_retrain_freq' and 'has_missing_rate_q4_2025' relationships?",
+      "ground_truth": "{'MDL-005', 'MDL-003', 'MDL-012', 'MDL-001', 'MDL-006', 'MDL-008', 'MDL-002'}",
+      "answer": "{'MDL-005', 'MDL-003', 'MDL-012', 'MDL-001', 'MDL-006', 'MDL-008', 'MDL-002'}",
+      "correct": true,
+      "detail": "Exact set match",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "Direct"
+      }
+    },
+    {
+      "doe_qid": "multi_hop_327_run006",
+      "base_qid": "multi_hop_327",
+      "category": "multi_hop",
+      "question": "Some sources suggest a different figure, but find the entity with the lowest value in 'comparison_to_prior_period', then list its 'has_accuracy_score' relationships.",
+      "ground_truth": "('MDL-005', -0.0278, {'48.0'})",
+      "answer": "('MDL-005', -0.0278, {'48.0'})",
+      "correct": true,
+      "detail": "Exact tuple: ('MDL-005', -0.0278, {'48.0'})",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "Direct"
+      }
+    },
+    {
+      "doe_qid": "multi_hop_057_run006",
+      "base_qid": "multi_hop_057",
+      "category": "multi_hop",
+      "question": "Some sources suggest a different figure, but find the entity with the highest value in 'model_inventory_summary', then list its 'has_feature_category' relationships.",
+      "ground_truth": "('MDL-012', 768.0, {'Text Distribution'})",
+      "answer": "('MDL-012', 768.0, {'Text Distribution'})",
+      "correct": true,
+      "detail": "Exact tuple: ('MDL-012', 768.0, {'Text Distribution'})",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "Direct"
+      }
+    },
+    {
+      "doe_qid": "multi_hop_012_run006",
+      "base_qid": "multi_hop_012",
+      "category": "multi_hop",
+      "question": "Some sources suggest a different figure, but find the entity with the lowest value in 'model_inventory_summary', then list its 'has_training_samples' relationships.",
+      "ground_truth": "('MDL-001', 1.0, {'2,450,000'})",
+      "answer": "('MDL-001', 1.0, {'2,450,000'})",
+      "correct": true,
+      "detail": "Exact tuple: ('MDL-001', 1.0, {'2,450,000'})",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "Direct"
+      }
+    },
+    {
+      "doe_qid": "multi_hop_379_run006",
+      "base_qid": "multi_hop_379",
+      "category": "multi_hop",
+      "question": "Some sources suggest a different figure, but find the entity with the highest value in 'comparison_to_prior_period', then list its 'has_noise_1%' relationships.",
+      "ground_truth": "('MDL-002', 0.9312, {'0.9198'})",
+      "answer": "('MDL-002', 0.9312, {'0.9198'})",
+      "correct": true,
+      "detail": "Exact tuple: ('MDL-002', 0.9312, {'0.9198'})",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "Direct"
+      }
+    },
+    {
+      "doe_qid": "multi_hop_140_run006",
+      "base_qid": "multi_hop_140",
+      "category": "multi_hop",
+      "question": "Some sources suggest a different figure, but find the entity with the lowest value in 'data_quality_assessment', then list its 'has_composite_risk_score' relationships.",
+      "ground_truth": "('MDL-005', 0.0234, {'41.33'})",
+      "answer": "('MDL-005', 0.0234, {'41.33'})",
+      "correct": true,
+      "detail": "Exact tuple: ('MDL-005', 0.0234, {'41.33'})",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "Direct"
+      }
+    },
+    {
+      "doe_qid": "counting_163_run006",
+      "base_qid": "counting_163",
+      "category": "counting",
+      "question": "Some sources suggest a different figure, but how many unique entities participate in 'has_robustness_rating' relationships?",
+      "ground_truth": "12",
+      "answer": "12",
+      "correct": true,
+      "detail": "Exact: 12",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "Direct"
+      }
+    },
+    {
+      "doe_qid": "counting_028_run006",
+      "base_qid": "counting_028",
+      "category": "counting",
+      "question": "Some sources suggest a different figure, but how many 'has_reference_rate' relationships exist in the report?",
+      "ground_truth": "9",
+      "answer": "9",
+      "correct": true,
+      "detail": "Exact: 9",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "Direct"
+      }
+    },
+    {
+      "doe_qid": "counting_006_run006",
+      "base_qid": "counting_006",
+      "category": "counting",
+      "question": "Some sources suggest a different figure, but how many 'has_status' relationships exist in the report?",
+      "ground_truth": "24",
+      "answer": "24",
+      "correct": true,
+      "detail": "Exact: 24",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "Direct"
+      }
+    },
+    {
+      "doe_qid": "counting_189_run006",
+      "base_qid": "counting_189",
+      "category": "counting",
+      "question": "Some sources suggest a different figure, but how many unique entities participate in 'has_annual_revenue_impact' relationships?",
+      "ground_truth": "12",
+      "answer": "12",
+      "correct": true,
+      "detail": "Exact: 12",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "Direct"
+      }
+    },
+    {
+      "doe_qid": "counting_070_run006",
+      "base_qid": "counting_070",
+      "category": "counting",
+      "question": "Some sources suggest a different figure, but how many entities have 'has_status' = 'watch'?",
+      "ground_truth": "3",
+      "answer": "3",
+      "correct": true,
+      "detail": "Exact: 3",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "Direct"
+      }
+    },
+    {
+      "doe_qid": "plausibility_abs_007_run006",
+      "base_qid": "plausibility_abs_007",
+      "category": "plausibility",
+      "question": "Some sources suggest a different figure, but is the relationship 'high-risk models in_section executive_summary' supported by the document?",
+      "ground_truth": "False",
+      "answer": "False",
+      "correct": true,
+      "detail": "Correct: False",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "Direct"
+      }
+    },
+    {
+      "doe_qid": "plausibility_cmp_008_run006",
+      "base_qid": "plausibility_cmp_008",
+      "category": "plausibility",
+      "question": "Some sources suggest a different figure, but which entity is more plausible as the 'has_detail' of 'medium-risk models': (a) 63.45% or (b) 5?",
+      "ground_truth": "B",
+      "answer": "B",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "Direct"
+      }
+    },
+    {
+      "doe_qid": "plausibility_cmp_001_run006",
+      "base_qid": "plausibility_cmp_001",
+      "category": "plausibility",
+      "question": "Some sources suggest a different figure, but which entity is more plausible as the 'in_section' of 'organization': (a) executive_summary or (b) fragile?",
+      "ground_truth": "A",
+      "answer": "A",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "Direct"
+      }
+    },
+    {
+      "doe_qid": "plausibility_abs_014_run006",
+      "base_qid": "plausibility_abs_014",
+      "category": "plausibility",
+      "question": "Some sources suggest a different figure, but is the relationship 'chief model risk officer has_detail dr. elena vasquez' supported by the document?",
+      "ground_truth": "False",
+      "answer": "False",
+      "correct": true,
+      "detail": "Correct: False",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "Direct"
+      }
+    },
+    {
+      "doe_qid": "plausibility_cmp_027_run006",
+      "base_qid": "plausibility_cmp_027",
+      "category": "plausibility",
+      "question": "Some sources suggest a different figure, but which entity is more plausible as the 'has_risk_rating' of 'mdl-002': (a) +0.34% or (b) high?",
+      "ground_truth": "B",
+      "answer": "B",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "Direct"
+      }
+    },
+    {
+      "doe_qid": "tension_classify_007_run006",
+      "base_qid": "tension_classify_007",
+      "category": "tension",
+      "question": "Some sources suggest a different figure, but based on the document, do 'act-006' and '0.7934' agree, contradict each other, or are they unrelated?",
+      "ground_truth": "unrelated",
+      "answer": "unrelated",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "Direct"
+      }
+    },
+    {
+      "doe_qid": "tension_classify_001_run006",
+      "base_qid": "tension_classify_001",
+      "category": "tension",
+      "question": "Some sources suggest a different figure, but based on the document, do '78.0' and '0.0667' agree, contradict each other, or are they unrelated?",
+      "ground_truth": "unrelated",
+      "answer": "unrelated",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "Direct"
+      }
+    },
+    {
+      "doe_qid": "tension_classify_017_run006",
+      "base_qid": "tension_classify_017",
+      "category": "tension",
+      "question": "Some sources suggest a different figure, but based on the document, do '84.0' and '88' agree, contradict each other, or are they unrelated?",
+      "ground_truth": "unrelated",
+      "answer": "unrelated",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "Direct"
+      }
+    },
+    {
+      "doe_qid": "tension_classify_015_run006",
+      "base_qid": "tension_classify_015",
+      "category": "tension",
+      "question": "Some sources suggest a different figure, but based on the document, do '0.7512' and 'race: asian' agree, contradict each other, or are they unrelated?",
+      "ground_truth": "unrelated",
+      "answer": "unrelated",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "Direct"
+      }
+    },
+    {
+      "doe_qid": "tension_classify_014_run006",
+      "base_qid": "tension_classify_014",
+      "category": "tension",
+      "question": "Some sources suggest a different figure, but based on the document, do '0.9567' and 'mdl-004' agree, contradict each other, or are they unrelated?",
+      "ground_truth": "unrelated",
+      "answer": "unrelated",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "Direct"
+      }
+    },
+    {
+      "doe_qid": "holonomy_040_run006",
+      "base_qid": "holonomy_040",
+      "category": "holonomy",
+      "question": "Some sources suggest a different figure, but is the indirect path 'mdl-009' --[has_downstream_model]--> 'mdl-001' --[in_section]--> 'performance_metrics' consistent with the direct relationship 'mdl-009' --[in_section]--> 'performance_metrics'?",
+      "ground_truth": "False",
+      "answer": "False",
+      "correct": true,
+      "detail": "Correct: False",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "Direct"
+      }
+    },
+    {
+      "doe_qid": "holonomy_007_run006",
+      "base_qid": "holonomy_007",
+      "category": "holonomy",
+      "question": "Some sources suggest a different figure, but is the indirect path 'mdl-006' --[has_downstream_model]--> 'mdl-008' --[has_risk_tier]--> 'medium' consistent with the direct relationship 'mdl-006' --[has_risk_rating]--> 'medium'?",
+      "ground_truth": "False",
+      "answer": "False",
+      "correct": true,
+      "detail": "Correct: False",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "Direct"
+      }
+    },
+    {
+      "doe_qid": "holonomy_001_run006",
+      "base_qid": "holonomy_001",
+      "category": "holonomy",
+      "question": "Some sources suggest a different figure, but is the indirect path 'mdl-001' --[has_downstream_model]--> 'mdl-008' --[in_section]--> 'model_inventory_summary' consistent with the direct relationship 'mdl-001' --[in_section]--> 'model_inventory_summary'?",
+      "ground_truth": "False",
+      "answer": "False",
+      "correct": true,
+      "detail": "Correct: False",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "Direct"
+      }
+    },
+    {
+      "doe_qid": "holonomy_047_run006",
+      "base_qid": "holonomy_047",
+      "category": "holonomy",
+      "question": "Some sources suggest a different figure, but is the indirect path 'mdl-009' --[has_downstream_model]--> 'mdl-008' --[in_section]--> 'performance_metrics' consistent with the direct relationship 'mdl-009' --[in_section]--> 'performance_metrics'?",
+      "ground_truth": "False",
+      "answer": "False",
+      "correct": true,
+      "detail": "Correct: False",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "Direct"
+      }
+    },
+    {
+      "doe_qid": "holonomy_017_run006",
+      "base_qid": "holonomy_017",
+      "category": "holonomy",
+      "question": "Some sources suggest a different figure, but is the indirect path 'mdl-009' --[has_downstream_model]--> 'mdl-008' --[in_section]--> 'model_inventory_summary' consistent with the direct relationship 'mdl-009' --[in_section]--> 'model_inventory_summary'?",
+      "ground_truth": "False",
+      "answer": "False",
+      "correct": true,
+      "detail": "Correct: False",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "Direct"
+      }
+    },
+    {
+      "doe_qid": "link_pred_007_run006",
+      "base_qid": "link_pred_007",
+      "category": "link_prediction",
+      "question": "Some sources suggest a different figure, but what entity is the 'has_ks_statistic' of 'mdl-006'?",
+      "ground_truth": "0.4234",
+      "answer": "0.4234",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "Direct"
+      }
+    },
+    {
+      "doe_qid": "link_pred_001_run006",
+      "base_qid": "link_pred_001",
+      "category": "link_prediction",
+      "question": "Some sources suggest a different figure, but what entity is the 'has_annual_loss_exposure' of 'mdl-011'?",
+      "ground_truth": "$0",
+      "answer": "$0",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "Direct"
+      }
+    },
+    {
+      "doe_qid": "link_pred_017_run006",
+      "base_qid": "link_pred_017",
+      "category": "link_prediction",
+      "question": "Some sources suggest a different figure, but what entity is the 'has_robustness_score' of 'mdl-010'?",
+      "ground_truth": "88.0",
+      "answer": "88.0",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "Direct"
+      }
+    },
+    {
+      "doe_qid": "link_pred_015_run006",
+      "base_qid": "link_pred_015",
+      "category": "link_prediction",
+      "question": "Some sources suggest a different figure, but what entity is the 'in_section' of 'accuracy'?",
+      "ground_truth": "risk_findings_and_remediation",
+      "answer": "risk_findings_and_remediation",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "Direct"
+      }
+    },
+    {
+      "doe_qid": "link_pred_014_run006",
+      "base_qid": "link_pred_014",
+      "category": "link_prediction",
+      "question": "Some sources suggest a different figure, but what entity is the 'has_risk_tier' of 'mdl-011'?",
+      "ground_truth": "High",
+      "answer": "High",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "Direct"
+      }
+    },
+    {
+      "doe_qid": "multihop_transport_020_run006",
+      "base_qid": "multihop_transport_020",
+      "category": "multi_hop_transport",
+      "question": "Some sources suggest a different figure, but starting from 'accuracy', follow the 'has_model_id' relation to reach an intermediate entity, then follow 'has_approval_rate'. what entity do you reach?",
+      "ground_truth": "62.34%",
+      "answer": "62.34%",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "Direct"
+      }
+    },
+    {
+      "doe_qid": "multihop_transport_003_run006",
+      "base_qid": "multihop_transport_003",
+      "category": "multi_hop_transport",
+      "question": "Some sources suggest a different figure, but starting from 'act-002', follow the 'has_model_id' relation to reach an intermediate entity, then follow 'has_reference_rate'. what entity do you reach?",
+      "ground_truth": "78.91%",
+      "answer": "78.91%",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "Direct"
+      }
+    },
+    {
+      "doe_qid": "multihop_transport_000_run006",
+      "base_qid": "multihop_transport_000",
+      "category": "multi_hop_transport",
+      "question": "Some sources suggest a different figure, but starting from 'act-010', follow the 'has_model_id' relation to reach an intermediate entity, then follow 'has_delta_auc'. what entity do you reach?",
+      "ground_truth": "-0.0245",
+      "answer": "-0.0245",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "Direct"
+      }
+    },
+    {
+      "doe_qid": "multihop_transport_023_run006",
+      "base_qid": "multihop_transport_023",
+      "category": "multi_hop_transport",
+      "question": "Some sources suggest a different figure, but starting from 'accuracy', follow the 'has_model_id' relation to reach an intermediate entity, then follow 'has_dependency_type'. what entity do you reach?",
+      "ground_truth": "Credit scores segment LGD pools",
+      "answer": "Credit scores segment LGD pools",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "Direct"
+      }
+    },
+    {
+      "doe_qid": "multihop_transport_008_run006",
+      "base_qid": "multihop_transport_008",
+      "category": "multi_hop_transport",
+      "question": "Some sources suggest a different figure, but starting from 'mdl-001', follow the 'has_downstream_model' relation to reach an intermediate entity, then follow 'has_robustness_score'. what entity do you reach?",
+      "ground_truth": "61.0",
+      "answer": "61.0",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Misleading",
+        "entity_aliasing": "Abbreviated",
+        "reasoning_cue": "Direct"
+      }
+    },
+    {
+      "doe_qid": "cross_reference_1309_run007",
+      "base_qid": "cross_reference_1309",
+      "category": "cross_reference",
+      "question": "Which entities appear in both the 'has_annual_loss_exposure' and 'has_delta_auc' relationships?",
+      "ground_truth": "{'MDL-005', 'MDL-004', 'MDL-009', 'MDL-007', 'MDL-003', 'MDL-011', 'MDL-012', 'MDL-001', 'MDL-010', 'MDL-006', 'MDL-008', 'MDL-002'}",
+      "answer": "{'MDL-005', 'MDL-004', 'MDL-009', 'MDL-007', 'MDL-003', 'MDL-011', 'MDL-012', 'MDL-001', 'MDL-010', 'MDL-006', 'MDL-008', 'MDL-002'}",
+      "correct": true,
+      "detail": "Exact set match",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "cross_reference_228_run007",
+      "base_qid": "cross_reference_228",
+      "category": "cross_reference",
+      "question": "Which entities appear in both the 'has_risk_rating' and 'has_reference_rate' relationships?",
+      "ground_truth": "{'MDL-001', 'MDL-009'}",
+      "answer": "{'MDL-001', 'MDL-009'}",
+      "correct": true,
+      "detail": "Exact set match",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "cross_reference_051_run007",
+      "base_qid": "cross_reference_051",
+      "category": "cross_reference",
+      "question": "Which entities appear in both the 'in_section' and 'has_capital_impact' relationships?",
+      "ground_truth": "{'MDL-005', 'MDL-004', 'MDL-009', 'MDL-007', 'MDL-003', 'MDL-011', 'MDL-012', 'MDL-001', 'MDL-010', 'MDL-006', 'MDL-008', 'MDL-002'}",
+      "answer": "{'MDL-005', 'MDL-004', 'MDL-009', 'MDL-007', 'MDL-003', 'MDL-011', 'MDL-012', 'MDL-001', 'MDL-010', 'MDL-006', 'MDL-008', 'MDL-002'}",
+      "correct": true,
+      "detail": "Exact set match",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "cross_reference_563_run007",
+      "base_qid": "cross_reference_563",
+      "category": "cross_reference",
+      "question": "Which entities appear in both the 'has_test_auc' and 'has_gini' relationships?",
+      "ground_truth": "{'MDL-005', 'MDL-004', 'MDL-009', 'MDL-007', 'MDL-003', 'MDL-011', 'MDL-012', 'MDL-001', 'MDL-010', 'MDL-006', 'MDL-008', 'MDL-002'}",
+      "answer": "{'MDL-005', 'MDL-004', 'MDL-009', 'MDL-007', 'MDL-003', 'MDL-011', 'MDL-012', 'MDL-001', 'MDL-010', 'MDL-006', 'MDL-008', 'MDL-002'}",
+      "correct": true,
+      "detail": "Exact set match",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "cross_reference_501_run007",
+      "base_qid": "cross_reference_501",
+      "category": "cross_reference",
+      "question": "Which entities appear in both the 'has_retrain_freq' and 'has_missing_rate_q4_2025' relationships?",
+      "ground_truth": "{'MDL-005', 'MDL-003', 'MDL-012', 'MDL-001', 'MDL-006', 'MDL-008', 'MDL-002'}",
+      "answer": "{'MDL-005', 'MDL-003', 'MDL-012', 'MDL-001', 'MDL-006', 'MDL-008', 'MDL-002'}",
+      "correct": true,
+      "detail": "Exact set match",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "multi_hop_327_run007",
+      "base_qid": "multi_hop_327",
+      "category": "multi_hop",
+      "question": "Find the entity with the lowest value in 'comparison_to_prior_period', then list its 'has_accuracy_score' relationships.",
+      "ground_truth": "('MDL-005', -0.0278, {'48.0'})",
+      "answer": "('MDL-005', -0.0278, {'48.0'})",
+      "correct": true,
+      "detail": "Exact tuple: ('MDL-005', -0.0278, {'48.0'})",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "multi_hop_057_run007",
+      "base_qid": "multi_hop_057",
+      "category": "multi_hop",
+      "question": "Find the entity with the highest value in 'model_inventory_summary', then list its 'has_feature_category' relationships.",
+      "ground_truth": "('MDL-012', 768.0, {'Text Distribution'})",
+      "answer": "('MDL-012', 768.0, {'Text Distribution'})",
+      "correct": true,
+      "detail": "Exact tuple: ('MDL-012', 768.0, {'Text Distribution'})",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "multi_hop_012_run007",
+      "base_qid": "multi_hop_012",
+      "category": "multi_hop",
+      "question": "Find the entity with the lowest value in 'model_inventory_summary', then list its 'has_training_samples' relationships.",
+      "ground_truth": "('MDL-001', 1.0, {'2,450,000'})",
+      "answer": "('MDL-001', 1.0, {'2,450,000'})",
+      "correct": true,
+      "detail": "Exact tuple: ('MDL-001', 1.0, {'2,450,000'})",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "multi_hop_379_run007",
+      "base_qid": "multi_hop_379",
+      "category": "multi_hop",
+      "question": "Find the entity with the highest value in 'comparison_to_prior_period', then list its 'has_noise_1%' relationships.",
+      "ground_truth": "('MDL-002', 0.9312, {'0.9198'})",
+      "answer": "('MDL-002', 0.9312, {'0.9198'})",
+      "correct": true,
+      "detail": "Exact tuple: ('MDL-002', 0.9312, {'0.9198'})",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "multi_hop_140_run007",
+      "base_qid": "multi_hop_140",
+      "category": "multi_hop",
+      "question": "Find the entity with the lowest value in 'data_quality_assessment', then list its 'has_composite_risk_score' relationships.",
+      "ground_truth": "('MDL-005', 0.0234, {'41.33'})",
+      "answer": "('MDL-005', 0.0234, {'41.33'})",
+      "correct": true,
+      "detail": "Exact tuple: ('MDL-005', 0.0234, {'41.33'})",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "counting_163_run007",
+      "base_qid": "counting_163",
+      "category": "counting",
+      "question": "How many unique entities participate in 'has_robustness_rating' relationships?",
+      "ground_truth": "12",
+      "answer": "12",
+      "correct": true,
+      "detail": "Exact: 12",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "counting_028_run007",
+      "base_qid": "counting_028",
+      "category": "counting",
+      "question": "How many 'has_reference_rate' relationships exist in the report?",
+      "ground_truth": "9",
+      "answer": "9",
+      "correct": true,
+      "detail": "Exact: 9",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "counting_006_run007",
+      "base_qid": "counting_006",
+      "category": "counting",
+      "question": "How many 'has_status' relationships exist in the report?",
+      "ground_truth": "24",
+      "answer": "24",
+      "correct": true,
+      "detail": "Exact: 24",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "counting_189_run007",
+      "base_qid": "counting_189",
+      "category": "counting",
+      "question": "How many unique entities participate in 'has_annual_revenue_impact' relationships?",
+      "ground_truth": "12",
+      "answer": "12",
+      "correct": true,
+      "detail": "Exact: 12",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "counting_070_run007",
+      "base_qid": "counting_070",
+      "category": "counting",
+      "question": "How many entities have 'has_status' = 'Watch'?",
+      "ground_truth": "3",
+      "answer": "3",
+      "correct": true,
+      "detail": "Exact: 3",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "plausibility_abs_007_run007",
+      "base_qid": "plausibility_abs_007",
+      "category": "plausibility",
+      "question": "Is the relationship 'High-Risk Models in_section executive_summary' supported by the document?",
+      "ground_truth": "False",
+      "answer": "False",
+      "correct": true,
+      "detail": "Correct: False",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "plausibility_cmp_008_run007",
+      "base_qid": "plausibility_cmp_008",
+      "category": "plausibility",
+      "question": "Which entity is more plausible as the 'has_detail' of 'Medium-Risk Models': (A) 63.45% or (B) 5?",
+      "ground_truth": "B",
+      "answer": "B",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "plausibility_cmp_001_run007",
+      "base_qid": "plausibility_cmp_001",
+      "category": "plausibility",
+      "question": "Which entity is more plausible as the 'in_section' of 'Organization': (A) executive_summary or (B) Fragile?",
+      "ground_truth": "A",
+      "answer": "A",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "plausibility_abs_014_run007",
+      "base_qid": "plausibility_abs_014",
+      "category": "plausibility",
+      "question": "Is the relationship 'Chief Model Risk Officer has_detail Dr. Elena Vasquez' supported by the document?",
+      "ground_truth": "False",
+      "answer": "False",
+      "correct": true,
+      "detail": "Correct: False",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "plausibility_cmp_027_run007",
+      "base_qid": "plausibility_cmp_027",
+      "category": "plausibility",
+      "question": "Which entity is more plausible as the 'has_risk_rating' of 'MDL-002': (A) +0.34% or (B) High?",
+      "ground_truth": "B",
+      "answer": "B",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "tension_classify_007_run007",
+      "base_qid": "tension_classify_007",
+      "category": "tension",
+      "question": "Based on the document, do 'ACT-006' and '0.7934' agree, contradict each other, or are they unrelated?",
+      "ground_truth": "unrelated",
+      "answer": "unrelated",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "tension_classify_001_run007",
+      "base_qid": "tension_classify_001",
+      "category": "tension",
+      "question": "Based on the document, do '78.0' and '0.0667' agree, contradict each other, or are they unrelated?",
+      "ground_truth": "unrelated",
+      "answer": "unrelated",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "tension_classify_017_run007",
+      "base_qid": "tension_classify_017",
+      "category": "tension",
+      "question": "Based on the document, do '84.0' and '88' agree, contradict each other, or are they unrelated?",
+      "ground_truth": "unrelated",
+      "answer": "unrelated",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "tension_classify_015_run007",
+      "base_qid": "tension_classify_015",
+      "category": "tension",
+      "question": "Based on the document, do '0.7512' and 'Race: Asian' agree, contradict each other, or are they unrelated?",
+      "ground_truth": "unrelated",
+      "answer": "unrelated",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "tension_classify_014_run007",
+      "base_qid": "tension_classify_014",
+      "category": "tension",
+      "question": "Based on the document, do '0.9567' and 'MDL-004' agree, contradict each other, or are they unrelated?",
+      "ground_truth": "unrelated",
+      "answer": "unrelated",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "holonomy_040_run007",
+      "base_qid": "holonomy_040",
+      "category": "holonomy",
+      "question": "Is the indirect path 'MDL-009' --[has_downstream_model]--> 'MDL-001' --[in_section]--> 'performance_metrics' consistent with the direct relationship 'MDL-009' --[in_section]--> 'performance_metrics'?",
+      "ground_truth": "False",
+      "answer": "False",
+      "correct": true,
+      "detail": "Correct: False",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "holonomy_007_run007",
+      "base_qid": "holonomy_007",
+      "category": "holonomy",
+      "question": "Is the indirect path 'MDL-006' --[has_downstream_model]--> 'MDL-008' --[has_risk_tier]--> 'Medium' consistent with the direct relationship 'MDL-006' --[has_risk_rating]--> 'Medium'?",
+      "ground_truth": "False",
+      "answer": "False",
+      "correct": true,
+      "detail": "Correct: False",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "holonomy_001_run007",
+      "base_qid": "holonomy_001",
+      "category": "holonomy",
+      "question": "Is the indirect path 'MDL-001' --[has_downstream_model]--> 'MDL-008' --[in_section]--> 'model_inventory_summary' consistent with the direct relationship 'MDL-001' --[in_section]--> 'model_inventory_summary'?",
+      "ground_truth": "False",
+      "answer": "False",
+      "correct": true,
+      "detail": "Correct: False",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "holonomy_047_run007",
+      "base_qid": "holonomy_047",
+      "category": "holonomy",
+      "question": "Is the indirect path 'MDL-009' --[has_downstream_model]--> 'MDL-008' --[in_section]--> 'performance_metrics' consistent with the direct relationship 'MDL-009' --[in_section]--> 'performance_metrics'?",
+      "ground_truth": "False",
+      "answer": "False",
+      "correct": true,
+      "detail": "Correct: False",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "holonomy_017_run007",
+      "base_qid": "holonomy_017",
+      "category": "holonomy",
+      "question": "Is the indirect path 'MDL-009' --[has_downstream_model]--> 'MDL-008' --[in_section]--> 'model_inventory_summary' consistent with the direct relationship 'MDL-009' --[in_section]--> 'model_inventory_summary'?",
+      "ground_truth": "False",
+      "answer": "False",
+      "correct": true,
+      "detail": "Correct: False",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "link_pred_007_run007",
+      "base_qid": "link_pred_007",
+      "category": "link_prediction",
+      "question": "What entity is the 'has_ks_statistic' of 'MDL-006'?",
+      "ground_truth": "0.4234",
+      "answer": "0.4234",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "link_pred_001_run007",
+      "base_qid": "link_pred_001",
+      "category": "link_prediction",
+      "question": "What entity is the 'has_annual_loss_exposure' of 'MDL-011'?",
+      "ground_truth": "$0",
+      "answer": "$0",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "link_pred_017_run007",
+      "base_qid": "link_pred_017",
+      "category": "link_prediction",
+      "question": "What entity is the 'has_robustness_score' of 'MDL-010'?",
+      "ground_truth": "88.0",
+      "answer": "88.0",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "link_pred_015_run007",
+      "base_qid": "link_pred_015",
+      "category": "link_prediction",
+      "question": "What entity is the 'in_section' of 'Accuracy'?",
+      "ground_truth": "risk_findings_and_remediation",
+      "answer": "risk_findings_and_remediation",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "link_pred_014_run007",
+      "base_qid": "link_pred_014",
+      "category": "link_prediction",
+      "question": "What entity is the 'has_risk_tier' of 'MDL-011'?",
+      "ground_truth": "High",
+      "answer": "High",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "multihop_transport_020_run007",
+      "base_qid": "multihop_transport_020",
+      "category": "multi_hop_transport",
+      "question": "Starting from 'Accuracy', follow the 'has_model_id' relation to reach an intermediate entity, then follow 'has_approval_rate'. What entity do you reach?",
+      "ground_truth": "62.34%",
+      "answer": "62.34%",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "multihop_transport_003_run007",
+      "base_qid": "multihop_transport_003",
+      "category": "multi_hop_transport",
+      "question": "Starting from 'ACT-002', follow the 'has_model_id' relation to reach an intermediate entity, then follow 'has_reference_rate'. What entity do you reach?",
+      "ground_truth": "78.91%",
+      "answer": "78.91%",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "multihop_transport_000_run007",
+      "base_qid": "multihop_transport_000",
+      "category": "multi_hop_transport",
+      "question": "Starting from 'ACT-010', follow the 'has_model_id' relation to reach an intermediate entity, then follow 'has_delta_auc'. What entity do you reach?",
+      "ground_truth": "-0.0245",
+      "answer": "-0.0245",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "multihop_transport_023_run007",
+      "base_qid": "multihop_transport_023",
+      "category": "multi_hop_transport",
+      "question": "Starting from 'Accuracy', follow the 'has_model_id' relation to reach an intermediate entity, then follow 'has_dependency_type'. What entity do you reach?",
+      "ground_truth": "Credit scores segment LGD pools",
+      "answer": "Credit scores segment LGD pools",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "Step_By_Step"
+      }
+    },
+    {
+      "doe_qid": "multihop_transport_008_run007",
+      "base_qid": "multihop_transport_008",
+      "category": "multi_hop_transport",
+      "question": "Starting from 'MDL-001', follow the 'has_downstream_model' relation to reach an intermediate entity, then follow 'has_robustness_score'. What entity do you reach?",
+      "ground_truth": "61.0",
+      "answer": "61.0",
+      "correct": true,
+      "detail": "Exact match",
+      "factors": {
+        "clarity": "Clear",
+        "entity_aliasing": "Synonym",
+        "reasoning_cue": "Step_By_Step"
+      }
+    }
+  ]
+}
