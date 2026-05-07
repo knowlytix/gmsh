@@ -1,0 +1,378 @@
+# Manual-trigger full coverage of post-mirror-smoke.
+#
+# The auto-fired `post-mirror-smoke.yml` was reduced 2026-05-07 to a
+# single smoke job + a curated 5-notebook user-guide sample (see
+# distribution/post_mirror_smoke_budget_plan.md). This workflow exists
+# as the on-demand companion: when you need full coverage (e.g. before
+# cutting a GA tag, or after a high-risk merge), trigger this manually.
+#
+# Trigger: `workflow_dispatch` ONLY. No release-event auto-fire.
+# Inputs:
+#   - `tag` (required) — the release tag to validate, e.g. `v0.2.0-rc12`.
+#   - `tracks` — `agentic_testing_book` / `user_guide` / `both` (default).
+#
+# Coverage:
+#   - `notebook` — 18-entry testing-track matrix
+#     (`tutorials/agentic_testing_book/notebooks/`), gated by
+#     `inputs.tracks` ∈ {`agentic_testing_book`, `both`}.
+#   - `notebook_user_guide_full` — 25-entry user-guide matrix
+#     (`knowlytix/harness/governance/tutorials/notebooks/`), gated by
+#     `inputs.tracks` ∈ {`user_guide`, `both`}.
+#
+# Worst-case minutes: ~870 (18 × 20 + 25 × 20 + 10 smoke). Use
+# sparingly.
+#
+# SECURITY — DO NOT WEAKEN:
+#   - `workflow_dispatch` only; no `pull_request` / `pull_request_target` /
+#     `workflow_run` / `release` triggers. Each of those has a secret-
+#     exposure path on public repos that this workflow cannot tolerate.
+#   - Same `KNOWLYTIX_LICENSE_KEY` (CI-distinct trial-tier JWT) as the
+#     auto workflow; rotation runbook lives at
+#     distribution/mirror_secret_rotation.md.
+
+name: post-mirror-smoke-full
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Release tag to validate (e.g. v0.2.0-rc12)"
+        required: true
+      tracks:
+        description: "Which tutorial tracks to run"
+        required: true
+        default: both
+        type: choice
+        options:
+          - both
+          - agentic_testing_book
+          - user_guide
+
+permissions:
+  contents: read
+
+jobs:
+  # -- Stage 1: install gate (same shape as the auto workflow) --------------
+  smoke:
+    name: Install + knowlytix-smoke
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    env:
+      # Exposed to every step in this job. Masked automatically in logs
+      # by GitHub Actions — never echo `$KNOWLYTIX_LICENSE_KEY` directly.
+      KNOWLYTIX_LICENSE_KEY: ${{ secrets.KNOWLYTIX_LICENSE_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+
+      - name: Verify license secret is wired (fail fast, log identity only)
+        # Same diagnostic step as the auto workflow — fails before pip
+        # if the secret is missing/malformed.  Logs decoded `customer_id`
+        # / `tier` / `expires` claims (no signature verify) so a leak is
+        # traceable to the CI key vs. a customer key without printing
+        # the JWT body.
+        run: |
+          python - <<'PY'
+          import base64
+          import json
+          import os
+          import sys
+
+          key = os.environ.get("KNOWLYTIX_LICENSE_KEY", "")
+          if not key:
+              print("::error::KNOWLYTIX_LICENSE_KEY secret is not set; cannot run post-mirror smoke")
+              sys.exit(1)
+
+          token = key.removeprefix("gmsh_live_")
+          try:
+              _hdr, payload_b64, _sig = token.split(".")
+          except ValueError:
+              print("::error::secret is not a JWT triplet — regenerate per mirror_secret_rotation.md")
+              sys.exit(1)
+
+          payload_b64 += "=" * (-len(payload_b64) % 4)
+          try:
+              payload = json.loads(base64.urlsafe_b64decode(payload_b64))
+          except Exception as exc:
+              print(f"::error::failed to decode JWT payload: {exc}")
+              sys.exit(1)
+
+          customer_id = payload.get("customer_id", "<missing-customer_id>")
+          tier = payload.get("tier", "<missing-tier>")
+          expires = payload.get("expires", "<missing-expires>")
+          print(f"license_customer_id={customer_id} tier={tier} expires={expires}")
+          PY
+
+      - name: Determine install source from input tag
+        # Manual triggers don't have the release-event payload that the
+        # auto workflow uses, so prerelease detection runs off the tag
+        # string itself: SemVer prerelease tags carry a hyphen suffix
+        # (`-rc1`, `-alpha.1`, `-beta.2`, `-dev`, …); finals are bare
+        # `vX.Y.Z`. Anything with a hyphen routes to the gmsh-release
+        # install path (early access); bare tags route to PyPI.
+        id: src
+        run: |
+          tag="${{ inputs.tag }}"
+          echo "tag=$tag" >> "$GITHUB_OUTPUT"
+          if [[ "$tag" == *"-"* ]]; then
+              echo "source=gmsh-release" >> "$GITHUB_OUTPUT"
+              echo "pre-release $tag → install from gmsh release"
+          else
+              echo "source=pypi" >> "$GITHUB_OUTPUT"
+              echo "final release $tag → install from PyPI"
+          fi
+
+      - name: Install from PyPI (final releases)
+        if: steps.src.outputs.source == 'pypi'
+        run: |
+          python -m pip install -U pip
+          python -m pip install -r tutorials/requirements.txt
+
+      - name: Install from gmsh release assets (pre-releases)
+        if: steps.src.outputs.source == 'gmsh-release'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          tag="${{ steps.src.outputs.tag }}"
+          mkdir -p /tmp/wheels
+          gh release download "$tag" \
+              --repo "${{ github.repository }}" \
+              --pattern "knowlytix_*.whl" \
+              --dir /tmp/wheels
+          python -m pip install -U pip
+          python -m pip install \
+              /tmp/wheels/knowlytix_core-*.whl \
+              /tmp/wheels/knowlytix_knowledge-*.whl \
+              /tmp/wheels/knowlytix_benchmark-*.whl \
+              /tmp/wheels/knowlytix_harness-*.whl
+
+      - name: Run knowlytix-smoke
+        run: knowlytix-smoke
+
+  # -- Stage 2: full testing-track matrix (agentic_testing_book) -----------
+  notebook:
+    if: inputs.tracks == 'agentic_testing_book' || inputs.tracks == 'both'
+    name: ${{ matrix.notebook }}
+    needs: smoke
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        # Full clean set as classified by scripts/execute_tutorials.py.
+        # Excluded (deliberate): ch04_building_ground_truth (training-
+        # heavy), ch05_question_generation, ch06_calibration_judges
+        # (LLM keys not available in CI).
+        notebook:
+          - appF_training_diagnostics
+          - ch01_agentic_testing_problem
+          - ch02_gms_ground_truth
+          - ch03_design_of_experiments
+          - ch07_statistical_analysis
+          - ch08_claims
+          - ch09_verifiers
+          - ch10_verdicts_failures
+          - ch11_sut_abstraction
+          - ch12_tool_gateway
+          - ch13_policy_engine
+          - ch14_environment_simulation
+          - ch15_oracles
+          - ch16_hallucination_detection
+          - ch17_confidence_calibration
+          - ch18_stateful_multiturn
+          - ch19_multi_agent_cross_doc
+          - ch20_governance_operations
+    env:
+      KNOWLYTIX_LICENSE_KEY: ${{ secrets.KNOWLYTIX_LICENSE_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+
+      - name: Determine install source from input tag
+        # Manual triggers don't have the release-event payload that the
+        # auto workflow uses, so prerelease detection runs off the tag
+        # string itself: SemVer prerelease tags carry a hyphen suffix
+        # (`-rc1`, `-alpha.1`, `-beta.2`, `-dev`, …); finals are bare
+        # `vX.Y.Z`. Anything with a hyphen routes to the gmsh-release
+        # install path (early access); bare tags route to PyPI.
+        id: src
+        run: |
+          tag="${{ inputs.tag }}"
+          echo "tag=$tag" >> "$GITHUB_OUTPUT"
+          if [[ "$tag" == *"-"* ]]; then
+              echo "source=gmsh-release" >> "$GITHUB_OUTPUT"
+              echo "pre-release $tag → install from gmsh release"
+          else
+              echo "source=pypi" >> "$GITHUB_OUTPUT"
+              echo "final release $tag → install from PyPI"
+          fi
+
+      - name: Install from PyPI (final releases)
+        if: steps.src.outputs.source == 'pypi'
+        run: |
+          python -m pip install -U pip
+          python -m pip install -r tutorials/requirements.txt
+
+      - name: Install from gmsh release assets (pre-releases)
+        if: steps.src.outputs.source == 'gmsh-release'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          tag="${{ steps.src.outputs.tag }}"
+          mkdir -p /tmp/wheels
+          gh release download "$tag" \
+              --repo "${{ github.repository }}" \
+              --pattern "knowlytix_*.whl" \
+              --dir /tmp/wheels
+          python -m pip install -U pip
+          python -m pip install \
+              /tmp/wheels/knowlytix_core-*.whl \
+              /tmp/wheels/knowlytix_knowledge-*.whl \
+              /tmp/wheels/knowlytix_benchmark-*.whl \
+              /tmp/wheels/knowlytix_harness-*.whl
+
+      - name: Install notebook-execution deps and register kernel
+        run: |
+          python -m pip install jupyter nbconvert ipykernel matplotlib
+          python -m ipykernel install --user --name gmsh-ci
+
+      - name: Execute ${{ matrix.notebook }}
+        run: |
+          python scripts/execute_tutorials.py \
+            --kernel gmsh-ci \
+            --only clean \
+            --timeout 600 \
+            --notebook-dir tutorials/agentic_testing_book/notebooks \
+            --notebook ${{ matrix.notebook }} \
+            --log-path /tmp/notebook-${{ matrix.notebook }}.md
+
+      - name: Upload notebook log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: log-${{ matrix.notebook }}
+          path: /tmp/notebook-${{ matrix.notebook }}.md
+          retention-days: 14
+
+  # -- Stage 3: full user-guide matrix --------------------------------------
+  notebook_user_guide_full:
+    if: inputs.tracks == 'user_guide' || inputs.tracks == 'both'
+    name: ${{ matrix.notebook }}
+    needs: smoke
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        # Full set under knowlytix/harness/governance/tutorials/notebooks/.
+        # Excluded (deliberate): 06_ingestion, 15_constrained_llm — direct
+        # LLM calls; need a provider key not available in CI.
+        notebook:
+          - 01_prerequisites
+          - 02_architecture
+          - 03_quick_start
+          - 04_gms_primitives
+          - 05_gms_diagnostics
+          - 07_three_tier_extraction
+          - 08_authoring_knowledge_documents
+          - 09_tool_catalog
+          - 10_agent_memory
+          - 11_geometric_reasoner
+          - 12_claim_verification
+          - 13_runtime_learning
+          - 14_workflow_planner
+          - 16_tool_gateway
+          - 17_behavioral_contracts
+          - 18_policy_engine
+          - 19_severity_failure_codes
+          - 20_orchestrator
+          - 21_multi_agent
+          - 22_telemetry_tracing
+          - 23_release_gates_spc
+          - 24_threshold_calibration
+          - 25_runtime_governance_bundles
+          - 26_compliance
+          - 27_testing_pointer
+    env:
+      KNOWLYTIX_LICENSE_KEY: ${{ secrets.KNOWLYTIX_LICENSE_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+
+      - name: Determine install source from input tag
+        # Manual triggers don't have the release-event payload that the
+        # auto workflow uses, so prerelease detection runs off the tag
+        # string itself: SemVer prerelease tags carry a hyphen suffix
+        # (`-rc1`, `-alpha.1`, `-beta.2`, `-dev`, …); finals are bare
+        # `vX.Y.Z`. Anything with a hyphen routes to the gmsh-release
+        # install path (early access); bare tags route to PyPI.
+        id: src
+        run: |
+          tag="${{ inputs.tag }}"
+          echo "tag=$tag" >> "$GITHUB_OUTPUT"
+          if [[ "$tag" == *"-"* ]]; then
+              echo "source=gmsh-release" >> "$GITHUB_OUTPUT"
+              echo "pre-release $tag → install from gmsh release"
+          else
+              echo "source=pypi" >> "$GITHUB_OUTPUT"
+              echo "final release $tag → install from PyPI"
+          fi
+
+      - name: Install from PyPI (final releases)
+        if: steps.src.outputs.source == 'pypi'
+        run: |
+          python -m pip install -U pip
+          python -m pip install -r tutorials/requirements.txt
+
+      - name: Install from gmsh release assets (pre-releases)
+        if: steps.src.outputs.source == 'gmsh-release'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          tag="${{ steps.src.outputs.tag }}"
+          mkdir -p /tmp/wheels
+          gh release download "$tag" \
+              --repo "${{ github.repository }}" \
+              --pattern "knowlytix_*.whl" \
+              --dir /tmp/wheels
+          python -m pip install -U pip
+          python -m pip install \
+              /tmp/wheels/knowlytix_core-*.whl \
+              /tmp/wheels/knowlytix_knowledge-*.whl \
+              /tmp/wheels/knowlytix_benchmark-*.whl \
+              /tmp/wheels/knowlytix_harness-*.whl
+
+      - name: Install notebook-execution deps and register kernel
+        run: |
+          python -m pip install jupyter nbconvert ipykernel matplotlib
+          python -m ipykernel install --user --name gmsh-ci
+
+      - name: Execute ${{ matrix.notebook }}
+        run: |
+          python scripts/execute_tutorials.py \
+            --kernel gmsh-ci \
+            --only clean \
+            --timeout 600 \
+            --notebook-dir knowlytix/harness/governance/tutorials/notebooks \
+            --notebook ${{ matrix.notebook }} \
+            --log-path /tmp/notebook-user-guide-${{ matrix.notebook }}.md
+
+      - name: Upload notebook log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: log-user-guide-${{ matrix.notebook }}
+          path: /tmp/notebook-user-guide-${{ matrix.notebook }}.md
+          retention-days: 14

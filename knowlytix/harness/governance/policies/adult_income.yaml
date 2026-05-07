@@ -1,0 +1,40 @@
+# Adult Income domain-specific policy rules (Lab 12.4).
+# Adds five rules to the responsible_ml.yaml base set so that Lab 12.4
+# probes against the Adult Income workflow have the protected-attribute
+# and fairness-threshold enforcement they need.
+
+rules:
+  - rule_id: "ADULT-001"
+    action: "deploy_model"
+    requirement: "protected_attr_sex_checked"
+    rule_type: "requires"
+    context: "adult_income*"
+    severity: "error"
+
+  - rule_id: "ADULT-002"
+    action: "deploy_model"
+    requirement: "protected_attr_race_checked"
+    rule_type: "requires"
+    context: "adult_income*"
+    severity: "error"
+
+  - rule_id: "ADULT-003"
+    action: "deploy_model"
+    requirement: "air_above_0.80"
+    rule_type: "requires"
+    context: "adult_income*"
+    severity: "error"
+
+  - rule_id: "ADULT-004"
+    action: "deploy_model"
+    requirement: "subgroup_accuracy_within_5pct"
+    rule_type: "requires"
+    context: "adult_income*"
+    severity: "error"
+
+  - rule_id: "ADULT-005"
+    action: "drop_feature"
+    requirement: "protected_attribute_removal"
+    rule_type: "blocks"
+    context: "adult_income*"
+    severity: "error"
