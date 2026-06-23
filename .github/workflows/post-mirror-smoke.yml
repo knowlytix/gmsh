@@ -1,0 +1,288 @@
+# Post-release smoke test on knowlytix/gmsh.
+#
+# Triggers when a release is PUBLISHED on this repo. The workflow then:
+#   1. `smoke` (single job, ~3-4 min): install the 4 wheels for the
+#      tag (from this repo's release for prereleases, from PyPI for
+#      finals), run `knowlytix-smoke`. Gates the matrix.
+#   2. `notebook_user_guide_sample` (matrix, 5 parallel, ~5 min wall):
+#      each job runs ONE notebook from a curated 5-notebook sample of
+#      the user-guide tutorial track. Fixtures ship pre-built in the
+#      wheel under `knowlytix/harness/governance/tutorials/fixtures/`,
+#      so there's no fixture-build step on the runner.
+#
+# The single smoke job gives fast failure detection at the install
+# boundary and a prominent top-level status check in the UI. The
+# matrix jobs re-install because each runs on a fresh runner; pip
+# cache amortizes most of the cost.
+#
+# SECURITY — DO NOT WEAKEN:
+#   - Trigger is `release: types: [published]` ONLY. No
+#     `pull_request`, `pull_request_target`, or `workflow_run`. Each
+#     of those has a secret-exposure path on public repos that this
+#     workflow cannot tolerate. The `release` event is safe because
+#     only repo writers (release bot, operators) can create releases
+#     — fork PRs cannot.
+#   - External-PR CI lives in `ci.yml` as a separate workflow file
+#     and MUST NOT reference `secrets.KNOWLYTIX_LICENSE_KEY`. Keeping
+#     the two workflows disjoint is defense-in-depth.
+#   - `KNOWLYTIX_LICENSE_KEY` is a trial-tier JWT with a CI-distinct
+#     `customer_id` so a leak is traceable and revocable without
+#     touching customer keys.
+#   - The pre-release install path uses the runner's auto-provisioned
+#     `GITHUB_TOKEN` for same-repo reads — no PAT.
+
+name: post-mirror-smoke
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: read
+
+jobs:
+  # -- Stage 1: single smoke gate (~3-4 min) -------------------------------
+  smoke:
+    name: Install + knowlytix-smoke
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    env:
+      # Exposed to every step in this job. Masked automatically in logs
+      # by GitHub Actions — never echo `$KNOWLYTIX_LICENSE_KEY` directly.
+      KNOWLYTIX_LICENSE_KEY: ${{ secrets.KNOWLYTIX_LICENSE_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+
+      - name: Verify license secret is wired (fail fast, log identity only)
+        # Fails if the secret is missing before we burn time on pip.
+        # Logs the decoded JWT `customer_id` + `tier` + `expires` claims
+        # so a leak (or a misconfigured environment) is traceable to the
+        # CI key vs. a customer key without ever printing the JWT body.
+        # Claims are extracted client-side without signature verification
+        # — this step is purely diagnostic; real verification happens
+        # inside `knowlytix-smoke` via the license gate.
+        #
+        # Claim names match the payload schema in
+        # `provisioning/provision.py::_build_payload`.
+        run: |
+          python - <<'PY'
+          import base64
+          import json
+          import os
+          import sys
+
+          key = os.environ.get("KNOWLYTIX_LICENSE_KEY", "")
+          if not key:
+              print("::error::KNOWLYTIX_LICENSE_KEY secret is not set; cannot run post-mirror smoke")
+              sys.exit(1)
+
+          # Strip the product prefix if present (`gmsh_live_` → raw JWT).
+          token = key.removeprefix("gmsh_live_")
+          try:
+              _hdr, payload_b64, _sig = token.split(".")
+          except ValueError:
+              print("::error::secret is not a JWT triplet — regenerate per mirror_secret_rotation.md")
+              sys.exit(1)
+
+          payload_b64 += "=" * (-len(payload_b64) % 4)
+          try:
+              payload = json.loads(base64.urlsafe_b64decode(payload_b64))
+          except Exception as exc:
+              print(f"::error::failed to decode JWT payload: {exc}")
+              sys.exit(1)
+
+          customer_id = payload.get("customer_id", "<missing-customer_id>")
+          tier = payload.get("tier", "<missing-tier>")
+          expires = payload.get("expires", "<missing-expires>")
+          print(f"license_customer_id={customer_id} tier={tier} expires={expires}")
+          PY
+
+      - name: Determine install source from release event
+        # Dual-path design:
+        #   - Pre-release (release marked prerelease=true): fetch the
+        #     4 wheels from THIS repo's release. Same-repo read uses
+        #     the runner's auto-provisioned GITHUB_TOKEN — no PAT.
+        #   - Final release (prerelease=false): inline
+        #     `pip install "knowlytix-harness==<ver>"` from real PyPI,
+        #     where <ver> is the tag minus the leading `v`. Matches
+        #     what external users experience.
+        # The release event provides .prerelease + .tag_name directly,
+        # so no version-string regex needed.
+        id: src
+        run: |
+          tag="${{ github.event.release.tag_name }}"
+          prerelease="${{ github.event.release.prerelease }}"
+          echo "tag=$tag" >> "$GITHUB_OUTPUT"
+          echo "version=${tag#v}" >> "$GITHUB_OUTPUT"
+          if [[ "$prerelease" == "true" ]]; then
+              echo "source=gmsh-release" >> "$GITHUB_OUTPUT"
+              echo "pre-release $tag → install from gmsh release"
+          else
+              echo "source=pypi" >> "$GITHUB_OUTPUT"
+              echo "final release $tag → install from PyPI"
+          fi
+
+      - name: Install from PyPI (final releases)
+        if: steps.src.outputs.source == 'pypi'
+        run: |
+          python -m pip install -U pip
+          python -m pip install "knowlytix-harness==${{ steps.src.outputs.version }}"
+
+      - name: Install from gmsh release assets (pre-releases)
+        if: steps.src.outputs.source == 'gmsh-release'
+        env:
+          # Same-repo read on a private repo: the runner's auto
+          # GITHUB_TOKEN has contents:read by default. No PAT needed.
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          tag="${{ steps.src.outputs.tag }}"
+          mkdir -p /tmp/wheels
+          # publish-mirror-release.yml ships the 4 wheels individually
+          # (no zip bundle).  Glob both .whl pattern and SHA256SUMS.txt
+          # in case future verification wants to check sums.
+          if ! gh release download "$tag" \
+              --repo "${{ github.repository }}" \
+              --pattern "knowlytix_*.whl" \
+              --dir /tmp/wheels; then
+              echo "::error::release $tag missing knowlytix_*.whl assets"
+              echo "::error::likely cause: the upstream wheel-publish step hasn't run yet (or failed)"
+              exit 1
+          fi
+          ls -la /tmp/wheels
+          python -m pip install -U pip
+          # Install by NAME via --find-links so pip selects the
+          # platform-compatible knowlytix-core wheel (the release ships one
+          # per platform). Transitive deps (litellm, torch, pydantic,
+          # numpy, …) resolve from real PyPI. Do NOT glob the wheel paths
+          # (knowlytix_core-*.whl) — that matches every platform's core
+          # wheel and pip errors on the incompatible one. Do NOT use
+          # --no-index either: it cuts pip off from PyPI for the deps.
+          # --pre: the gmsh-release wheels are pre-releases (0.2.0rcN); pip
+          # won't select a pre-release by default while a final exists on PyPI.
+          python -m pip install --pre --find-links /tmp/wheels \
+              knowlytix-core knowlytix-knowledge knowlytix-benchmark knowlytix-harness
+
+      - name: Run knowlytix-smoke
+        run: knowlytix-smoke
+
+  # -- Stage 3: matrix-parallel user-guide notebook SAMPLE -----------------
+  notebook_user_guide_sample:
+    # Curated 5-notebook sample of the user-guide tutorial track
+    # (companions to `knowlytix.harness.governance.USER_GUIDE.md`).
+    # As of the 2026-05-07 relocation, these notebooks ship inside the
+    # harness wheel at `knowlytix/harness/governance/tutorials/notebooks/`
+    # — the path resolves in both the mirror clone (visible at that
+    # path) and any installed-wheel context (importable via
+    # `from knowlytix.harness.governance.tutorials.notebooks import _shared`).
+    # See distribution/governance_tutorials_relocation_plan.md for the
+    # relocation, and distribution/post_mirror_smoke_budget_plan.md for
+    # the rationale behind sampling 5 of 25.
+    #
+    # The sample is fixed (not classifier-driven) and spans the runtime-
+    # helper modules + write-side path:
+    #   01_prerequisites              — setup; foundational
+    #   04_gms_primitives             — core GMS API + _helpers_phase1
+    #   17_behavioral_contracts       — mid-stack + _helpers_phase4a
+    #   25_runtime_governance_bundles — on-first-use fixture build +
+    #                                    _helpers_phase5c
+    #   27_testing_pointer            — integration / DOE handoff;
+    #                                    write-side path (catches gitignore
+    #                                    + fixture-resolution bugs)
+    #
+    # Pinned by `test_post_mirror_smoke_user_guide_sample_names_exist`
+    # in tests/scripts/test_mirror_to_public.py.
+    #
+    # Full 25-notebook coverage (and the 18-notebook testing-track
+    # matrix that used to live here as Stage 2) moved to a manual-
+    # trigger-only sibling workflow `post-mirror-smoke-full.yml`.
+    #
+    # Excluded from the sample by design:
+    #   - 06_ingestion, 15_constrained_llm — direct LLM calls; need a
+    #     provider key not available in post-mirror-smoke's environment.
+    #     They're also excluded from the full workflow's matrix.
+    name: ${{ matrix.notebook }}
+    needs: smoke
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        notebook:
+          - 01_prerequisites
+          - 04_gms_primitives
+          - 17_behavioral_contracts
+          - 25_runtime_governance_bundles
+          - 27_testing_pointer
+    env:
+      KNOWLYTIX_LICENSE_KEY: ${{ secrets.KNOWLYTIX_LICENSE_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+
+      - name: Determine install source from release event
+        id: src
+        run: |
+          tag="${{ github.event.release.tag_name }}"
+          prerelease="${{ github.event.release.prerelease }}"
+          echo "tag=$tag" >> "$GITHUB_OUTPUT"
+          echo "version=${tag#v}" >> "$GITHUB_OUTPUT"
+          if [[ "$prerelease" == "true" ]]; then
+              echo "source=gmsh-release" >> "$GITHUB_OUTPUT"
+          else
+              echo "source=pypi" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Install from PyPI (final releases)
+        if: steps.src.outputs.source == 'pypi'
+        run: |
+          python -m pip install -U pip
+          python -m pip install "knowlytix-harness==${{ steps.src.outputs.version }}"
+
+      - name: Install from gmsh release assets (pre-releases)
+        if: steps.src.outputs.source == 'gmsh-release'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          tag="${{ steps.src.outputs.tag }}"
+          mkdir -p /tmp/wheels
+          gh release download "$tag" \
+              --repo "${{ github.repository }}" \
+              --pattern "knowlytix_*.whl" \
+              --dir /tmp/wheels
+          python -m pip install -U pip
+          # --pre: the gmsh-release wheels are pre-releases (0.2.0rcN); pip
+          # won't select a pre-release by default while a final exists on PyPI.
+          python -m pip install --pre --find-links /tmp/wheels \
+              knowlytix-core knowlytix-knowledge knowlytix-benchmark knowlytix-harness
+
+      - name: Install notebook-execution deps and register kernel
+        run: |
+          python -m pip install jupyter nbconvert ipykernel matplotlib
+          python -m ipykernel install --user --name gmsh-ci
+
+      - name: Execute ${{ matrix.notebook }}
+        run: |
+          python scripts/execute_tutorials.py \
+            --kernel gmsh-ci \
+            --only clean \
+            --timeout 600 \
+            --notebook-dir knowlytix/harness/governance/tutorials/notebooks \
+            --notebook ${{ matrix.notebook }} \
+            --log-path /tmp/notebook-user-guide-${{ matrix.notebook }}.md
+
+      - name: Upload notebook log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: log-user-guide-${{ matrix.notebook }}
+          path: /tmp/notebook-user-guide-${{ matrix.notebook }}.md
+          retention-days: 14
