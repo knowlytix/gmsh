@@ -1,0 +1,127 @@
+# Scoped build configuration for the `knowlytix-knowledge` wheel
+# ( scaffold; renamed from `docgms` in).
+#
+# Ships the `knowlytix/knowledge/` tree as the `knowlytix.doc` namespace-package
+# slice — minus `mcp_server.py`, `web_agent.py`, and `cli.py` per
+# `gmsh_packaging_plan.md` (those entry points stay source-only; they pull
+# in `anthropic`, the MCP SDK, and `playwright`, none of which are hard
+# deps of this wheel).
+# moved the source tree from `docgms/` to `knowlytix/knowledge/` and
+# retargeted force-include below.
+
+[build-system]
+requires = ["hatchling>=1.18", "hatch-vcs>=0.4"]
+build-backend = "hatchling.build"
+
+[project]
+name = "knowlytix-knowledge"
+# Version derived from the git tag (hatch-vcs) — see [tool.hatch.version].
+dynamic = ["version"]
+description = "GMS-powered document ingestion, query, and learning — DocGMS"
+readme = "README.md"
+requires-python = ">=3.12,<3.13"
+license = "Apache-2.0"
+# PEP 639 `license-files` is omitted because the Apache-2.0 LICENSE lives
+# at the repo root (`../../LICENSE`), outside this pyproject's project
+# directory. `force-include` below places a copy into the wheel at
+# `knowlytix/knowledge/LICENSE` so the license text still ships with the package;
+# wheel METADATA's `License` field is populated via the SPDX string above.
+authors = [
+    {name = "Agus Sudjianto"},
+    {name = "Wingyan Lau"},
+]
+keywords = [
+    "document-qa",
+    "rag",
+    "knowledge-graph",
+    "llm",
+    "expert-system",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = [
+    # Bare name — exact `==<vcs version>` pin injected at build time by the
+    # custom metadata hook (see [tool.hatch.metadata.hooks.custom]).
+    "knowlytix-core",
+    # numpy is imported directly by knowlytix/knowledge/{ingest,learn,store}.py — listing
+    # it explicitly rather than relying on transitive resolution via
+    # knowlytix-core makes the wheel robust in constrained resolvers
+    # (pip-tools, uv, etc.).
+    "numpy>=1.24",
+    "pymupdf>=1.24",
+    "litellm>=1.40",
+    "pydantic-settings>=2.0",
+    # RagConfig.query_parse_mode defaults to "geometric", whose parser falls
+    # back to knowlytix.core.graph.encoders.encode_texts when no encoder is
+    # injected -- and that imports `transformers` (HF AutoModel/AutoTokenizer).
+    # A default RagPipeline therefore needs transformers at runtime, so the
+    # knowledge wheel declares it (encode_texts itself lives in knowlytix-core
+    # as a lazy/optional import; this wheel is the consumer that makes it
+    # required by defaulting to the geometric route).
+    "transformers>=4.30",
+]
+
+[project.optional-dependencies]
+# `kal` wires the optional GEODE -> KAL persistence sink
+# (`knowlytix/knowledge/rag/kal_sink.py`). KAL is the org's external
+# Postgres/pgvector knowledge store, shipped as the standalone
+# `knowlytix-kal` package. It is intentionally NOT a hard dependency:
+# `kal_sink` is opt-in (not re-exported from `rag/__init__`) and the core
+# GEODE-RAG pipeline runs fully in-process without it. `knowlytix-kal` is a
+# leaf (depends only on pydantic; its GMS coupling lives in unpackaged
+# `integrations/gms/`), so this extra introduces no dependency cycle.
+# Install with `pip install knowlytix-knowledge[kal]`.
+kal = ["knowlytix-kal>=0.14"]
+
+[project.urls]
+Homepage = "https://github.com/knowlytix/gmsh"
+Issues = "https://github.com/knowlytix/gmsh/issues"
+
+# --- Version source (hatch-vcs) -----------------------------------------------
+# See packaging/knowlytix-core/pyproject.toml for rationale. Cross-dep pins
+# below are injected at build time by the custom metadata hook.
+[tool.hatch.version]
+source = "vcs"
+raw-options = { root = "../.." }
+
+# Inject exact knowlytix-* cross-dep pins (==<vcs version>) at build time.
+[tool.hatch.metadata.hooks.custom]
+path = "../_hatch_hooks/pin_cross_deps.py"
+
+# --- Hatchling wheel layout ---------------------------------------------------
+# Re-map repo-root `knowlytix/knowledge/` into the wheel and drop the three
+# source-only module files. Fixtures and `__init__.py` stubs are kept so
+# `importlib.resources.files("knowlytix.doc.fixtures.smoke")` quickstart
+# in the README resolves post-install.
+
+[tool.hatch.build.targets.wheel]
+packages = []
+exclude = [
+    "**/__pycache__",
+    "**/*.pyc",
+    "**/.pytest_cache",
+    "**/tests",
+    # Source-only modules excluded from the knowlytix-knowledge wheel per
+    # `distribution/gmsh_packaging_plan.md`. They remain importable from
+    # the source repo for developers who want the MCP / browser / CLI
+    # entry points; shipping them would drag in heavy optional deps.
+    "knowlytix/knowledge/mcp_server.py",
+    "knowlytix/knowledge/mcp_agnostic_server.py",
+    "knowlytix/knowledge/web_agent.py",
+    "knowlytix/knowledge/cli.py",
+    "knowlytix/knowledge/__main__.py",
+]
+
+[tool.hatch.build.targets.wheel.force-include]
+"../../knowlytix/knowledge" = "knowlytix/knowledge"
+"../../LICENSE" = "knowlytix/knowledge/LICENSE"
+# README content → METADATA via `project.readme`; see
+# packaging/knowlytix-core/pyproject.toml for the rationale.
+
+# No sdist target — see packaging/knowlytix-core/pyproject.toml for rationale.

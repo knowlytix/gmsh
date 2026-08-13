@@ -1,0 +1,6 @@
+# Build artifacts from running notebooks/scripts in-place
+notebooks/__pycache__/
+notebooks/doe_tracing_store/
+notebooks/.ipynb_checkpoints/
+scripts/__pycache__/
+__pycache__/
