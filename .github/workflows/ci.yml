@@ -1,0 +1,14 @@
+# CI placeholder. The real workflow runs ruff + pytest against the three
+# Apache-2.0 packages after `pip install knowlytix-core` from PyPI.
+#
+# Security: this workflow handles external PRs from forks, so it MUST NOT
+# reference any secret consumed by post-mirror-smoke.yml (the license JWT
+# or the release-download token). The two workflows are kept disjoint by
+# design — an accidental env dump here cannot leak a secret it never sees.
+name: ci-placeholder
+on: [pull_request]
+jobs:
+  noop:
+    runs-on: ubuntu-24.04
+    steps:
+      - run: echo "CI placeholder"
