@@ -1,0 +1,18 @@
+{
+  "profile": "taxonomy",
+  "version": "3",
+  "description": "Naming, definition and hierarchy checks for an ontology with an explicit class hierarchy, declared in the audit schema sidecar. Multiple inheritance is permitted; declared disjoint classes and inherited relations are checked; a cycle is an error only when the sidecar declares the hierarchy acyclic; roots and naming conventions apply when declared. ART001 checks the ontology file against its contract; the other store artifact, evidence and numeric checks are not part of this profile.",
+  "rules": [
+    "ART001",
+    "VOC001", "VOC002", "VOC003", "VOC004", "VOC005", "VOC006",
+    "STR001", "STR002", "STR003", "STR004", "STR005", "STR006", "STR007", "STR008",
+    "DEF001", "DEF002", "DEF003",
+    "MOD001", "MOD002",
+    "CON004",
+    "META001"
+  ],
+  "required_rules": ["ART001", "VOC002", "VOC003", "STR003"],
+  "params": {
+    "STR007": {"require_participation": true}
+  }
+}

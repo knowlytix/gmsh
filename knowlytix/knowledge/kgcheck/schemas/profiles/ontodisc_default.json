@@ -1,0 +1,19 @@
+{
+  "profile": "ontodisc_default",
+  "version": "6",
+  "description": "Artifact, vocabulary, structural inventory, provenance and numeric-memory checks that existing OntoDisc stores support, plus the hierarchy, definition, modeling, typed-constraint and competency checks that an audit schema sidecar enables, and the producer grounding rerun (EVD004). Rules whose metadata a store lacks report unavailable. SHACL validation (CON007) is in the rdf_shacl profile.",
+  "rules": [
+    "ART001", "ART002", "ART003", "ART004", "ART005", "ART006",
+    "VOC001", "VOC002", "VOC003", "VOC004", "VOC005", "VOC006",
+    "STR001", "STR002", "STR003", "STR004", "STR005", "STR006", "STR007", "STR008",
+    "DEF001", "DEF002", "DEF003",
+    "MOD001", "MOD002",
+    "CON001", "CON002", "CON003", "CON004", "CON005", "CON006",
+    "EVD001", "EVD002", "EVD003", "EVD004",
+    "NUM001", "NUM002", "NUM003",
+    "COV001", "COV002",
+    "META001"
+  ],
+  "required_rules": ["ART001", "ART002", "ART005"],
+  "params": {}
+}
