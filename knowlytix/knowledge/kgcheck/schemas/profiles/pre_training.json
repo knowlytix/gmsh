@@ -1,0 +1,19 @@
+{
+  "profile": "pre_training",
+  "version": "1",
+  "description": "The snapshot an OntoDisc build trains from (the stored-intended, conformant and quarantined views with their provenance and retained source), audited before training. Model artifacts do not exist yet, so the artifact, numeric-memory and phase rules are not part of this profile; vocabulary ambiguity and missing evidence are required.",
+  "rules": [
+    "ART003", "ART004",
+    "VOC001", "VOC002", "VOC003", "VOC004", "VOC005", "VOC006",
+    "STR001", "STR002", "STR003", "STR004", "STR005", "STR006", "STR007", "STR008",
+    "DEF001", "DEF002", "DEF003",
+    "MOD001", "MOD002",
+    "CON001", "CON002", "CON003", "CON004", "CON005", "CON006",
+    "EVD001", "EVD002", "EVD003", "EVD004",
+    "NUM003",
+    "COV001", "COV002",
+    "META001"
+  ],
+  "required_rules": ["VOC002", "VOC003", "EVD001"],
+  "params": {}
+}

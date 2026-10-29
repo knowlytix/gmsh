@@ -1,0 +1,318 @@
+# SPDX-License-Identifier: Apache-2.0
+"""GMSH TypedVerdict — extends GeometricVerdict with claim-level detail.
+
+A TypedVerdict carries the full audit trail: which claims were extracted,
+which GMS verifier checked each claim, what the raw geometric signal was,
+and how failures were attributed.  It is backwards-compatible with the
+existing GeometricVerdict via ``to_geometric_verdict()``.
+"""
+
+from __future__ import annotations
+
+import math
+import time
+from dataclasses import dataclass, field
+from pathlib import Path
+
+from .claims import ClaimBase
+from .failures import FailureAttribution
+from .verifiers import SubVerdict
+
+# Default weights for overall_confidence — same blend as GMSJudge
+DEFAULT_OVERALL_CONFIDENCE_WEIGHTS: dict[str, float] = {
+    "exact": 0.3,
+    "geodesic": 0.3,
+    "tension": 0.2,
+    "holonomy": 0.2,
+}
+
+
+def load_overall_confidence_weights(path: str | Path) -> dict[str, float]:
+    """Load TypedVerdict overall_confidence weights from a YAML file.
+
+    Reads the ``overall_confidence_weights`` section (if present) from
+    the YAML config.  Recognized keys: ``exact``, ``geodesic``,
+    ``tension``, ``holonomy``.  Unlisted keys keep their defaults.
+
+    The YAML may contain unrelated sections (e.g. ``code_severity``,
+    ``composite_weights`` used by :class:`SeverityClassifier`); those
+    are ignored here.
+
+    Raises
+    ------
+    ValueError
+        If the section references an unknown weight key.
+    """
+    import yaml
+
+    path = Path(path)
+    with open(path) as f:
+        cfg = yaml.safe_load(f) or {}
+
+    if not isinstance(cfg, dict):
+        raise ValueError(
+            f"Verdict config at {path} must be a YAML mapping, "
+            f"got {type(cfg).__name__}"
+        )
+
+    section = cfg.get("overall_confidence_weights") or {}
+    if not isinstance(section, dict):
+        raise ValueError(
+            f"{path}: 'overall_confidence_weights' must be a mapping, "
+            f"got {type(section).__name__}"
+        )
+
+    allowed = set(DEFAULT_OVERALL_CONFIDENCE_WEIGHTS)
+    unknown = set(section) - allowed
+    if unknown:
+        raise ValueError(
+            f"{path}: unknown keys in overall_confidence_weights "
+            f"{sorted(unknown)}. Allowed: {sorted(allowed)}"
+        )
+
+    weights = dict(DEFAULT_OVERALL_CONFIDENCE_WEIGHTS)
+    for k, v in section.items():
+        weights[k] = float(v)
+    return weights
+
+def _get_geometric_verdict_class():
+    """Lazy import to avoid circular dependency with judge.py."""
+    try:
+        from .judge import GeometricVerdict
+        return GeometricVerdict
+    except ImportError:
+        return None
+
+
+# ---------------------------------------------------------------------------
+# TypedVerdict
+# ---------------------------------------------------------------------------
+
+@dataclass
+class TypedVerdict:
+    """Full GMSH verdict with claim-level granularity.
+
+    Backwards-compatible with GeometricVerdict: the top-level fields
+    (correct, geodesic_confidence, tension_score, holonomy_score,
+    overall_confidence) are computed identically.
+
+    New fields provide the audit trail:
+    - claims: typed claims extracted from SUT output
+    - sub_verdicts: per-claim verification results
+    - failures: structured failure attributions
+
+    Attributes:
+        correct: whether the traditional exact scorer marked the answer correct.
+        detail: human-readable summary of the verdict.
+        geodesic_confidence: aggregated GraphVerifier geodesic confidence in [0, 1].
+        tension_score: mean tension over the LogicVerifier tension checks.
+        holonomy_score: mean holonomy defect over the LogicVerifier holonomy checks.
+        overall_confidence: weighted blend of the exact/geodesic/tension/holonomy signals in [0, 1].
+        claims: typed claims extracted from the SUT output.
+        sub_verdicts: per-claim verification results.
+        failures: structured failure attributions collected from the sub-verdicts.
+        run_id: benchmark run identifier.
+        question_id: DOE question identifier.
+        timestamp: verdict creation time, set on init when empty.
+        n_claims: number of claims in this verdict.
+        n_passed: number of sub-verdicts that passed.
+        n_failed: number of sub-verdicts that failed.
+        completeness: coverage of the question's expected ground-truth atoms by the answer.
+    """
+
+    # -- Backwards-compatible fields from GeometricVerdict --
+    correct: bool = False
+    detail: str = ""
+    geodesic_confidence: float = 0.0
+    tension_score: float = 0.0
+    holonomy_score: float = 0.0
+    overall_confidence: float = 0.0
+
+    # -- GMSH typed fields --
+    claims: list[ClaimBase] = field(default_factory=list)
+    sub_verdicts: list[SubVerdict] = field(default_factory=list)
+    failures: list[FailureAttribution] = field(default_factory=list)
+
+    # -- Provenance --
+    run_id: str = ""
+    question_id: str = ""
+    timestamp: str = ""
+
+    # -- Counts --
+    n_claims: int = 0
+    n_passed: int = 0
+    n_failed: int = 0
+
+    # -- Completeness (recall axis, separate from claim correctness) --
+    # Coverage of the question's expected ground-truth atoms by the answer;
+    # see knowlytix.harness.testing.completeness. Empty/1.0 when not computed.
+    completeness: dict = field(default_factory=dict)
+
+    def __post_init__(self):
+        if not self.timestamp:
+            self.timestamp = time.strftime("%Y-%m-%d %H:%M:%S")
+
+    @classmethod
+    def from_sub_verdicts(
+        cls,
+        claims: list[ClaimBase],
+        sub_verdicts: list[SubVerdict],
+        exact_correct: bool,
+        exact_detail: str,
+        run_id: str = "",
+        question_id: str = "",
+        weights: dict | None = None,
+    ) -> "TypedVerdict":
+        """Construct a TypedVerdict from claims and sub-verdicts.
+
+        Aggregates per-claim geometric signals into the backwards-compatible
+        top-level fields (geodesic_confidence, tension_score, etc.) and
+        computes overall_confidence using the same weighted formula as
+        GeometricVerdict.
+
+        Parameters
+        ----------
+        claims : list[ClaimBase]
+            Typed claims from ClaimCompiler.
+        sub_verdicts : list[SubVerdict]
+            Per-claim verification results from VerificationRouter.
+        exact_correct : bool
+            Whether the traditional scorer marked the answer correct.
+        exact_detail : str
+            Detail string from the traditional scorer.
+        run_id : str
+            Benchmark run identifier.
+        question_id : str
+            DOE question identifier.
+        weights : dict or None
+            Weights for combining signals (default: same as GMSJudge).
+        """
+        w = weights or DEFAULT_OVERALL_CONFIDENCE_WEIGHTS
+
+        # Collect failures
+        failures = [
+            sv.failure for sv in sub_verdicts
+            if sv.failure is not None
+        ]
+
+        # Aggregate geometric signals by verifier type
+        graph_scores = []
+        tension_scores = []
+        holonomy_scores = []
+
+        for sv in sub_verdicts:
+            if sv.raw_score is None:
+                continue
+            if sv.verifier_name == "GraphVerifier":
+                graph_scores.append(sv.raw_score)
+            elif sv.verifier_name == "LogicVerifier":
+                if sv.gms_method_used == "tension_energy":
+                    tension_scores.append(sv.raw_score)
+                elif sv.gms_method_used == "check_holonomy":
+                    holonomy_scores.append(sv.raw_score)
+
+        # Compute backwards-compatible fields
+        geo_conf = 0.0
+        if graph_scores:
+            mean_geo = sum(graph_scores) / len(graph_scores)
+            geo_conf = math.exp(-mean_geo)
+
+        tension = 0.0
+        if tension_scores:
+            tension = sum(tension_scores) / len(tension_scores)
+
+        holonomy = 0.0
+        if holonomy_scores:
+            holonomy = sum(holonomy_scores) / len(holonomy_scores)
+
+        # Overall confidence (same formula as GMSJudge._compute_overall)
+        exact_score = 1.0 if exact_correct else 0.0
+        tension_quality = max(0.0, min(1.0, 1.0 - tension / 2.0))
+        holonomy_quality = math.exp(-holonomy)
+
+        overall = (
+            w.get("exact", 0.3) * exact_score
+            + w.get("geodesic", 0.3) * geo_conf
+            + w.get("tension", 0.2) * tension_quality
+            + w.get("holonomy", 0.2) * holonomy_quality
+        )
+        overall = max(0.0, min(1.0, overall))
+
+        n_passed = sum(1 for sv in sub_verdicts if sv.passed)
+        n_failed = sum(1 for sv in sub_verdicts if not sv.passed)
+
+        # Build detail string
+        parts = [exact_detail]
+        parts.append(
+            f"GMSH: {len(claims)} claims, {n_passed} passed, "
+            f"{n_failed} failed"
+        )
+        parts.append(
+            f"geo_conf={geo_conf:.3f} tension={tension:.3f} "
+            f"holonomy={holonomy:.3f} overall={overall:.3f}"
+        )
+        if failures:
+            codes = set(f.code.value for f in failures)
+            parts.append(f"failures: {', '.join(sorted(codes))}")
+
+        return cls(
+            correct=exact_correct,
+            detail=" | ".join(parts),
+            geodesic_confidence=geo_conf,
+            tension_score=tension,
+            holonomy_score=holonomy,
+            overall_confidence=overall,
+            claims=claims,
+            sub_verdicts=sub_verdicts,
+            failures=failures,
+            run_id=run_id,
+            question_id=question_id,
+            n_claims=len(claims),
+            n_passed=n_passed,
+            n_failed=n_failed,
+        )
+
+    def to_geometric_verdict(self):
+        """Downcast to GeometricVerdict for backwards compatibility.
+
+        Returns a GeometricVerdict with the same top-level fields.
+        If GeometricVerdict is not importable, returns a dict.
+        """
+        GeoVerdict = _get_geometric_verdict_class()
+        if GeoVerdict is not None:
+            return GeoVerdict(
+                correct=self.correct,
+                detail=self.detail,
+                geodesic_confidence=self.geodesic_confidence,
+                tension_score=self.tension_score,
+                holonomy_score=self.holonomy_score,
+                overall_confidence=self.overall_confidence,
+            )
+        return {
+            "correct": self.correct,
+            "detail": self.detail,
+            "geodesic_confidence": self.geodesic_confidence,
+            "tension_score": self.tension_score,
+            "holonomy_score": self.holonomy_score,
+            "overall_confidence": self.overall_confidence,
+        }
+
+    @property
+    def failure_codes(self) -> list[str]:
+        """Unique failure codes in this verdict."""
+        return sorted(set(f.code.value for f in self.failures))
+
+    @property
+    def verifier_summary(self) -> dict[str, dict]:
+        """Per-verifier pass/fail summary."""
+        summary: dict[str, dict] = {}
+        for sv in self.sub_verdicts:
+            name = sv.verifier_name
+            if name not in summary:
+                summary[name] = {"passed": 0, "failed": 0, "total": 0}
+            summary[name]["total"] += 1
+            if sv.passed:
+                summary[name]["passed"] += 1
+            else:
+                summary[name]["failed"] += 1
+        return summary
