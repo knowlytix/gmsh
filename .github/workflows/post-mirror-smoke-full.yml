@@ -58,7 +58,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-          cache: pip
+          # No pip cache: release-only workflow. It runs rarely, usually on a tag
+          # ref, and a tag-scoped cache is never restored by a later run (~3 GB each).
 
       - name: Verify license secret is wired (fail fast, log identity only)
         # Same diagnostic step as the auto workflow — fails before pip
@@ -203,7 +204,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-          cache: pip
+          # No pip cache: release-only workflow. It runs rarely, usually on a tag
+          # ref, and a tag-scoped cache is never restored by a later run (~3 GB each).
 
       - name: Determine install source from input tag
         # Manual triggers don't have the release-event payload that the
