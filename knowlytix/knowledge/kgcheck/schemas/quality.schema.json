@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "OntoDisc KG quality bundle report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["quality_version", "snapshot_id", "representation", "gate", "semantic_accuracy_measured", "limits", "applicability", "components"],
+  "properties": {
+    "quality_version": {"const": "kgcheck-quality/1"},
+    "snapshot_id": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "representation": {"type": "string"},
+    "gate": {
+      "type": "object", "additionalProperties": false, "required": ["outcome", "issues"],
+      "properties": {"outcome": {"enum": ["pass", "fail", "indeterminate"]}, "issues": {"type": "array", "items": {"type": "string"}}}
+    },
+    "semantic_accuracy_measured": {"const": false},
+    "limits": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+    "applicability": {
+      "type": "array", "items": {
+        "type": "object", "additionalProperties": false, "required": ["rule", "version", "status", "reason"],
+        "properties": {
+          "rule": {"type": "string"}, "version": {"type": "string"}, "reason": {"type": "string"},
+          "status": {"enum": ["passed", "findings", "not_applicable", "unavailable", "error", "partial", "disabled", "replaced", "not_selected"]}
+        }
+      }
+    },
+    "gms_deployment": {"type": "object", "required": ["version", "generation", "gate", "calibration", "heldout", "artifacts"]},
+    "components": {"type": "object", "minProperties": 1, "additionalProperties": {"type": "object", "required": ["report_version", "snapshot", "profile", "gate", "results", "findings", "run"]}}
+  }
+}

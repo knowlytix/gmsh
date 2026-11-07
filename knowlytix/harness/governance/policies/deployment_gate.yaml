@@ -1,0 +1,35 @@
+# governed_agent/policies/deployment_gate.yaml
+#
+# Tiered release gate thresholds.
+# Built in Chapter 15 of "How to Build Policy-Governed AI Agents."
+#
+# Each higher tier adds new constraints and tightens existing ones.
+# The monotonicity invariant MUST hold:
+#   advisory thresholds <= recommendation thresholds <= action_taking thresholds
+#
+# Modify thresholds per organizational policy, but always verify
+# monotonicity with TieredReleaseGate.verify_monotonicity().
+
+release_gate:
+  tiers:
+    advisory:
+      min_accuracy: 0.70
+      min_confidence: 0.30
+      max_robustness_drop: 1.00   # unconstrained
+      min_fairness_air: 0.00      # unconstrained
+
+    recommendation:
+      min_accuracy: 0.80
+      min_confidence: 0.50
+      max_robustness_drop: 0.10
+      min_fairness_air: 0.00      # unconstrained
+
+    action_taking:
+      min_accuracy: 0.85
+      min_confidence: 0.70
+      max_robustness_drop: 0.05
+      min_fairness_air: 0.80      # ECOA / Fair Lending 80% rule
+
+  spc:
+    alert_threshold: -0.01        # slope below this fires an alert
+    min_runs_for_trend: 5         # need at least 5 runs for trend

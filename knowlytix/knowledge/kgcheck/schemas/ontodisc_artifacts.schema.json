@@ -1,0 +1,1018 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:knowlytix:kgcheck:ontodisc-artifacts:1",
+  "title": "OntoDisc store artifacts",
+  "description": "Structural contract for the JSON files an OntoDisc build writes to its store directory, as written by knowlytix-knowledge from 1.5.0. Structure only: semantic problems (blank tokens, duplicates, inconsistent indices, conflicts) are audit findings, not schema violations. Each artifact is validated against {\"$ref\": \"#/$defs/<def>\"} with these $defs.",
+  "x-contract-version": "ontodisc-artifacts/1",
+  "x-artifacts": {
+    "triples.json": {"def": "triples", "required": true},
+    "adapter.json": {"def": "adapter", "required": true},
+    "enm.json": {"def": "enm", "required": true},
+    "phase.json": {"def": "phase", "required": true},
+    "metadata.json": {"def": "metadata", "required": true},
+    "ontology.json": {"def": "ontology", "required": true},
+    "closed_schema.json": {"def": "closed_schema", "required": true},
+    "dropped.json": {"def": "dropped", "required": false},
+    "quarantine.json": {"def": "quarantine", "required": true},
+    "provenance.json": {"def": "provenance", "required": true},
+    "model_dims.json": {"def": "model_dims", "required": false},
+    "ontology_suggestions.json": {"def": "ontology_suggestions", "required": false},
+    "ontology_edits.json": {"def": "ontology_edits", "required": false},
+    "semantic_verification.json": {"def": "semantic_verification", "required": false},
+    "rules.json": {"def": "rules", "required": false},
+    "obligation_coverage.json": {"def": "obligation_coverage", "required": false},
+    "extraction_diagnostics.json": {"def": "extraction_diagnostics", "required": false}
+  },
+  "x-other-files": {
+    "documents/combined.md": "Retained source text; read as UTF-8 text, optional.",
+    "model.pt": "Model weights; never opened by an audit."
+  },
+  "$defs": {
+    "rule_span": {
+      "type": "object",
+      "required": [
+        "text",
+        "start",
+        "end"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "text": {
+          "type": "string"
+        },
+        "start": {
+          "$ref": "#/$defs/count"
+        },
+        "end": {
+          "$ref": "#/$defs/count"
+        }
+      }
+    },
+    "rules": {
+      "type": "object",
+      "required": [
+        "version",
+        "rules"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "version": {
+          "enum": [
+            1,
+            2
+          ]
+        },
+        "rules": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "triple",
+              "subject",
+              "text",
+              "actor",
+              "modality",
+              "action",
+              "conditions",
+              "quantities",
+              "evidence",
+              "scope_status",
+              "executable"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "triple": {
+                "$ref": "#/$defs/triple"
+              },
+              "subject": {
+                "type": "string"
+              },
+              "text": {
+                "type": "string"
+              },
+              "actor": {
+                "oneOf": [
+                  {
+                    "$ref": "#/$defs/rule_span"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "modality": {
+                "oneOf": [
+                  {
+                    "$ref": "#/$defs/rule_span"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "action": {
+                "oneOf": [
+                  {
+                    "$ref": "#/$defs/rule_span"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "conditions": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/$defs/rule_span"
+                }
+              },
+              "quantities": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "text",
+                    "start",
+                    "end",
+                    "value",
+                    "unit",
+                    "kind",
+                    "scope",
+                    "scalar_memory_eligible"
+                  ],
+                  "additionalProperties": false,
+                  "properties": {
+                    "text": {
+                      "type": "string"
+                    },
+                    "start": {
+                      "$ref": "#/$defs/count"
+                    },
+                    "end": {
+                      "$ref": "#/$defs/count"
+                    },
+                    "value": {
+                      "type": "string"
+                    },
+                    "unit": {
+                      "type": "string"
+                    },
+                    "kind": {
+                      "enum": [
+                        "amount",
+                        "ratio",
+                        "duration"
+                      ]
+                    },
+                    "scope": {
+                      "type": "string"
+                    },
+                    "scalar_memory_eligible": {
+                      "const": false
+                    }
+                  }
+                }
+              },
+              "evidence": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/$defs/evidence"
+                }
+              },
+              "scope_status": {
+                "enum": [
+                  "single_clause",
+                  "requires_review",
+                  "multiple_clauses"
+                ]
+              },
+              "executable": {
+                "const": false
+              },
+              "clauses": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "id",
+                    "span",
+                    "actor",
+                    "modality",
+                    "action",
+                    "qualifiers",
+                    "deontic",
+                    "scope_status",
+                    "review_reasons",
+                    "executable",
+                    "quantity_indices"
+                  ],
+                  "additionalProperties": false,
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "span": {
+                      "$ref": "#/$defs/rule_span"
+                    },
+                    "actor": {
+                      "oneOf": [
+                        {
+                          "$ref": "#/$defs/rule_span"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "modality": {
+                      "oneOf": [
+                        {
+                          "$ref": "#/$defs/rule_span"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "action": {
+                      "oneOf": [
+                        {
+                          "$ref": "#/$defs/rule_span"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "qualifiers": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "required": [
+                          "text",
+                          "start",
+                          "end",
+                          "kind"
+                        ],
+                        "additionalProperties": false,
+                        "properties": {
+                          "text": {
+                            "type": "string"
+                          },
+                          "start": {
+                            "$ref": "#/$defs/count"
+                          },
+                          "end": {
+                            "$ref": "#/$defs/count"
+                          },
+                          "kind": {
+                            "enum": [
+                              "condition",
+                              "exception",
+                              "temporal_anchor",
+                              "purpose",
+                              "qualification"
+                            ]
+                          }
+                        }
+                      }
+                    },
+                    "deontic": {
+                      "enum": [
+                        "unknown",
+                        "ambiguous_may",
+                        "permission",
+                        "not_required",
+                        "prohibition",
+                        "recommendation_against",
+                        "recommendation",
+                        "obligation",
+                        "assertion"
+                      ]
+                    },
+                    "scope_status": {
+                      "enum": [
+                        "parsed",
+                        "requires_review"
+                      ]
+                    },
+                    "review_reasons": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "executable": {
+                      "const": false
+                    },
+                    "quantity_indices": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/$defs/count"
+                      }
+                    },
+                    "context_actor": {
+                      "type": "object",
+                      "required": [
+                        "text",
+                        "start",
+                        "end",
+                        "evidence_index"
+                      ],
+                      "additionalProperties": false,
+                      "properties": {
+                        "text": {
+                          "type": "string"
+                        },
+                        "start": {
+                          "$ref": "#/$defs/count"
+                        },
+                        "end": {
+                          "$ref": "#/$defs/count"
+                        },
+                        "evidence_index": {
+                          "$ref": "#/$defs/count"
+                        }
+                      }
+                    },
+                    "kind": {
+                      "enum": [
+                        "normative",
+                        "descriptive"
+                      ]
+                    }
+                  }
+                }
+              },
+              "relationships": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "kind",
+                    "from",
+                    "to"
+                  ],
+                  "additionalProperties": false,
+                  "properties": {
+                    "kind": {
+                      "enum": [
+                        "actor",
+                        "modality",
+                        "condition",
+                        "exception",
+                        "purpose",
+                        "qualification",
+                        "temporal_anchor",
+                        "duration",
+                        "target",
+                        "describes",
+                        "identifier",
+                        "method",
+                        "definition",
+                        "required_content",
+                        "information_source",
+                        "start_trigger"
+                      ]
+                    },
+                    "from": {
+                      "$ref": "#/$defs/rule_span"
+                    },
+                    "to": {
+                      "$ref": "#/$defs/rule_span"
+                    }
+                  }
+                }
+              },
+              "nonquantity_numbers": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "text",
+                    "start",
+                    "end",
+                    "kind"
+                  ],
+                  "additionalProperties": false,
+                  "properties": {
+                    "text": {
+                      "type": "string"
+                    },
+                    "start": {
+                      "$ref": "#/$defs/count"
+                    },
+                    "end": {
+                      "$ref": "#/$defs/count"
+                    },
+                    "kind": {
+                      "enum": [
+                        "calendar_date",
+                        "document_reference"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "if": {
+        "properties": {
+          "version": {
+            "const": 2
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "rules": {
+            "items": {
+              "required": [
+                "clauses",
+                "relationships"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "quantity_declaration": {
+      "type": "object",
+      "required": [
+        "kind",
+        "unit",
+        "scope",
+        "unconditional"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "enum": [
+            "amount",
+            "duration",
+            "count",
+            "ratio",
+            "measurement"
+          ]
+        },
+        "unit": {
+          "type": "string",
+          "minLength": 1
+        },
+        "scope": {
+          "const": "head"
+        },
+        "unconditional": {
+          "const": true
+        }
+      }
+    },
+    "obligation_coverage": {
+      "type": "object",
+      "required": [
+        "basis",
+        "units",
+        "unresolved"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "basis": {
+          "type": "string"
+        },
+        "units": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "section",
+              "text",
+              "retained",
+              "matches"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "section": {
+                "type": "string"
+              },
+              "text": {
+                "type": "string"
+              },
+              "retained": {
+                "type": "boolean"
+              },
+              "matches": {
+                "$ref": "#/$defs/triples"
+              }
+            }
+          }
+        },
+        "unresolved": {
+          "$ref": "#/$defs/count"
+        }
+      }
+    },
+    "extraction_diagnostics": {
+      "description": "Final extraction attempts and lexical losses, followed by build admission decisions. Raw responses are diagnostic data, never executable content.",
+      "type": "object",
+      "required": ["version", "calls", "sections", "final_admission"],
+      "properties": {
+        "version": {"const": 1},
+        "calls": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["section", "status"],
+            "properties": {
+              "section": {"type": "string"},
+              "prompt": {"type": "string"},
+              "status": {"enum": ["parsed", "no_parsed_triples", "failed"]},
+              "raw_response": {"type": "string"},
+              "parsed": {"$ref": "#/$defs/triples"},
+              "max_tokens": {"type": "integer", "minimum": 1},
+              "error": {"type": "string"},
+              "prompt_sha256": {"type": "string"},
+              "response_sha256": {"type": "string"},
+              "parsed_count": {"type": "integer", "minimum": 0}
+            },
+            "additionalProperties": false
+          }
+        },
+        "sections": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["name", "attempts", "failed"],
+            "properties": {
+              "name": {"type": "string"},
+              "attempts": {"type": "integer", "minimum": 1},
+              "failed": {"type": "boolean"},
+              "candidates": {"$ref": "#/$defs/triples"},
+              "lexically_accepted": {"$ref": "#/$defs/triples"},
+              "lexical_rejections": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "triple": {"$ref": "#/$defs/triple"},
+                    "grounded": {"type": "boolean"},
+                    "contradiction": {"type": "boolean"},
+                    "unbound_rule_amount": {"type": "boolean"},
+                    "faithful": {"type": "boolean"}
+                  }
+                }
+              },
+              "lexical_completeness": {"type": "number", "minimum": 0, "maximum": 1},
+              "candidate_count": {"type": "integer", "minimum": 0},
+              "accepted_count": {"type": "integer", "minimum": 0},
+              "rejection_count": {"type": "integer", "minimum": 0},
+              "repair_count": {"type": "integer", "minimum": 0},
+              "representation_repairs": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": ["original", "replacements", "reason", "requires_semantic_verification"],
+                  "properties": {
+                    "original": {"$ref": "#/$defs/triple"},
+                    "replacements": {"$ref": "#/$defs/triples"},
+                    "reason": {"type": "string"},
+                    "requires_semantic_verification": {"type": "boolean"}
+                  }
+                }
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "final_admission": {
+          "type": "object",
+          "properties": {
+            "selected": {"$ref": "#/$defs/triples"},
+            "quarantined": {"$ref": "#/$defs/quarantine"},
+            "semantic_verification": {"$ref": "#/$defs/semantic_verification"},
+            "selected_count": {"type": "integer", "minimum": 0},
+            "quarantined_count": {"type": "integer", "minimum": 0},
+            "semantic_verification_count": {"type": "integer", "minimum": 0}
+          },
+          "additionalProperties": false,
+          "oneOf": [
+            {"required": ["selected", "quarantined", "semantic_verification"]},
+            {"required": ["selected_count", "quarantined_count", "semantic_verification_count"]}
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "token": {"type": "string"},
+    "triple": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/token"},
+      "minItems": 3,
+      "maxItems": 3
+    },
+    "index_key": {"type": "string", "pattern": "^(0|[1-9][0-9]*)$"},
+    "count": {"type": "integer", "minimum": 0},
+
+    "triples": {
+      "description": "The stored (trained) graph view, as canonicalized string triples.",
+      "type": "array",
+      "items": {"$ref": "#/$defs/triple"}
+    },
+
+    "adapter": {
+      "description": "Entity and relation index maps of the trained model.",
+      "type": "object",
+      "required": ["entity_to_idx", "idx_to_entity", "relation_to_idx", "idx_to_relation",
+                   "num_entities", "num_relations"],
+      "additionalProperties": false,
+      "properties": {
+        "entity_to_idx": {"type": "object", "additionalProperties": {"$ref": "#/$defs/count"}},
+        "idx_to_entity": {"type": "object", "propertyNames": {"$ref": "#/$defs/index_key"},
+                          "additionalProperties": {"type": "string"}},
+        "relation_to_idx": {"type": "object", "additionalProperties": {"$ref": "#/$defs/count"}},
+        "idx_to_relation": {"type": "object", "propertyNames": {"$ref": "#/$defs/index_key"},
+                            "additionalProperties": {"type": "string"}},
+        "num_entities": {"$ref": "#/$defs/count"},
+        "num_relations": {"$ref": "#/$defs/count"}
+      }
+    },
+
+    "enm": {
+      "description": "Exact numeric memory: '<relation>::<head>' to its single value. Ambiguous slots are omitted and listed in metadata.numeric_conflicts (from 47782ab).",
+      "type": "object",
+      "propertyNames": {"type": "string", "pattern": "^.+::.+$"},
+      "additionalProperties": {"type": "number"}
+    },
+
+    "phase": {
+      "description": "Phase encoder ranges by encoder name.",
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["v_min", "v_max"],
+        "additionalProperties": false,
+        "properties": {"v_min": {"type": "number"}, "v_max": {"type": "number"}}
+      }
+    },
+
+    "model_dims": {
+      "type": "object",
+      "required": ["num_entities", "num_relations"],
+      "additionalProperties": false,
+      "properties": {
+        "num_entities": {"$ref": "#/$defs/count"},
+        "num_relations": {"$ref": "#/$defs/count"},
+        "cap_enabled": {"type": "boolean"},
+        "cap_rho_max": {"type": "number"},
+        "cap_use_diag": {"type": "boolean"},
+        "cap_head_conditioned": {"type": "boolean"},
+        "geometry": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "d_v": {"$ref": "#/$defs/count"},
+            "d_u": {"$ref": "#/$defs/count"},
+            "m": {"$ref": "#/$defs/count"},
+            "d": {"$ref": "#/$defs/count"}
+          }
+        }
+      }
+    },
+
+    "metadata": {
+      "description": "Store metadata. Open: GMSExpertStore ingestion paths other than OntoDisc add keys. Known keys are typed.",
+      "type": "object",
+      "properties": {
+        "created": {"type": ["string", "null"]},
+        "last_saved": {"type": "string"},
+        "documents": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["name"],
+            "properties": {"name": {"type": "string"}, "chars": {"$ref": "#/$defs/count"}}
+          }
+        },
+        "total_ingestions": {"$ref": "#/$defs/count"},
+        "canonicalization": {"type": "object"},
+        "quantity_relations": {"type": "object", "additionalProperties": {"$ref": "#/$defs/quantity_declaration"}},
+        "numeric_memory_policy": {"type": "string"},
+        "numeric_memory_exclusions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["relation", "head", "value", "kind"],
+            "additionalProperties": false,
+            "properties": {
+              "relation": {"type": "string"},
+              "head": {"type": "string"},
+              "value": {"type": "string"},
+              "kind": {"enum": ["version_identifier", "page_reference", "identifier", "untyped_quantity"]}
+            }
+          }
+        },
+        "extraction_coverage": {
+          "type": "object",
+          "required": ["sections", "sections_with_admitted_facts", "uncited_sections", "diagnostics"],
+          "properties": {
+            "sections": {"$ref": "#/$defs/count"},
+            "sections_with_admitted_facts": {"$ref": "#/$defs/count"},
+            "uncited_sections": {"type": "array", "items": {"type": "string"}},
+            "diagnostics": {"const": "extraction_diagnostics.json"}
+          }
+        },
+        "numeric_conflicts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["relation", "head", "values"],
+            "additionalProperties": false,
+            "properties": {
+              "relation": {"type": "string"},
+              "head": {"type": "string"},
+              "values": {"type": "array", "items": {"type": "number"}, "minItems": 2}
+            }
+          }
+        },
+        "conformance_policy": {"enum": ["faithful", "conformant"]},
+        "text_relations": {"type": "array", "items": {"type": "string"}},
+        "grounding_policy": {"enum": ["lexical", "lexical_semantic"]},
+        "numeric_memory_excluded_relations": {
+          "type": "object",
+          "additionalProperties": {"enum": ["version_identifier", "page_reference", "identifier", "untyped_quantity"]}
+        }
+      }
+    },
+
+    "ontology": {
+      "description": "Ontology as Ontology.to_json writes it.",
+      "type": "object",
+      "required": ["entities", "relations", "distinct", "schema"],
+      "additionalProperties": false,
+      "properties": {
+        "entities": {"type": "object", "additionalProperties": {"type": "array", "items": {"type": "string"}}},
+        "relations": {"type": "object", "additionalProperties": {"type": "array", "items": {"type": "string"}}},
+        "distinct": {"type": "array", "items": {"type": "array", "items": {"type": "string"},
+                                                "minItems": 2, "maxItems": 2}},
+        "schema": {"type": "array", "items": {"$ref": "#/$defs/triple"}}
+      }
+    },
+
+    "closed_schema": {
+      "description": "The conformant deliverable view.",
+      "type": "object",
+      "required": ["triples", "entities", "relations", "counts"],
+      "additionalProperties": false,
+      "properties": {
+        "triples": {"type": "array", "items": {"$ref": "#/$defs/triple"}},
+        "entities": {"type": "array", "items": {"type": "string"}},
+        "relations": {"type": "array", "items": {"type": "string"}},
+        "counts": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "in": {"$ref": "#/$defs/count"},
+            "conformant": {"$ref": "#/$defs/count"},
+            "quarantined": {"$ref": "#/$defs/count"},
+            "noise": {"$ref": "#/$defs/count"},
+            "entities": {"$ref": "#/$defs/count"},
+            "relations": {"$ref": "#/$defs/count"}
+          }
+        }
+      }
+    },
+
+    "dropped": {
+      "description": "Extracted triples rejected by grounding; never treated as stored facts.",
+      "type": "array",
+      "items": {
+        "type": "object", "required": ["triple", "reasons", "section"],
+        "additionalProperties": false,
+        "properties": {
+          "triple": {"$ref": "#/$defs/triple"},
+          "reasons": {"type": "array", "items": {"type": "string"}},
+          "section": {"type": "string"},
+          "document": {"type": "string"}
+        }
+      }
+    },
+    "quarantine_reason": {
+      "enum": ["noise_head", "noise_tail", "undeclared_head", "undeclared_tail",
+               "undeclared_relation", "missing_source_evidence", "semantic_grounding_failed"]
+    },
+    "quarantine": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["triple", "reasons"],
+        "additionalProperties": false,
+        "properties": {
+          "triple": {"$ref": "#/$defs/triple"},
+          "reasons": {"type": "array", "items": {"$ref": "#/$defs/quarantine_reason"}, "minItems": 1},
+          "semantic_verification": {"type": "array", "items": {"$ref": "#/$defs/verification_record"}}
+        }
+      }
+    },
+
+    "evidence": {
+      "description": "One citation. 'sentence' and 'line' cite one unit; 'structure' (deterministic table/backbone derivation) and 'source_span' (rule literal) carry the whole section as sentence and span. A 'line' sentence_index counts non-blank lines, not sentences.",
+      "type": "object",
+      "required": ["kind", "section", "sentence_index", "sentence", "span"],
+      "additionalProperties": false,
+      "properties": {
+        "kind": {"enum": ["sentence", "line", "structure", "source_span"]},
+        "section": {"type": "string"},
+        "document": {"type": "string"},
+        "sentence_index": {"$ref": "#/$defs/count"},
+        "sentence": {"type": "string"},
+        "span": {"type": "string"}
+      }
+    },
+    "provenance": {
+      "description": "Nested OntoDisc provenance. A flat GEODE provenance list is a different format.",
+      "type": "object",
+      "required": ["ontology", "triples"],
+      "additionalProperties": false,
+      "properties": {
+        "ontology": {"$ref": "#/$defs/ontology"},
+        "triples": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["triple", "evidence"],
+            "additionalProperties": false,
+            "properties": {
+              "triple": {"$ref": "#/$defs/triple"},
+              "evidence": {"type": "array", "items": {"$ref": "#/$defs/evidence"}},
+              "semantic_verification": {"type": "array", "items": {"$ref": "#/$defs/verification_record"}}
+            }
+          }
+        }
+      }
+    },
+
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "quote_offset": {"type": "array", "items": {"$ref": "#/$defs/count"}, "minItems": 2, "maxItems": 2},
+    "verification_record": {
+      "description": "One semantic verification of a triple against one source section, in one of three writer shapes.",
+      "oneOf": [
+        {"$ref": "#/$defs/verification_completed"},
+        {"$ref": "#/$defs/verification_call_failed"},
+        {"$ref": "#/$defs/verification_no_context"}
+      ]
+    },
+    "verification_completed": {
+      "description": "The verifier answered with a valid verdict. A supported or contradicted verdict cites at least one quote, located in the source by quote_offsets.",
+      "type": "object",
+      "required": ["triple", "section", "document", "prompt_version", "verifier", "source_sha256",
+                   "verdict", "reason", "quotes", "quote_offsets"],
+      "additionalProperties": false,
+      "properties": {
+        "triple": {"$ref": "#/$defs/triple"},
+        "section": {"type": "string"},
+        "document": {"type": ["string", "null"]},
+        "prompt_version": {"type": "string"},
+        "verifier": {"type": "string"},
+        "quote_retry": {
+          "type": "object",
+          "required": ["prompt_version", "previous_error", "previous_response_sha256"],
+          "additionalProperties": false,
+          "properties": {
+            "prompt_version": {"enum": ["ontodisc-semantic-span-retry-v1", "ontodisc-semantic-span-retry-v2"]},
+            "previous_error": {"const": "quote_not_in_source"},
+            "selected_span_ids": {"type": "array", "items": {"type": "integer", "minimum": 0}},
+            "previous_response_sha256": {"$ref": "#/$defs/sha256"}
+          }
+        },
+        "source_sha256": {"$ref": "#/$defs/sha256"},
+        "verdict": {"enum": ["supported", "contradicted", "insufficient_evidence"]},
+        "reason": {"type": "string", "minLength": 1},
+        "quotes": {"type": "array", "items": {"type": "string", "minLength": 1}},
+        "verifier_quotes": {"type": "array", "items": {"type": "string"}},
+        "quote_offsets": {"type": "array", "items": {"$ref": "#/$defs/quote_offset"}}
+      },
+      "if": {"properties": {"verdict": {"enum": ["supported", "contradicted"]}}},
+      "then": {"properties": {"quotes": {"minItems": 1}, "quote_offsets": {"minItems": 1}}}
+    },
+    "verification_call_failed": {
+      "description": "The verifier was asked but no valid verdict resulted (backend error, malformed answer, quote not in source, empty or oversized source). Fail-closed: insufficient evidence, no quotes. 'error' is the exception class name, or true for an empty or oversized source.",
+      "type": "object",
+      "required": ["triple", "section", "document", "prompt_version", "verifier", "source_sha256",
+                   "verdict", "reason", "quotes", "error"],
+      "additionalProperties": false,
+      "properties": {
+        "triple": {"$ref": "#/$defs/triple"},
+        "section": {"type": "string"},
+        "document": {"type": ["string", "null"]},
+        "prompt_version": {"type": "string"},
+        "verifier": {"type": "string"},
+        "quote_retry": {
+          "type": "object",
+          "required": ["prompt_version", "previous_error", "previous_response_sha256"],
+          "additionalProperties": false,
+          "properties": {
+            "prompt_version": {"enum": ["ontodisc-semantic-span-retry-v1", "ontodisc-semantic-span-retry-v2"]},
+            "previous_error": {"const": "quote_not_in_source"},
+            "selected_span_ids": {"type": "array", "items": {"type": "integer", "minimum": 0}},
+            "previous_response_sha256": {"$ref": "#/$defs/sha256"}
+          }
+        },
+        "source_sha256": {"$ref": "#/$defs/sha256"},
+        "verdict": {"const": "insufficient_evidence"},
+        "reason": {"enum": ["verification_failed", "empty_or_oversized_source"]},
+        "quotes": {"type": "array", "maxItems": 0},
+        "error": {"oneOf": [{"type": "string", "minLength": 1}, {"const": true}]},
+        "error_message": {"type": "string"}
+      }
+    },
+    "verification_no_context": {
+      "description": "Written without a verifier call because a cited source section could not be found.",
+      "type": "object",
+      "required": ["triple", "verdict", "reason", "quotes", "error"],
+      "additionalProperties": false,
+      "properties": {
+        "triple": {"$ref": "#/$defs/triple"},
+        "verdict": {"const": "insufficient_evidence"},
+        "reason": {"const": "missing_source_context"},
+        "quotes": {"type": "array", "maxItems": 0},
+        "error": {"const": true}
+      }
+    },
+    "semantic_verification": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/verification_record"}
+    },
+
+    "ontology_suggestions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["kind", "term", "variants", "count", "target", "similarity", "facts", "examples"],
+        "additionalProperties": false,
+        "properties": {
+          "kind": {"enum": ["new_entity", "new_relation", "entity_synonym", "relation_synonym"]},
+          "term": {"type": "string"},
+          "variants": {"type": "array", "items": {"type": "string"}},
+          "count": {"$ref": "#/$defs/count"},
+          "target": {"type": ["string", "null"]},
+          "similarity": {"type": "number"},
+          "facts": {"type": "array", "items": {"$ref": "#/$defs/triple"}},
+          "examples": {"type": "array", "items": {"type": "object"}}
+        }
+      }
+    },
+
+    "ontology_edits": {
+      "description": "Reviewer edits recorded with a reviewed build.",
+      "type": "object",
+      "required": ["edits", "removed", "added"],
+      "additionalProperties": false,
+      "properties": {
+        "edits": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "remove_entities": {"type": "array", "items": {"type": "string"}},
+            "remove_relations": {"type": "array", "items": {"type": "string"}},
+            "add_entities": {"type": "array", "items": {"type": "string"}},
+            "add_relations": {
+              "type": "array",
+              "items": {"type": "object", "required": ["name", "head", "tail"], "additionalProperties": false,
+                        "properties": {"name": {"type": "string"}, "head": {"type": "string"},
+                                       "tail": {"type": "string"}}}
+            },
+            "author": {"type": ["string", "null"]},
+            "note": {"type": ["string", "null"]},
+            "edited_at": {"type": ["string", "null"]}
+          }
+        },
+        "removed": {
+          "type": "array",
+          "items": {"type": "object", "required": ["triple", "section", "reason", "removed"],
+                    "additionalProperties": false,
+                    "properties": {"triple": {"$ref": "#/$defs/triple"}, "section": {"type": "string"},
+                                   "reason": {"const": "removed_by_reviewer"},
+                                   "removed": {"enum": ["entity", "relation"]}}}
+        },
+        "added": {
+          "type": "array",
+          "items": {"type": "object", "required": ["triple", "section", "reason"], "additionalProperties": false,
+                    "properties": {"triple": {"$ref": "#/$defs/triple"}, "section": {"type": "string"},
+                                   "reason": {"const": "added_by_reviewer"}}}
+        },
+        "confirmation": {"type": "string"}
+      }
+    }
+  }
+}

@@ -1,0 +1,113 @@
+# ===================================================================
+#  Responsible ML Policy Rules
+#  10 rules encoding data science best practices as policy triples
+#
+#  Used by:
+#    knowlytix.harness.testing.policy.PolicyEngine
+#    governed_agent.policies.loader.load_policy_yaml
+#
+#  Rule types:
+#    requires -- action needs requirement to be satisfied
+#    blocks   -- action is blocked when requirement matches
+# ===================================================================
+
+rules:
+  # ------------------------------------------------------------------
+  # Rule 1: Training requires preprocessing
+  # ------------------------------------------------------------------
+  - rule_id: "RML-001"
+    action: "train_model"
+    requirement: "preprocessing_done"
+    rule_type: "requires"
+    context: "*"
+    severity: "error"
+
+  # ------------------------------------------------------------------
+  # Rule 2: Deployment requires fairness check
+  # ------------------------------------------------------------------
+  - rule_id: "RML-002"
+    action: "deploy_model"
+    requirement: "fairness_checked"
+    rule_type: "requires"
+    context: "*"
+    severity: "error"
+
+  # ------------------------------------------------------------------
+  # Rule 3: Training forbids accessing test data
+  # ------------------------------------------------------------------
+  - rule_id: "RML-003"
+    action: "access_test_data"
+    requirement: "training_phase"
+    rule_type: "blocks"
+    context: "training*"
+    severity: "error"
+
+  # ------------------------------------------------------------------
+  # Rule 4: Leaderboard requires >= 2 trained models
+  # ------------------------------------------------------------------
+  - rule_id: "RML-004"
+    action: "leaderboard"
+    requirement: "min_two_models_trained"
+    rule_type: "requires"
+    context: "*"
+    severity: "error"
+
+  # ------------------------------------------------------------------
+  # Rule 5: Deployment requires feature importance analysis
+  # ------------------------------------------------------------------
+  - rule_id: "RML-005"
+    action: "deploy_model"
+    requirement: "explanation_done"
+    rule_type: "requires"
+    context: "*"
+    severity: "error"
+
+  # ------------------------------------------------------------------
+  # Rule 6: High-risk deployment requires robustness check
+  # ------------------------------------------------------------------
+  - rule_id: "RML-006"
+    action: "deploy_model"
+    requirement: "robustness_checked"
+    rule_type: "requires"
+    context: "high_risk*"
+    severity: "error"
+
+  # ------------------------------------------------------------------
+  # Rule 7: Session-level budget (30 tool calls)
+  # ------------------------------------------------------------------
+  - rule_id: "RML-007"
+    action: "*"
+    requirement: "session_budget_remaining"
+    rule_type: "requires"
+    context: "*"
+    severity: "error"
+
+  # ------------------------------------------------------------------
+  # Rule 8: Raw data deletion is always blocked
+  # ------------------------------------------------------------------
+  - rule_id: "RML-008"
+    action: "delete_raw_data"
+    requirement: "raw_data_protection"
+    rule_type: "blocks"
+    context: "*"
+    severity: "error"
+
+  # ------------------------------------------------------------------
+  # Rule 9: Every tool call must be traced
+  # ------------------------------------------------------------------
+  - rule_id: "RML-009"
+    action: "*"
+    requirement: "tracing_enabled"
+    rule_type: "requires"
+    context: "*"
+    severity: "error"
+
+  # ------------------------------------------------------------------
+  # Rule 10: Final deployment requires human approval flag
+  # ------------------------------------------------------------------
+  - rule_id: "RML-010"
+    action: "deploy_model"
+    requirement: "human_approval"
+    rule_type: "requires"
+    context: "*"
+    severity: "error"

@@ -1,0 +1,170 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:knowlytix:kgcheck:report:1",
+  "title": "kgcheck audit report",
+  "description": "Everything except 'run' is the stable payload: identical for the same snapshot, rules and findings, whatever the run order or time. 'run' holds what varies between runs (time, runtimes, tool version, configuration).",
+  "type": "object",
+  "required": ["report_version", "snapshot", "profile", "views", "complete", "gate", "summary",
+               "results", "findings", "diagnostics", "run"],
+  "additionalProperties": false,
+  "properties": {
+    "report_version": {"const": "kgcheck-report/1"},
+    "snapshot": {
+      "type": "object",
+      "required": ["snapshot_id", "contract_version", "adapter", "adapter_version", "capabilities", "artifacts"],
+      "additionalProperties": false,
+      "properties": {
+        "snapshot_id": {"type": "string", "pattern": "^(s:[0-9a-f]{20}|[0-9a-f]{64})$"},
+        "contract_version": {"type": "string"},
+        "adapter": {"type": "string"},
+        "adapter_version": {"type": "string"},
+        "capabilities": {
+          "type": "object",
+          "additionalProperties": {"type": "boolean"}
+        },
+        "artifacts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["name", "present", "required", "size", "sha256"],
+            "additionalProperties": false,
+            "properties": {
+              "name": {"type": "string"},
+              "present": {"type": "boolean"},
+              "required": {"type": "boolean"},
+              "size": {"type": ["integer", "null"], "minimum": 0},
+              "sha256": {"oneOf": [{"type": "null"}, {"type": "string", "pattern": "^[0-9a-f]{64}$"}]}
+            }
+          }
+        }
+      }
+    },
+    "profile": {"type": ["string", "null"]},
+    "views": {"type": "array", "items": {"$ref": "#/$defs/view"}},
+    "complete": {"type": "boolean",
+                 "description": "False when any rule is unavailable, errored or partial."},
+    "gate": {
+      "description": "The gate decision under the policy the caller supplied, or null when none was evaluated.",
+      "oneOf": [{"type": "null"}, {"$ref": "#/$defs/gate"}]
+    },
+    "summary": {
+      "type": "object",
+      "required": ["rules", "rules_by_status", "findings", "findings_listed", "findings_suppressed",
+                   "findings_by_severity", "findings_by_category"],
+      "additionalProperties": false,
+      "properties": {
+        "rules": {"$ref": "#/$defs/count"},
+        "rules_by_status": {"type": "object", "propertyNames": {"$ref": "#/$defs/status"},
+                            "additionalProperties": {"type": "array", "items": {"type": "string"}}},
+        "findings": {"$ref": "#/$defs/count",
+                     "description": "Every detected finding, including those truncated from the details."},
+        "findings_listed": {"$ref": "#/$defs/count",
+                            "description": "Findings whose details the report lists."},
+        "findings_suppressed": {"$ref": "#/$defs/count",
+                                "description": "Findings a configured suppression matched, including those truncated from the details. They are also counted in findings and the breakdowns."},
+        "findings_by_severity": {"type": "object", "propertyNames": {"$ref": "#/$defs/severity"},
+                                 "additionalProperties": {"$ref": "#/$defs/count"}},
+        "findings_by_category": {"type": "object", "additionalProperties": {"$ref": "#/$defs/count"}}
+      }
+    },
+    "results": {"type": "array", "items": {"$ref": "#/$defs/result"}},
+    "findings": {"type": "array", "items": {"$ref": "#/$defs/finding"}},
+    "diagnostics": {"type": "array", "items": {"$ref": "#/$defs/diagnostic"}},
+    "run": {
+      "type": "object",
+      "required": ["created_at", "tool_version", "runtime_s", "configuration"],
+      "additionalProperties": false,
+      "properties": {
+        "created_at": {"type": ["string", "null"]},
+        "tool_version": {"type": "string"},
+        "runtime_s": {"type": "object", "additionalProperties": {"type": "number", "minimum": 0}},
+        "configuration": {"type": "object"}
+      }
+    }
+  },
+  "$defs": {
+    "count": {"type": "integer", "minimum": 0},
+    "gate": {
+      "type": "object",
+      "required": ["outcome", "fail_on", "blocking_findings", "unmet_required", "snapshot_findings",
+                   "open_optional"],
+      "additionalProperties": false,
+      "properties": {
+        "outcome": {"enum": ["pass", "fail", "indeterminate"]},
+        "fail_on": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/severity"}]},
+        "blocking_findings": {"type": "array", "items": {"$ref": "#/$defs/finding_id"}},
+        "unmet_required": {"type": "object", "additionalProperties": {"type": "string"}},
+        "snapshot_findings": {"type": "array", "items": {"$ref": "#/$defs/finding_id"}},
+        "open_optional": {"type": "object", "additionalProperties": {"type": "string"}}
+      }
+    },
+    "view": {"enum": ["stored", "conformant", "quarantined", "proposal"]},
+    "status": {"enum": ["passed", "findings", "not_applicable", "unavailable", "error", "partial", "disabled"]},
+    "severity": {"enum": ["error", "warning", "info", "suggestion"]},
+    "location": {
+      "type": "object",
+      "required": ["artifact", "pointer"],
+      "additionalProperties": false,
+      "properties": {"artifact": {"type": "string"}, "pointer": {"type": "string"}}
+    },
+    "result": {
+      "type": "object",
+      "required": ["rule_id", "rule_version", "status", "eligible", "tested", "missing_prerequisites",
+                   "error", "details_truncated", "metrics", "finding_ids"],
+      "additionalProperties": false,
+      "properties": {
+        "rule_id": {"type": "string"},
+        "rule_version": {"type": "string"},
+        "status": {"$ref": "#/$defs/status"},
+        "eligible": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/count"}]},
+        "tested": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/count"}]},
+        "missing_prerequisites": {"type": "array", "items": {"type": "string"}},
+        "error": {"type": ["string", "null"]},
+        "details_truncated": {"type": "boolean"},
+        "metrics": {"type": "object",
+                    "description": "Measured quantities with their denominators; a ratio over an empty denominator is null."},
+        "finding_ids": {"type": "array", "items": {"$ref": "#/$defs/finding_id"}}
+      }
+    },
+    "finding_id": {"type": "string", "pattern": "^f:[0-9a-f]{20}$"},
+    "finding": {
+      "type": "object",
+      "required": ["finding_id", "rule_id", "rule_version", "category", "severity", "view", "message",
+                   "basis", "affected", "locations", "witness", "suggestion", "heuristic_score",
+                   "discriminator", "suppression"],
+      "additionalProperties": false,
+      "properties": {
+        "finding_id": {"$ref": "#/$defs/finding_id"},
+        "rule_id": {"type": "string"},
+        "rule_version": {"type": "string"},
+        "category": {"type": "string"},
+        "severity": {"$ref": "#/$defs/severity"},
+        "view": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/view"}]},
+        "message": {"type": "string"},
+        "basis": {"type": "string"},
+        "affected": {"type": "array", "items": {"type": "string"}},
+        "locations": {"type": "array", "items": {"$ref": "#/$defs/location"}},
+        "witness": {"type": "object"},
+        "suggestion": {"type": ["string", "null"]},
+        "heuristic_score": {"type": ["number", "null"],
+                            "description": "Uncalibrated unless a validation study says otherwise."},
+        "discriminator": {"type": "string",
+                          "description": "Separates distinct issues of one rule on the same target."},
+        "suppression": {"oneOf": [{"type": "null"}, {
+          "type": "object", "required": ["reason", "rule_version"], "additionalProperties": false,
+          "properties": {"reason": {"type": "string"}, "rule_version": {"type": "string"}}}],
+          "description": "A configured review decision: the finding stays listed and does not block the gate."}
+      }
+    },
+    "diagnostic": {
+      "type": "object",
+      "required": ["code", "message", "location"],
+      "additionalProperties": false,
+      "properties": {
+        "code": {"type": "string"},
+        "message": {"type": "string"},
+        "location": {"$ref": "#/$defs/location"}
+      }
+    }
+  }
+}

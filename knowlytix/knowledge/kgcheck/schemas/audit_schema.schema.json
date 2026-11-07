@@ -1,0 +1,182 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://knowlytix.ai/schemas/kgcheck/audit_schema.schema.json",
+  "title": "kgcheck audit schema sidecar",
+  "description": "Optional metadata an audit needs beyond what OntoDisc stores record: node kinds and types, descriptions, hierarchy and type predicates, relation properties and constraints, disjoint classes, the closed-world scope of typing, expected modules, naming conventions and competency questions. It never changes ontology.json, whose parser rejects unknown keys. Each declaration records who supplied it: user, imported or inferred; inferred declarations are advisory until a person accepts them. Version 1 documents remain valid; version 2 adds optional keys only.",
+  "x-schema-version": "kgcheck-audit-schema/2",
+  "type": "object",
+  "required": ["version"],
+  "additionalProperties": false,
+  "properties": {
+    "version": {"enum": ["kgcheck-audit-schema/1", "kgcheck-audit-schema/2"]},
+    "default_source": {"$ref": "#/$defs/source"},
+    "language": {"$ref": "#/$defs/token"},
+    "terms": {
+      "description": "Entity tokens exactly as stored, keyed by token.",
+      "type": "object",
+      "propertyNames": {"minLength": 1},
+      "additionalProperties": {"$ref": "#/$defs/term"}
+    },
+    "relations": {
+      "description": "Relation tokens exactly as stored, keyed by token.",
+      "type": "object",
+      "propertyNames": {"minLength": 1},
+      "additionalProperties": {"$ref": "#/$defs/relation"}
+    },
+    "hierarchy": {"$ref": "#/$defs/hierarchy"},
+    "modules": {
+      "description": "Components that are expected to be separate, keyed by module name.",
+      "type": "object",
+      "propertyNames": {"minLength": 1},
+      "additionalProperties": {"$ref": "#/$defs/module"}
+    },
+    "conventions": {"$ref": "#/$defs/conventions"},
+    "disjoint": {
+      "description": "Groups of pairwise disjoint classes: no node is an instance of two classes of one group.",
+      "type": "array",
+      "items": {"$ref": "#/$defs/tokens", "minItems": 2}
+    },
+    "closed_world": {"$ref": "#/$defs/closed_world"},
+    "competency": {
+      "description": "Competency questions with their expected answers, keyed by question id.",
+      "type": "object",
+      "propertyNames": {"minLength": 1},
+      "additionalProperties": {"$ref": "#/$defs/question"}
+    }
+  },
+  "$defs": {
+    "source": {"enum": ["user", "imported", "inferred"]},
+    "token": {"type": "string", "minLength": 1},
+    "tokens": {"type": "array", "items": {"$ref": "#/$defs/token"}},
+    "term": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "kind": {"enum": ["class", "instance", "literal"]},
+        "types": {"$ref": "#/$defs/tokens", "minItems": 1},
+        "description": {"type": "string"},
+        "language": {"$ref": "#/$defs/token"},
+        "standalone": {"type": "boolean"},
+        "source": {"$ref": "#/$defs/source"}
+      }
+    },
+    "relation": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "description": {"type": "string"},
+        "language": {"$ref": "#/$defs/token"},
+        "inverse_of": {"$ref": "#/$defs/token"},
+        "symmetric": {"type": "boolean"},
+        "asymmetric": {"type": "boolean"},
+        "transitive": {"type": "boolean"},
+        "irreflexive": {"type": "boolean"},
+        "domain": {"$ref": "#/$defs/tokens", "minItems": 1, "description": "Classes the subject must be an instance of (any one)."},
+        "range": {"$ref": "#/$defs/tokens", "minItems": 1, "description": "Classes the object must be an instance of (any one)."},
+        "value": {"$ref": "#/$defs/value"},
+        "cardinality": {"$ref": "#/$defs/cardinality"},
+        "materialize": {"$ref": "#/$defs/materialize"},
+        "inherited": {"type": "boolean", "description": "A value stated for a class holds for its subclasses."},
+        "source": {"$ref": "#/$defs/source"}
+      }
+    },
+    "value": {
+      "description": "The literal objects of the relation.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "datatype": {"enum": ["decimal", "integer", "date", "boolean", "string"]},
+        "minimum": {"type": "number"},
+        "maximum": {"type": "number"},
+        "allowed": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+        "unit": {"$ref": "#/$defs/token"},
+        "period": {"enum": ["day", "week", "month", "quarter", "year", "transaction"]},
+        "qualifier": {"enum": ["minimum", "maximum", "exact"]}
+      }
+    },
+    "cardinality": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "min": {"type": "integer", "minimum": 0},
+        "max": {"type": "integer", "minimum": 0},
+        "equality": {"enum": ["lexical", "value"]},
+        "complete": {"type": "boolean", "description": "The view states every value of the relation for the instances of its domain, so a missing value violates min."}
+      }
+    },
+    "materialize": {
+      "description": "Entailed edges the view must state explicitly.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "inverse": {"type": "boolean"},
+        "symmetric": {"type": "boolean"},
+        "transitive": {"type": "boolean"}
+      }
+    },
+    "closed_world": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "typing": {"type": "boolean", "description": "Declared and asserted types are complete: an untyped node is an instance of no class."},
+        "source": {"$ref": "#/$defs/source"}
+      }
+    },
+    "question": {
+      "type": "object",
+      "required": ["relation"],
+      "additionalProperties": false,
+      "properties": {
+        "question": {"type": "string"},
+        "head": {"$ref": "#/$defs/token"},
+        "relation": {"$ref": "#/$defs/token"},
+        "object": {"$ref": "#/$defs/token"},
+        "expected": {"$ref": "#/$defs/tokens"},
+        "absent": {"type": "boolean"},
+        "exhaustive": {"type": "boolean"},
+        "source": {"$ref": "#/$defs/source"}
+      }
+    },
+    "hierarchy": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "subclass_predicates": {"$ref": "#/$defs/tokens"},
+        "type_predicates": {"$ref": "#/$defs/tokens"},
+        "roots": {"$ref": "#/$defs/tokens"},
+        "acyclic": {"type": "boolean"},
+        "source": {"$ref": "#/$defs/source"}
+      }
+    },
+    "module": {
+      "type": "object",
+      "required": ["members"],
+      "additionalProperties": false,
+      "properties": {
+        "members": {"$ref": "#/$defs/tokens", "minItems": 1},
+        "description": {"type": "string"},
+        "source": {"$ref": "#/$defs/source"}
+      }
+    },
+    "conventions": {
+      "description": "Naming conventions per namespace; entity and relation labels usually differ.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "entities": {"$ref": "#/$defs/style"},
+        "relations": {"$ref": "#/$defs/style"},
+        "source": {"$ref": "#/$defs/source"}
+      }
+    },
+    "style": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "case": {"enum": ["lower", "upper", "title"]},
+        "separator": {"enum": ["_", "-", " "]},
+        "number": {"enum": ["singular", "plural"]},
+        "exceptions": {"$ref": "#/$defs/tokens"}
+      }
+    }
+  }
+}
