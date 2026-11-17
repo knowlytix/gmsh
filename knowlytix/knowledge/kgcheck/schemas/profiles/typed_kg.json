@@ -1,0 +1,16 @@
+{
+  "profile": "typed_kg",
+  "version": "1",
+  "description": "Instance data against explicit application constraints declared in the audit schema sidecar: types, literal values, cardinality, disjointness, irreflexivity and materialized entailments, with the vocabulary, structure, unit and competency checks. CON001 to CON005 are required, so a store without those declarations gets an indeterminate gate rather than a pass; CON006 applies only where materialization is declared. Absence is a violation only within the declared closed-world scope.",
+  "rules": [
+    "ART001",
+    "VOC001", "VOC002", "VOC003", "VOC004",
+    "STR001", "STR002", "STR003", "STR006", "STR008",
+    "CON001", "CON002", "CON003", "CON004", "CON005", "CON006",
+    "NUM003",
+    "COV002",
+    "META001"
+  ],
+  "required_rules": ["CON001", "CON002", "CON003", "CON004", "CON005"],
+  "params": {}
+}

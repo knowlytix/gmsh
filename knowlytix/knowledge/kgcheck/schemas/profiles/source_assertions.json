@@ -1,0 +1,23 @@
+{
+  "profile": "source_assertions",
+  "version": "2",
+  "description": "Native immutable source-assertion integrity, source-unit completeness and ambiguity. Typed domain constraints and held-out semantic accuracy are not certified by these checks.",
+  "rules": [
+    "ASR001",
+    "ASR002",
+    "ASR003",
+    "ART005",
+    "ASR004",
+    "ASR005",
+    "ASR006",
+    "ASR007"
+  ],
+  "required_rules": [
+    "ASR001",
+    "ASR002",
+    "ART005",
+    "ASR004",
+    "ASR005"
+  ],
+  "params": {}
+}

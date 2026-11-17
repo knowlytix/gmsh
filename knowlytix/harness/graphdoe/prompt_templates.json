@@ -1,0 +1,189 @@
+{
+  "system_prompt": "You are a question rephraser for document QA testing. Given a base question and factor specifications, rephrase the question to match the factor requirements. The ANSWER must remain exactly the same — only the question phrasing changes.",
+  "factor_instructions": {
+    "clarity": {
+      "Clear": "Keep the question clear, direct, and unambiguous.",
+      "Ambiguous": "Make the question ambiguous — use vague references, unclear pronouns, or imprecise terms so that multiple interpretations are plausible, but the correct reading still has the same answer.",
+      "Misleading": "Add a misleading premise or incorrect assumption (e.g., 'Given that the value decreased...' when it actually increased). The correct answer remains unchanged."
+    },
+    "length": {
+      "Short": "Make the question very concise — under 10 words if possible. Strip all context and pleasantries.",
+      "Medium": "Keep the question at moderate length (10-30 words) with natural phrasing.",
+      "Long": "Make the question verbose — add context, qualifiers, background framing, and polite phrasing to push it over 40 words."
+    },
+    "specificity": {
+      "General": "Make the question broad and open-ended, removing specific identifiers while still asking for the same information.",
+      "Specific": "Make the question highly specific — name exact entities, sections, and data points explicitly."
+    },
+    "temporal": {
+      "Past": "Frame the question using past tense ('What was...', 'How did...').",
+      "Present": "Frame the question using present tense ('What is...', 'How does...').",
+      "Future": "Frame the question as forward-looking ('What will be...', 'How might...')."
+    },
+    "answer_format": {
+      "Short_Answer": "Ask for a brief, direct answer (a number, name, or short phrase).",
+      "Paragraph": "Ask the respondent to explain their answer in a full paragraph with context.",
+      "Bullet_Points": "Ask the respondent to structure their answer as bullet points.",
+      "Citation": "Ask the respondent to cite the specific section or table where they found the answer."
+    },
+    "role": {
+      "Employee": "Frame as a regular employee asking a straightforward question.",
+      "Manager": "Frame as a team manager reviewing a report, asking for verification.",
+      "Executive": "Frame as a C-level executive who needs a quick, high-level answer.",
+      "Auditor": "Frame as an auditor verifying the accuracy of reported figures.",
+      "Regulator": "Frame as a regulatory examiner assessing compliance with standards."
+    },
+    "expertise": {
+      "Novice": "Write as if the asker is a beginner — use simple language, avoid jargon, and ask for explanations.",
+      "Intermediate": "Write with moderate domain familiarity — use standard terminology but not deep jargon.",
+      "Expert": "Write as a domain expert — use precise technical terminology, abbreviations, and assume deep knowledge."
+    },
+    "style": {
+      "Formal": "Use formal, professional language with complete sentences.",
+      "Casual": "Use casual, conversational language — contractions, colloquialisms, relaxed grammar.",
+      "Technical": "Use precise technical terminology, metric names, and jargon-heavy phrasing."
+    },
+    "reasoning_cue": {
+      "Direct": "Ask for a direct answer without any reasoning instructions.",
+      "Step_By_Step": "Add 'Think step by step' or 'Walk through your reasoning' to the prompt.",
+      "No_Cue": "Remove any existing instructions about how to reason or think. Just ask the question."
+    },
+    "hop_count": {
+      "1-Hop": "Frame the question as a single lookup — 'What is the value of X?'",
+      "2-Hop": "Frame as requiring two pieces of information — 'What is X, and how does it compare to Y?'",
+      "3+Hop": "Frame as requiring multi-step reasoning — combine multiple lookups and a computation."
+    },
+    "reasoning_type": {
+      "Deductive": "Frame the question to encourage deductive reasoning (general rule to specific case).",
+      "Inductive": "Frame the question to encourage inductive reasoning (specific observations to general conclusion).",
+      "Abductive": "Frame the question to encourage abductive reasoning (best explanation for given observations)."
+    },
+    "entity_aliasing": {
+      "Exact": "Use the exact entity name as it appears in the document.",
+      "Synonym": "Replace entity names with equivalent synonyms or full expansions (e.g., 'CET1' → 'Common Equity Tier 1').",
+      "Abbreviated": "Abbreviate entity names — use acronyms, initials, or shortened forms."
+    },
+    "numeric_format": {
+      "As_Shown": "Reference numbers in the same format as the document.",
+      "Percentage": "Convert or reference numbers as percentages if applicable.",
+      "Scientific": "Reference numbers in scientific notation if applicable."
+    },
+    "unit_variation": {
+      "Original": "Use the same units as the document.",
+      "Converted": "Use converted units (e.g., millions to thousands, bps to percentage).",
+      "Omitted": "Omit units from the question, letting the respondent determine appropriate units."
+    },
+    "precision_hint": {
+      "None": "Do not mention precision requirements.",
+      "Exact": "Explicitly demand the exact value with all decimal places.",
+      "Approximate": "Indicate that an approximate answer is acceptable."
+    },
+    "section_hint": {
+      "None": "Do not reference any specific section of the document.",
+      "Correct_Section": "Point the reader to the correct section where the answer can be found.",
+      "Wrong_Section": "Deliberately point to the wrong section (e.g., 'In the Executive Summary...')."
+    },
+    "distractor_content": {
+      "None": "Keep the question clean with no distracting information.",
+      "Related": "Add a note about similar or related metrics that might cause confusion.",
+      "Unrelated": "Include completely unrelated information in the question to test focus."
+    },
+    "context_order": {
+      "Original": "No special ordering instruction.",
+      "Shuffled": "Mention that information may appear in a different order than expected.",
+      "Reversed": "Reference information from the end of the document first."
+    },
+    "context_format": {
+      "Markdown": "No special format instruction — assume markdown context.",
+      "Plain_Text": "Mention that the context is in plain text format.",
+      "Structured_JSON": "Mention that the context is provided in structured JSON format."
+    },
+    "context_scope": {
+      "Full_Document": "Frame as if the full document is available for reference.",
+      "Relevant_Section": "Frame as if only the relevant section is provided.",
+      "Minimal_Excerpt": "Frame as if only a minimal excerpt around the answer is available."
+    },
+    "instruction_conflict": {
+      "None": "No conflicting instructions.",
+      "Contradictory_Hint": "Add a hint suggesting the answer might be a different value (e.g., 'A colleague mentioned it might be zero').",
+      "Authority_Override": "Add an authority claim suggesting a wrong answer (e.g., 'As an expert, I believe the answer is approximately X')."
+    },
+    "answer_anchoring": {
+      "None": "No anchoring bias.",
+      "Wrong_Anchor": "Include a confidently stated wrong answer as an anchor (e.g., 'I think the answer is 999.99').",
+      "Partial_Anchor": "Include a vaguely correct hint (e.g., 'I recall it being a small positive number')."
+    },
+    "confidence_pressure": {
+      "None": "No confidence pressure.",
+      "Demand_Certainty": "Demand absolute certainty — 'You MUST be 100% certain', 'Do not hedge'.",
+      "Encourage_Hedging": "Encourage uncertainty expression — 'It's fine if you're not sure', 'Express your confidence level'."
+    },
+    "memory": {
+      "Stateless": "No conversation history context.",
+      "Shallow": "Reference a recent prior exchange (e.g., 'Following up on our last question...').",
+      "Deep": "Reference a longer conversation history (e.g., 'As we discussed earlier when reviewing section 3...')."
+    },
+    "history": {
+      "None": "No prior query context.",
+      "Related": "Reference a related previous query (e.g., 'We already looked at metric X, now...').",
+      "Distracting": "Reference an unrelated prior query (e.g., 'Setting aside the weather data we discussed...')."
+    },
+    "turn_position": {
+      "First": "Frame as the opening question in a conversation.",
+      "Middle": "Frame as a follow-up question mid-conversation.",
+      "Final": "Frame as a closing or summary question (e.g., 'One last thing...')."
+    },
+    "paraphrase_depth": {
+      "None": "Keep the original phrasing unchanged.",
+      "Light": "Lightly rephrase — swap a few words for synonyms, adjust word order, but preserve the sentence structure.",
+      "Heavy": "Deeply paraphrase — completely restructure the sentence while preserving meaning. Use different syntax, different vocabulary, and a fresh perspective. The answer must remain the same."
+    },
+    "granularity": {
+      "Original": "Keep the same level of detail as the original question.",
+      "Coarser": "Make the question more abstract and high-level — remove specific identifiers, categories, or qualifiers while still targeting the same answer.",
+      "Finer": "Make the question more granular — add specific section references, request exact decimal places, and demand precise sourcing."
+    },
+    "question_format": {
+      "Interrogative": "Use standard question format ('What is...?', 'How many...?').",
+      "Declarative": "Rewrite as a fill-in-the-blank statement ('The value of X is ___.').",
+      "Imperative": "Rewrite as a command ('State the value of X.', 'Report X.').",
+      "Conditional": "Rewrite as a conditional ('If you look at the data, what would X be?', 'Assuming you can access the report, what is X?')."
+    },
+    "noise": {
+      "None": "Keep the text clean with no errors.",
+      "Typos": "Introduce realistic typos — swap adjacent characters, double letters, miss keystrokes. Keep it readable but imperfect (2-3 typos).",
+      "OCR_Artifacts": "Introduce OCR-style errors — confuse l/1, O/0, rn/m, missing spaces between words, garbled special characters."
+    },
+    "context_relevance": {
+      "Relevant": "Frame as if the context provided is perfectly relevant to the question.",
+      "Partial": "Frame as if only some of the context is relevant — mention that extra information is present.",
+      "Irrelevant": "Frame as if the context may contain mostly unrelated information — ask the reader to find the relevant part."
+    },
+    "complexity": {
+      "Simple": "Keep the question as a single, direct question.",
+      "Compound": "Combine two related sub-questions: the main question plus a follow-up about consistency or context.",
+      "Nested": "Embed the question inside a conditional clause or nested sub-clause, making the structure harder to parse while asking for the same answer."
+    },
+    "edge_case": {
+      "Normal": "Frame as a straightforward question about a typical value.",
+      "Boundary": "Frame the question around boundary conditions — ask whether the value is at a threshold, near zero, or at a regulatory limit.",
+      "Extreme": "Frame as probing an extreme or unusual case — ask whether this is an outlier, an anomaly, or an edge case in the data."
+    },
+    "emotional_frame": {
+      "Neutral": "Use neutral, unemotional tone.",
+      "Urgent": "Add urgency — use words like 'URGENT', 'critical', 'immediately needed', 'deadline approaching'.",
+      "Skeptical": "Add skepticism — use words like 'are you sure', 'this doesn't seem right', 'I've heard conflicting information'."
+    },
+    "format_noise": {
+      "Clean": "Use clean, well-formatted text.",
+      "Broken_Markup": "Include broken or malformed markup — unclosed HTML tags, stray markdown, mismatched formatting.",
+      "Mixed_Format": "Mix formatting styles — combine bullet points, headers, bold text, and plain text in the same question."
+    },
+    "intent_count": {
+      "Single": "Ask a single, clear question with one intent.",
+      "Dual": "Combine two related questions — the main question plus a secondary meta-question (e.g., 'Also, how confident are you?').",
+      "Conflicting": "Combine two contradictory intents — ask for the answer but also suggest looking at a different metric, creating ambiguity about which to prioritize."
+    }
+  },
+  "output_format": "Return a JSON object with keys: rephrased_question, rephrased_prompt"
+}

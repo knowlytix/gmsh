@@ -1,0 +1,8 @@
+{
+  "profile": "vocabulary",
+  "version": "1",
+  "description": "Declared vocabulary integrity, labels, aliases and distinctions without requiring a class hierarchy. Does not certify assertion membership in a closed vocabulary.",
+  "rules": ["ART001", "VOC001", "VOC002", "VOC003", "VOC005"],
+  "required_rules": ["ART001", "VOC002"],
+  "params": {}
+}

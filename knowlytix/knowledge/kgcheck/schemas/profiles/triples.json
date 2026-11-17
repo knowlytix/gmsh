@@ -1,0 +1,16 @@
+{
+  "profile": "triples",
+  "version": "1",
+  "description": "Triples held in memory (audit_triples), with an optional ontology and audit schema sidecar: vocabulary, structure, definition, modeling, typed-constraint and competency checks. There are no store artifacts, provenance or numeric memory, so those rules are not part of this profile; without an ontology the vocabulary rules are unavailable.",
+  "rules": [
+    "VOC001", "VOC002", "VOC003", "VOC004", "VOC005", "VOC006",
+    "STR001", "STR002", "STR003", "STR004", "STR005", "STR006", "STR007", "STR008",
+    "DEF001", "DEF002", "DEF003",
+    "MOD001", "MOD002",
+    "CON001", "CON002", "CON003", "CON004", "CON005", "CON006",
+    "COV002",
+    "META001"
+  ],
+  "required_rules": [],
+  "params": {}
+}

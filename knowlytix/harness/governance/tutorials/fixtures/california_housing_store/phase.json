@@ -1,0 +1,18 @@
+{
+  "accuracy": {
+    "v_min": 0.0,
+    "v_max": 1.0
+  },
+  "rate": {
+    "v_min": 0.0,
+    "v_max": 1.0
+  },
+  "importance": {
+    "v_min": 0.0,
+    "v_max": 1.0
+  },
+  "percentage": {
+    "v_min": 0.0,
+    "v_max": 100.0
+  }
+}

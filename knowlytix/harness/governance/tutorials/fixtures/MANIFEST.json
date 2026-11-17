@@ -1,0 +1,39 @@
+{
+  "build_seed": 42,
+  "build_timestamp": "2026-05-01T20:30:15",
+  "ingest_epochs": 500,
+  "geometry_m": 128,
+  "device": "cuda",
+  "stores": [
+    {
+      "skipped": false,
+      "name": "ds_practices_store",
+      "store_path": "/home/asudjianto/jupyterlab/kg-memory/user_guide_tutorials/fixtures/ds_practices_store",
+      "ingest_mode": "hybrid",
+      "ingest_epochs": 500,
+      "geometry_m": 128,
+      "n_triples": 266,
+      "n_enm": 27,
+      "n_entities": 228,
+      "n_relations": 43,
+      "build_seconds": 389.57,
+      "source_markdown_path": "/home/asudjianto/jupyterlab/kg-memory/governed_agent/knowledge/data_science_practices.md",
+      "source_markdown_sha256": "82ff7e4ce64f00cce458ee57da672cb0618b0d79c1c012fd3c56b270640f19d9"
+    },
+    {
+      "skipped": false,
+      "name": "california_housing_store",
+      "store_path": "/home/asudjianto/jupyterlab/kg-memory/user_guide_tutorials/fixtures/california_housing_store",
+      "ingest_mode": "hybrid",
+      "ingest_epochs": 500,
+      "geometry_m": 128,
+      "n_triples": 160,
+      "n_enm": 13,
+      "n_entities": 142,
+      "n_relations": 73,
+      "build_seconds": 533.82,
+      "source_markdown_path": "/home/asudjianto/jupyterlab/kg-memory/governed_agent/knowledge/california_housing_domain.md",
+      "source_markdown_sha256": "71587bfbb8704581b253b8674de1015b558c4b406e7b2425c74494ad00884f64"
+    }
+  ]
+}

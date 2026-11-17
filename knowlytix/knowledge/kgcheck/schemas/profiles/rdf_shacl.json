@@ -1,0 +1,12 @@
+{
+  "profile": "rdf_shacl",
+  "version": "1",
+  "description": "An RDF graph (audit_rdf) validated against caller-supplied SHACL shapes by pySHACL (CON007), with the native structure and typed-constraint checks the graph's imported vocabulary and an optional audit schema support. Needs the kgcheck-rdf extra; without it CON007 is unavailable and the gate indeterminate.",
+  "rules": [
+    "STR001", "STR002", "STR003", "STR004", "STR005", "STR006", "STR007", "STR008",
+    "CON001", "CON002", "CON003", "CON004", "CON005", "CON006", "CON007",
+    "META001"
+  ],
+  "required_rules": ["CON007"],
+  "params": {}
+}

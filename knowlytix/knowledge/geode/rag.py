@@ -1,0 +1,466 @@
+# SPDX-License-Identifier: Apache-2.0
+"""GEODE → GMSExpertStore wiring: build a queryable graph-RAG store.
+
+GEODE self-corrects an extracted graph (geometry catches contradictions, ENM
+anchors catch numeric errors, provenance localizes them). This module turns that
+corrected graph into a persisted :class:`~knowlytix.knowledge.store.GMSExpertStore`
+— the same artifact the existing :class:`~knowlytix.knowledge.query.QueryEngine`
+serves. The result is a graph-RAG system whose distinctive properties are
+*self-corrected ingestion* and *geometry-calibrated answer confidence*.
+
+Pipeline::
+
+    build_rag_store(md_path, config)
+      = GeodeLoop(...).run(md_path)            # propose → diagnose → repair
+        -> corrected triples + diagnostics
+      then store_from_triples(...)             # train production GMS + ENM
+        -> saved GMSExpertStore
+
+Query the result with the existing engine::
+
+    from knowlytix.knowledge.query import QueryEngine
+    res = build_rag_store("doc.md", config)
+    engine = QueryEngine(res.store, llm, config)
+    answer = engine.query("...")
+
+Heavy imports (torch, core training, the store) are deferred to call time so
+importing GEODE stays light.
+"""
+
+from __future__ import annotations
+
+from dataclasses import dataclass, field
+
+from knowlytix.knowledge.geode.loop import GeodeLoop, Trainer, make_default_trainer
+
+__all__ = ["RagBuildResult", "build_rag_store", "build_calibrated_rag_store",
+           "store_from_triples", "DEFAULT_NOISE_RELATIONS", "fact_only_triples"]
+
+Triple = tuple[str, str, str]
+
+# Relations the regex ingester emits that are NOT answerable policy facts and
+# pollute query binding if kept, so a fact-RAG store drops them by default:
+#   * ``in_section`` -- organizational; its tail is a section-header entity
+#     ("## Overdraft Fee Policy" -> ``overdraft_fee_policy``) with no fact edges,
+#     which a query head then wrongly binds to instead of the real entity.
+#   * ``is_functional`` -- a schema (single-valued) declaration, not a fact.
+#   * ``fails / passes / is_weak / is_strong`` -- an opaque boolean-column encoding.
+# Triple-mediated retrieval should bind questions only onto typed policy facts.
+DEFAULT_NOISE_RELATIONS = frozenset({
+    "in_section", "is_functional", "fails", "passes", "is_weak", "is_strong"})
+
+
+def fact_only_triples(triples, *, drop_relations=DEFAULT_NOISE_RELATIONS):
+    """Keep only fact-bearing triples: drop organizational / schema / boolean
+    relations (see :data:`DEFAULT_NOISE_RELATIONS`) so query binding lands on
+    real entities, never a fact-less section header."""
+    drop = set(drop_relations)
+    return [(h, r, t) for h, r, t in triples if r not in drop]
+
+
+@dataclass
+class RagBuildResult:
+    """Outcome of :func:`build_rag_store`.
+
+    Attributes:
+        store: the built and persisted GMSExpertStore.
+        converged: whether the GEODE loop reached a fixed point.
+        iterations: number of GEODE loop iterations run.
+        n_entities: entity count in the final store.
+        n_triples: triple count in the final store.
+        n_enm: number of exact-numeric-memory entries populated.
+        corrections: GEODE relational corrections applied, for audit.
+        anchor_violations: numeric anchor violations surfaced for review.
+        duplicates_removed: duplicate triples the loop removed.
+        duplicates_flagged: duplicate triples flagged but not removed.
+        canonicalizations: entity/relation merges applied.
+        canonicalize_flagged: candidate merges flagged but not applied.
+        artifacts: paths of extra artifacts written by build_calibrated_rag_store, relative to the store.
+    """
+
+    store: object                       # GMSExpertStore (kept loose to defer import)
+    converged: bool
+    iterations: int
+    n_entities: int
+    n_triples: int
+    n_enm: int
+    # GEODE self-correction diagnostics, passed through for audit.
+    corrections: list[dict] = field(default_factory=list)
+    anchor_violations: list[dict] = field(default_factory=list)
+    duplicates_removed: list[dict] = field(default_factory=list)
+    duplicates_flagged: list[dict] = field(default_factory=list)
+    canonicalizations: list[dict] = field(default_factory=list)
+    canonicalize_flagged: list[dict] = field(default_factory=list)
+    # Artifacts written by build_calibrated_rag_store (paths relative to the store).
+    artifacts: dict = field(default_factory=dict)
+
+
+def _corrected_doc_graph(md_path: str, triples: list[Triple], *,
+                         ingest_mode: str = "regex", llm=None):
+    """Build a DocumentGraph carrying GEODE's *corrected* triples.
+
+    The numeric ENM and phase encoders come from a fresh ingest of the same
+    file (GEODE corrects relational triples, not the parsed exact numbers —
+    numeric anchor violations are surfaced for review, never silently rewritten
+    — so the ingest's ENM stays consistent). Only the triple set is swapped for
+    the corrected one. ``ingest_mode`` matches the mode the loop proposed with
+    so prose-sourced ENM entries are recovered on ``hybrid``/``llm_only``.
+    """
+    from knowlytix.benchmark.ingest import ingest_markdown
+
+    llm_callable = None
+    if ingest_mode in ("hybrid", "llm_only") and llm is not None:
+        llm_callable = llm if callable(llm) else (
+            lambda prompt, _b=llm: _b.call(system="", user=prompt))
+    dg = ingest_markdown(md_path, mode=ingest_mode, llm_callable=llm_callable)
+    dg.triples = []
+    dg._triple_set = set()
+    for h, r, t in triples:
+        dg.add_triple(h, r, t)
+    return dg
+
+
+def store_from_triples(md_path: str, triples: list[Triple], config,
+                       device=None, *, drop_relations=DEFAULT_NOISE_RELATIONS,
+                       ingest_mode: str = "regex", llm=None):
+    """Train + persist a :class:`GMSExpertStore` from corrected triples.
+
+    This is the wiring core: it mirrors the first-document build path in
+    :func:`knowlytix.knowledge.ingest._ingest_first` (train GMS → populate ENM →
+    transport/compression/router) but sources its triples from GEODE rather than
+    a raw extractor. The store is saved and returned, ready for
+    :class:`~knowlytix.knowledge.query.QueryEngine`.
+
+    By default it keeps only fact-bearing triples (:func:`fact_only_triples`):
+    organizational/schema/boolean relations are dropped so query binding cannot
+    land on a fact-less section-header entity. Pass ``drop_relations=()`` to keep
+    everything.
+    """
+    import torch
+
+    triples = fact_only_triples(triples, drop_relations=drop_relations)
+    from knowlytix.core.graph.transport import RelationalTransport
+    from knowlytix.core.memory.compression import CompressionMemory
+    from knowlytix.core.memory.router import MemoryRouter
+    from knowlytix.core.train_finstructbench import (
+        GraphToGMS,
+        populate_enm,
+        train_gms,
+    )
+    from knowlytix.knowledge.store import GMSExpertStore
+
+    dev = device or torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+    doc_graph = _corrected_doc_graph(md_path, triples, ingest_mode=ingest_mode, llm=llm)
+    adapter = GraphToGMS(doc_graph)
+
+    # Production GMS for serving — trained on the *corrected* graph with the
+    # store's configured geometry (cap admissibility when loss_mode='cap'), so
+    # load-time reconstruction in GMSExpertStore.load matches.
+    model = train_gms(
+        adapter, dev,
+        epochs=config.train.epochs,
+        batch_size=config.train.batch_size,
+        num_neg=config.train.neg_samples,
+        lr=config.train.lr,
+        lr_riemannian=config.train.lr_riemannian,
+        geometry=config.geometry,
+        loss=config.loss,
+        loss_mode=getattr(config, "loss_mode", "point"),
+        cap=getattr(config, "cap", None),
+        # Honor the store config's EmbeddingConfig (e.g. a GEODE embed-loop
+        # v-vector warm-start via Mode B). Previously dropped, which silently
+        # made config.embedding a no-op on the GEODE build path.
+        embedding=getattr(config, "embedding", None),
+    )
+    model.eval()
+
+    enm = populate_enm(doc_graph, adapter)
+    transport = RelationalTransport(model)
+    compression = CompressionMemory(k=config.memory.k, d=config.geometry.m)
+    router = MemoryRouter(enm, compression)
+
+    store = GMSExpertStore(config, dev)
+    store.model = model
+    store.adapter = adapter
+    store.enm = enm
+    store.doc_graph = doc_graph
+    store.transport = transport
+    store.compression = compression
+    store.router = router
+    with open(md_path, encoding="utf-8") as f:
+        store.markdown = f.read()
+    store.save()
+    _persist_provenance(store, triples)
+    return store
+
+
+def _persist_provenance(store, triples) -> None:
+    """Capture the ``(h, r, t)`` -> source-span map once, at build time, and
+    write it next to the store (``provenance.json``).
+
+    Resolution keys on the full triple, so recurring row labels are separated
+    by value rather than colliding. The map is read back at query time via
+    :meth:`ProvenanceLedger.from_store`, so retrieval never re-derives spans.
+    A non-empty unaligned set is reported, not hidden: those are the prose /
+    derived triples with no structural cell (the coverage blind spots).
+    """
+    import json
+    import os
+
+    from knowlytix.knowledge.geode.provenance import ProvenanceLedger
+
+    # source_path "<report>" matches from_store's fallback index, so a fact's
+    # location reads "<report>:line:char" whether it came from the persisted map
+    # or the live index.
+    ledger = ProvenanceLedger.from_text(store.markdown, "<report>")
+    cov = ledger.coverage(triples)
+    records = ledger.to_records(triples)
+    with open(os.path.join(store.store_path, "provenance.json"), "w",
+              encoding="utf-8") as f:
+        json.dump(records, f, indent=2)
+    if cov["unaligned"]:
+        import warnings
+        warnings.warn(
+            f"{cov['unaligned']} of {len(triples)} triples have no structural "
+            f"span (unaligned): {cov['unaligned_triples'][:5]}"
+            + (" ..." if cov["unaligned"] > 5 else ""),
+            stacklevel=2,
+        )
+
+
+def build_rag_store(md_path: str, config, *, device=None,
+                    geode_trainer: Trainer | None = None,
+                    llm=None, ingest_mode: str = "regex", max_iters: int = 8,
+                    residual_threshold: float | None = None) -> RagBuildResult:
+    """Run GEODE self-correction over ``md_path``, then build a RAG store.
+
+    Args:
+        md_path: source markdown document.
+        config: :class:`~knowlytix.knowledge.config.DocGMSConfig` for the
+            production store (geometry, training, store_path, loss_mode).
+        device: torch device (defaults to cuda if available).
+        geode_trainer: trainer for GEODE's *correction* loop. Defaults to
+            :func:`~knowlytix.knowledge.geode.loop.make_default_trainer`. This is
+            distinct from the production training inside
+            :func:`store_from_triples` — the loop trains a small GMS iteratively
+            to detect/fix errors; the store trains once on the final clean graph.
+        llm: optional GEODE actor (``Callable[[str], str]`` or an
+            ``LLMBackend``). Required when ``ingest_mode`` is
+            ``hybrid``/``llm_only`` (the actor extracts triples from prose);
+            with ``regex`` it is used only by the correction step.
+        ingest_mode: proposal ingestion mode — ``"regex"`` (deterministic seed,
+            the default; suited to tabular documents), ``"hybrid"`` (regex plus
+            LLM prose relations) or ``"llm_only"`` (LLM extracts all triples,
+            for prose sources such as regulatory text).
+        max_iters: GEODE loop iteration bound.
+        residual_threshold: critic flag threshold (``None`` calibrates).
+
+    Returns:
+        :class:`RagBuildResult` with the saved store and GEODE diagnostics.
+    """
+    import torch
+
+    dev = device or torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    trainer = geode_trainer or make_default_trainer(dev)
+
+    loop = GeodeLoop(trainer, device=dev, llm=llm, ingest_mode=ingest_mode,
+                     max_iters=max_iters, residual_threshold=residual_threshold)
+    res = loop.run(md_path)
+
+    store = store_from_triples(md_path, res.triples, config, dev,
+                               ingest_mode=ingest_mode, llm=llm)
+
+    return RagBuildResult(
+        store=store,
+        converged=res.converged,
+        iterations=res.iterations,
+        n_entities=store.adapter.num_entities,
+        n_triples=len(store.doc_graph.triples),
+        n_enm=len(store.doc_graph.enm),
+        corrections=res.corrections,
+        anchor_violations=res.anchor_violations,
+        duplicates_removed=res.duplicates_removed,
+        duplicates_flagged=res.duplicates_flagged,
+    )
+
+
+def build_calibrated_rag_store(
+    md_path: str, config, *, device=None, llm=None, ingest_mode: str = "regex",
+    geode_trainer: Trainer | None = None, max_iters: int = 8,
+    residual_threshold: float | None = None, canonicalize: bool = False,
+    embed_sft: bool = True, embed_sft_config=None, embed_trainer_epochs: int = 150,
+    embed_max_iters: int = 2, pool=None, relation_phraser=None,
+    contradiction_epochs: int = 400, generate_aliases: bool = True,
+    alias_llm=None, alias_context: "str | None" = None,
+    n_aliases: int = 6, relation_aliases: bool = False) -> RagBuildResult:
+    """The full GEODE build: self-correct, tune both encoders, calibrate the
+    relevance gate, train the production store and write the coverage report.
+
+    :func:`build_rag_store` does the minimum (GEODE loop → store). This adds the
+    rest of the deployed pipeline so one call yields a complete, encoder-tuned,
+    calibrated store, writing the standard artifacts into ``config.store_path``:
+
+    1. **self-correct** — :class:`GeodeLoop` (optional ``canonicalize``).
+    1b. **generate aliases** — when the corrected graph declares no ``has_alias``
+       edges and ``generate_aliases`` is set, a local LLM (``alias_llm``, default
+       Qwen 4B) proposes surface forms per entity
+       (:func:`~knowlytix.knowledge.geode.alias_gen.generate_entity_aliases`),
+       written to ``generated_aliases.json`` and fed to the encoder loop as seed
+       supervision. These aliases tune the encoder only; they are never added to
+       the stored graph, so the triples/ENM stay built from the original corpus.
+    2. **tune $v$** — :class:`GeodeEmbedLoop` over the document (seeded with the
+       generated aliases); export name-keyed entity vectors to ``v_emb.pt`` and
+       point ``config.embedding.v_vectors_path`` at them (Mode-B warm-start), and
+       save ``tuned_encoder/``.
+    3. **tune $u$** — :func:`contradiction_sft` on per-relation phrasings
+       (``relation_phraser(rel) -> list[str]``; defaults to the relation phrase
+       alone) → ``contradiction_encoder/``.
+    4. **calibrate** the relevance gate from the phrasings →
+       ``relevance_calibration.json``.
+    5. **train** the production store on the clean graph (picks up Mode-B vectors).
+    6. **coverage** — region + entity/relation report → ``coverage_report.json``.
+
+    Set ``embed_sft=False`` for the minimal build (equivalent to
+    :func:`build_rag_store`). The judge/accept-gate calibration is a separate step
+    (:func:`knowlytix.knowledge.rag.eval.calibrate_accept_threshold` +
+    ``GMSJudge``) because it needs a labeled cohort, not just the document.
+    """
+    import json
+    from pathlib import Path
+
+    import torch
+
+    dev = device or torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    trainer = geode_trainer or make_default_trainer(dev)
+    store_dir = Path(config.store_path)
+    store_dir.mkdir(parents=True, exist_ok=True)
+    artifacts: dict = {}
+
+    # 1) self-correct. Extract once here (ingest_mode) and reuse the corrected
+    # triples for the encoder loop and the production store, so a slow LLM
+    # extraction on prose runs a single pass.
+    loop = GeodeLoop(trainer, device=dev, llm=llm, ingest_mode=ingest_mode,
+                     max_iters=max_iters, residual_threshold=residual_threshold,
+                     canonicalize=canonicalize)
+    res = loop.run(md_path)
+    kept = fact_only_triples(res.triples)
+
+    # 2-4) encoder refinement + relevance calibration.
+    if embed_sft:
+        from knowlytix.embedding import EmbeddingSFTConfig
+        from knowlytix.knowledge.geode.embed_loop import (
+            EmbedLoopConfig,
+            GeodeEmbedLoop,
+            contradiction_sft,
+        )
+        from knowlytix.knowledge.rag.relevance import calibrate_relevance_thresholds
+
+        d_v = getattr(getattr(config, "geometry", None), "d_v", 256)
+        sft = embed_sft_config or EmbeddingSFTConfig(
+            rank=8, mode="full", out_dim=d_v, device=str(dev))
+        eloop = GeodeEmbedLoop(
+            make_default_trainer(dev, epochs=embed_trainer_epochs),
+            EmbedLoopConfig(sft=sft, max_iters=embed_max_iters, use_geometry=True,
+                            ingest_mode=ingest_mode),
+            llm=llm)
+
+        # When the document declares no alias structure of its own, generate
+        # aliases with a local LLM so the encoder loop has supervision to learn
+        # from. The aliases are encoder-SFT supervision ONLY -- they are persisted
+        # for audit and fed to the loop as seed labels, never written to ``kept``
+        # (the graph stays built from the original corpus).
+        seed_labels = None
+        seed_relation_labels = None
+        has_alias_edges = any(r == "has_alias" for _h, r, _t in kept)
+        if generate_aliases and not has_alias_edges:
+            from knowlytix.knowledge.geode.alias_gen import (
+                generate_entity_aliases,
+                generate_relation_aliases,
+            )
+            ents = sorted({h for h, r, _t in kept
+                           if r.startswith("has_") and r != "has_alias"})
+            rels = sorted({r for _h, r, _t in kept
+                           if r.startswith("has_") and r != "has_alias"})
+            ctx = alias_context
+            if ctx is None:
+                try:
+                    ctx = Path(md_path).read_text()
+                except OSError:
+                    ctx = None
+            tail_values = {t for _h, _r, t in kept}
+            gen = generate_entity_aliases(
+                ents, alias_llm, context=ctx, n_aliases=n_aliases,
+                block_values=tail_values, device=str(dev))
+            (store_dir / "generated_aliases.json").write_text(
+                json.dumps(gen, indent=2) + "\n")
+            artifacts["generated_aliases"] = "generated_aliases.json"
+            seed_labels = {e: a for e, a in gen.items() if a}
+
+            # Relation phrasings are an OPT-IN lever (``relation_aliases``). On a
+            # corpus whose relation set is small and partly generic (a catch-all
+            # ``has_value``), folding relation classes into the entity-prototype
+            # SFT degrades the relation-phrase geometry the parser relies on and
+            # regresses retrieval, so it is off by default. Supervision only,
+            # never written to the graph.
+            if relation_aliases:
+                rgen = generate_relation_aliases(
+                    rels, alias_llm, context=ctx, n_aliases=n_aliases,
+                    device=str(dev))
+                (store_dir / "generated_relation_aliases.json").write_text(
+                    json.dumps(rgen, indent=2) + "\n")
+                artifacts["generated_relation_aliases"] = \
+                    "generated_relation_aliases.json"
+                seed_relation_labels = {r: a for r, a in rgen.items() if a}
+
+        eres = eloop.run(md_path, pool=pool, seed_labels=seed_labels,
+                         seed_relation_labels=seed_relation_labels,
+                         triples=kept)
+        ent_names = sorted({e for h, _r, t in kept for e in (h, t)})
+        v_emb = eres.ft.export_vectors(ent_names)
+        torch.save(v_emb, store_dir / "v_emb.pt")
+        if getattr(config, "embedding", None) is not None:
+            config.embedding.v_vectors_path = str(store_dir / "v_emb.pt")
+        eres.ft.save(store_dir / "tuned_encoder")
+        artifacts["tuned_encoder"] = "tuned_encoder/"
+        artifacts["v_vectors"] = "v_emb.pt"
+
+        content_rels = sorted({r for _h, r, _t in kept
+                               if r.startswith("has_") and r != "has_alias"})
+        phraser = relation_phraser or (
+            lambda rel: [(rel[4:] if rel.startswith("has_") else rel).replace("_", " ")])
+        phrasings = {r: phraser(r) for r in content_rels}
+        u_enc = contradiction_sft(phrasings, epochs=contradiction_epochs)
+        u_enc.save(store_dir / "contradiction_encoder")
+        artifacts["contradiction_encoder"] = "contradiction_encoder/"
+
+        relcal = calibrate_relevance_thresholds(
+            phrasings, eres.ft.encode, u_enc.encode)
+        (store_dir / "relevance_calibration.json").write_text(
+            json.dumps(relcal, indent=2) + "\n")
+        artifacts["relevance_calibration"] = "relevance_calibration.json"
+
+    # 5) train the production store (Mode-B vectors now wired into config.embedding).
+    store = store_from_triples(md_path, kept, config, dev,
+                               ingest_mode=ingest_mode, llm=llm)
+
+    # 6) coverage (graph_coverage needs the pre-filter graph, not the served store).
+    from knowlytix.knowledge.rag import coverage_report, graph_coverage
+    cov = coverage_report(store)
+    gcov = graph_coverage(res.triples)
+    (store_dir / "coverage_report.json").write_text(
+        json.dumps({**cov.as_dict(), "graph": gcov.as_dict()}, indent=2) + "\n")
+    artifacts["coverage_report"] = "coverage_report.json"
+
+    return RagBuildResult(
+        store=store, converged=res.converged, iterations=res.iterations,
+        n_entities=store.adapter.num_entities,
+        n_triples=len(store.doc_graph.triples),
+        n_enm=len(store.doc_graph.enm),
+        corrections=res.corrections, anchor_violations=res.anchor_violations,
+        duplicates_removed=res.duplicates_removed,
+        duplicates_flagged=res.duplicates_flagged,
+        canonicalizations=res.canonicalizations,
+        canonicalize_flagged=res.canonicalize_flagged,
+        artifacts=artifacts,
+    )
